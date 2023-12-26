@@ -84,7 +84,6 @@ export class Extension {
    * extended behavior or value.
    */
   activate() {
-    console.log(`[activate] ${!this.isActive ? 'activating' : 'already active'}`)
     if (!this.isActive) {
       Object.defineProperty(this.owner, this.key, this.extension[DESCRIPTOR])
     }
@@ -95,7 +94,6 @@ export class Extension {
    * on the owner object.
    */
   deactivate() {
-    console.log(`[deactivate] ${this.isActive ? 'deactivating' : 'already deactivated'}`)
     if (this.isActive) {
       Object.defineProperty(this.owner, this.key, this.original[DESCRIPTOR])
     }

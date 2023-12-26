@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Errors = exports.Extension = void 0;
+exports.Errors = exports.Patch = exports.Extension = void 0;
 var extension_js_1 = require("./extension.js");
 Object.defineProperty(exports, "Extension", { enumerable: true, get: function () { return extension_js_1.Extension; } });
+var patch_js_1 = require("./patch.js");
+Object.defineProperty(exports, "Patch", { enumerable: true, get: function () { return patch_js_1.Patch; } });
 const CannotBeExtendedError_js_1 = require("./errors/CannotBeExtendedError.js");
 const MissingOwnerValue_js_1 = require("./errors/MissingOwnerValue.js");
 exports.Errors = {
