@@ -6,84 +6,46 @@ const {
   }
 } = require('../dist/cjs/index.js')
 
-describe('Extension Class Tests', () => {
+describe('Extension class tests', () => {
+  let originalObject;
   let extension;
-  let mockOwner;
 
-  const mockKey = 'testKey';
-  const mockValue = 'testValue';
-  const originalValue = 'originalValue'
+  // Function to reset the object before each test
+  const resetObject = () => {
+    originalObject = { originalKey: 'originalValue' };
+  };
 
   beforeEach(() => {
-    mockOwner = { [mockKey]: originalValue }
-    extension = new Extension(mockKey, mockValue, mockOwner);
+    resetObject();
   });
 
-  describe('Constructor', () => {
-    it('should correctly initialize an Extension instance', () => {
-      expect(extension.key).toBe(mockKey);
-      expect(extension.extension[0]).toBe(mockValue);
-      expect(extension.owner).toBe(mockOwner);
-    });
+  test('successfully extends an object', () => {
+    extension = new Extension('newKey', 'newValue', originalObject);
+    extension.apply();
 
-    it('should throw MissingOwnerValue if key is not in owner', () => {
-      expect(() => new Extension('nonExistentKey', mockValue, mockOwner))
-        .toThrow(MissingOwnerValue);
-    });
+    expect(originalObject.newKey).toBe('newValue');
   });
 
-  describe('isValid getter', () => {
-    it('should return true if extension is valid', () => {
-      expect(extension.isValid).toBeTruthy();
+  test('throws error when trying to extend a non-configurable property', () => {
+    Object.defineProperty(originalObject, 'nonConfigurableKey', {
+      value: 'immutableValue',
+      configurable: false,
     });
 
-    it('should return false if extension is not valid', () => {
-      extension.original = null;
-      expect(extension.isValid).toBeFalsy();
-    });
+    expect(() => {
+      new Extension('nonConfigurableKey', 'newValue', originalObject);
+    }).toThrow(CannotBeExtendedError);
   });
 
-  describe('activate and deactivate methods', () => {
-    it('should activate the extension', () => {
-      extension.activate();
-      expect(extension.currentValue).toBe(mockValue);
-    });
+  test('reverts to the original state after extension and reversion', () => {
+    extension = new Extension('newKey', 'newValue', originalObject);
+    extension.apply();
+    expect(originalObject.newKey).toBe('newValue');
 
-    it('should deactivate the extension and restore original', () => {
-      extension.activate();
-      extension.deactivate();
-      expect(extension.currentValue).toBe('originalValue');
-    });
+    extension.revert();
+    expect(originalObject.newKey).toBeUndefined();
+    expect(originalObject).toEqual({ originalKey: 'originalValue' });
   });
 
-  describe('toggle method', () => {
-    it('should toggle the extension state', () => {
-      extension.toggle();
-      expect(extension.currentValue).toBe(mockValue);
-
-      extension.toggle();
-      expect(extension.currentValue).toBe(originalValue);
-    });
-  });
-
-  describe('hasValue getter', () => {
-    it('should return true if the key exists on owner', () => {
-      expect(extension.hasValue).toBeTruthy();
-    });
-
-    it('should return false if the key does not exist on owner', () => {
-      expect(() => new Extension('nonExistentKey', mockValue, {})).toThrow()
-    });
-  });
-
-  describe('isActive getter', () => {
-    it('should return true if the extension is active', () => {
-      extension.activate();
-      expect(extension.isActive).toBeTruthy();
-    });
-
-    it('should return false if the extension is not active', () => {
-      expect(extension.isActive).toBeFalsy();
-    });
-  });
+  // Additional tests for other scenarios...
 });

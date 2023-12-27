@@ -27,7 +27,7 @@ export class Patch {
     /**
      * Internal class representing a single patch entry.
      */
-    static "__#2@#PatchEntry": {
+    static "__#1@#PatchEntry": {
         new (property: string, owningObject?: object | undefined): {
             /**
              * Computes and returns the current value of the patch, based on its type

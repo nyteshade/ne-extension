@@ -1,125 +1,82 @@
 import { CannotBeExtendedError } from "./errors/CannotBeExtendedError.js"
 import { MissingOwnerValue } from './errors/MissingOwnerValue.js'
-
-const [VALUE, DESCRIPTOR] = [0, 1]
+import { Patch } from './patch.js'
 
 /**
- * The Extension class provides a mechanism to dynamically extend or override
- * properties of a given object (the owner). It handles the activation,
- * deactivation, and toggling of these extensions, while ensuring the integrity
- * and original state of the owner can be maintained.
+ * The Extension class, inheriting from the Patch class, is specifically designed
+ * for extending properties or methods of a given object. It facilitates the
+ * extension process by determining the target key and value for the extension and
+ * ensuring the target property is writable and configurable. If these conditions
+ * are not met, the class throws a CannotBeExtendedError. This class is useful
+ * in scenarios like testing, dynamic behavior adjustments, or managing complex
+ * object configurations.
  */
-export class Extension {
+export class Extension extends Patch {
   /**
-   * Constructs a new Extension instance.
+   * Constructs a new Extension instance. This constructor initializes the extension
+   * by determining the target key and value for the extension and ensuring that
+   * the property to be extended is configurable and writable. It throws an error
+   * if these conditions are not satisfied. The constructor leverages the Patch
+   * class's functionalities to manage the extension effectively.
    *
-   * @param {string} key The property key on the owner object that will be extended.
-   * @param {any} extension The new value or behavior to assign to the key.
-   * @param {object} [owner=globalThis] The object to which the extension will be applied.
-   * @param {object} [options={}] Additional options for managing the extension.
+   * @param {Function|string} keyClassOrFn - The key, class, or function to be
+   * used for the extension. If a function or class is provided, its name is used
+   * as the key.
+   * @param {*} value - The value or method to be used for the extension.
+   * @param {object} [owner=globalThis] - The object to which the extension will
+   * be applied.
+   * @param {object} [options={}] - Additional options for the extension behavior.
+   * @throws {CannotBeExtendedError} If the target property is not writable or
+   * configurable.
+   * @throws {MissingOwnerValue} If the `keyClassOrFn` value is null or there
+   * is an error determining the key and extension values, MissingOwnerValue is
+   * thrown.
    */
-  constructor(key, extension, owner = globalThis, options = {}) {
-    Object.assign(this, { key, owner, options })
+  constructor(keyClassOrFn, value, owner = globalThis, options = {}) {
+    let { key, extension, valid } = Extension.determineInput(keyClassOrFn)
+    extension = value || extension
 
-    this.extension = [
-      extension,
-      { enumerable: true, configurable: true, value: extension }
-    ]
-
-    if (Reflect.has(options ?? {}, 'isAccessor') && extension instanceof Function) {
-      this.extension[DESCRIPTOR] = {
-        enumerable: true,
-        configurable: true,
-        get: extension,
-        set: options?.setter,
-      }
-    }
-
-    if (Reflect.has(owner, key)) {
-      this.original = Extension.#fetchPropAndMeta(owner, key)
-
-      if (this.original?.[DESCRIPTOR]) {
-        const descriptor = this.original?.[DESCRIPTOR]
-
-        if (!Extension.#isWritable(descriptor)) {
-          throw new CannotBeExtendedError(owner, key)
-        }
-      }
-    }
-    else {
+    if (!valid) {
       throw new MissingOwnerValue(owner, key)
     }
-  }
 
-  /**
-   * Checks whether the extension is valid. An extension is considered valid
-   * if the original property is present and the extension value is defined.
-   *
-   * @returns {boolean} True if the extension is valid, otherwise false.
-   */
-  get isValid() {
-    return this.original !== null && this.extension != null && this.hasValue
-  }
-
-  /**
-   * Checks if the original property key exists on the owner object.
-   *
-   * @returns {boolean} True if the owner object has the property key, otherwise false.
-   */
-  get hasValue() {
-    return Reflect.has(this.owner, this.key)
-  }
-
-  /**
-   * Determines if the extension is currently active on the owner object.
-   *
-   * @returns {boolean} True if the extension is active, otherwise false.
-   */
-  get isActive() {
-    return this.owner[this.key] === this.extension[VALUE]
-  }
-
-  /**
-   * Activates the extension by defining the property on the owner object with the
-   * extended behavior or value.
-   */
-  activate() {
-    if (!this.isActive) {
-      Object.defineProperty(this.owner, this.key, this.extension[DESCRIPTOR])
+    const descriptor = Object.getOwnPropertyDescriptor(owner, key)
+    if (descriptor) {
+      if (
+        (Reflect.has(descriptor, 'writable') && !descriptor.writable) ||
+        (Reflect.has(descriptor, 'configurable') && !descriptor.configurable)
+      ) {
+        throw new CannotBeExtendedError(owner, key)
+      }
     }
+
+    super(owner, { [key]: extension }, options)
+    this.key = key
   }
 
   /**
-   * Deactivates the extension by restoring the original property definition
-   * on the owner object.
-   */
-  deactivate() {
-    if (this.isActive) {
-      Object.defineProperty(this.owner, this.key, this.original[DESCRIPTOR])
-    }
-  }
-
-  /**
-   * Toggles the state of the extension. If active, it will be deactivated,
-   * and vice versa.
-   */
-  toggle() {
-    if (this.isActive) {
-      this.deactivate()
-    }
-    else {
-      this.activate()
-    }
-  }
-
-  /**
-   * Returns the currently tracked value.
+   * Determines the input type for the extension. This method processes the input
+   * and identifies the key for the extension and the associated value or method.
+   * It supports inputs as either a string key or a function/class, providing
+   * flexibility in defining extensions.
    *
-   * @returns {any} the value currently stored on the `owner` object using the
-   * `key` property key.
+   * @param {Function|string} keyClassOrFn - The key, class, or function provided
+   * as input. If a function or class is provided, its name is used as the key.
+   * containing the determined key, the extension value/method, and a validity flag
+   * indicating whether the input is usable.
+   * @returns {{key: string|null, extension: *|null, valid: boolean}} An object
    */
-  get currentValue() {
-    return this.owner[this.key]
+  static determineInput(keyClassOrFn) {
+    let input = { key: null, extension: null, valid: false }
+
+    if (keyClassOrFn instanceof Function) {
+      input = { key: keyClassOrFn.name, extension: keyClassOrFn, valid: true }
+    }
+    else if (typeof keyClassOrFn === 'string' || keyClassOrFn instanceof String) {
+      input = { key: keyClassOrFn, extension: null, valid: true }
+    }
+
+    return input
   }
 
   /**
@@ -132,7 +89,7 @@ export class Extension {
    * @returns {string} A formatted string representing the Extension instance.
    */
   [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
-    return `Extension:${this.constructor.name} ${this.key}`
+    return `Extension<${this.key}>`
   }
 
   /**
@@ -144,50 +101,4 @@ export class Extension {
   get [Symbol.toStringTag]() {
     return this.constructor.name
   }
-
-  // Storage for the original element under `key` on object `owner`
-  original = null
-
-  // The current state of the extension object to apply to `owner`
-  extension = null
-
-  // The key where the original version of the object to be extended once
-  // resided. When created, the instance of Extension will attempt to
-  // capture the original object and store a reference here.
-  key = null
-
-  // By default the `globalThis` refers to `window` in a browser or `global`
-  // in nodejs compatible environments.
-  owner = null
-
-  // The flag indicating the state of the
-  activated = false
-
-  /**
-   * Fetches the property value and its descriptor from the owner object.
-   *
-   * @param {object} owner The owner object from which to fetch the property.
-   * @param {string} key The key of the property to fetch.
-   * @returns {Array} An array containing the property value and its descriptor.
-   */
-  static #fetchPropAndMeta(owner, key) {
-    return [
-      owner[key],
-      Object.getOwnPropertyDescriptor(owner, key)
-    ]
-  }
-
-  static #isWritable(descriptor) {
-    const configurable =
-      Reflect.has(descriptor, 'configurable') && descriptor.configurable
-
-    const writable =
-      Reflect.has(descriptor, 'writable') && descriptor.writable
-
-    const isData = Reflect.has(descriptor, 'value')
-
-    return (configurable || (isData && writable))
-  }
-
-  static extensions = []
 }
