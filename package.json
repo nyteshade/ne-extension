@@ -1,6 +1,6 @@
 {
   "author": "Brielle Harrison <nyteshade at gmail.com>",
-  "browser": "dist/@nejs/extension.bundle.1.0.0.js",
+  "browser": "dist/@nejs/extension.bundle.1.1.1.js",
   "description": "A small library for extending existing JavaScript",
   "devDependencies": {
     "@jest/expect": "^29.7.0",
@@ -45,7 +45,7 @@
     "browser": "bin/esbuild",
     "clean": "bin/clean",
     "module": "bin/build",
-    "prepublishOnly": "bin/clean && bin/esbuild && bin/build",
+    "prepublish": "bin/clean && bin/esbuild && bin/build",
     "test": "jest"
   },
   "type": "module",
