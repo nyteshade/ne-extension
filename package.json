@@ -45,7 +45,7 @@
     "browser": "bin/esbuild",
     "clean": "bin/clean",
     "module": "bin/build",
-    "prepublish": "bin/clean && bin/esbuild && bin/build",
+    "postpack": "bin/clean && bin/esbuild && bin/build",
     "test": "jest"
   },
   "type": "module",
