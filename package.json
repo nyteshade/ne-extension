@@ -45,7 +45,7 @@
     "browser": "bin/esbuild",
     "clean": "bin/clean",
     "module": "bin/build",
-    "postpack": "bin/clean && bin/esbuild && bin/build && git commit -am \"np publish changes\"",
+    "postpack": "bin/clean && bin/esbuild && bin/build",
     "test": "jest"
   },
   "type": "module",
