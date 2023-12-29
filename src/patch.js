@@ -1,3 +1,5 @@
+import { PatchToggle } from './patchtoggle.js'
+
 /**
  * The Patch class provides a mechanism to apply patches to properties or
  * methods of an object (the owner). It keeps track of the original state of
@@ -73,6 +75,19 @@ export class Patch {
 
       this.applied = true
     }
+  }
+
+  /**
+   * Creates an easy to use toggle for working with `Patch` classes
+   *
+   * @param {boolean} preventRevert true if calling stop() on the toggle does not
+   * revert the patch. false, the default, if it should.
+   * @returns {PatchToggle} an instance of PatchToggle wrapped around this instance
+   * of `Patch`
+   * @example const toggle = ObjectExtensions.createToggle().start()
+   */
+  createToggle(preventRevert = false) {
+    return new PatchToggle(this, preventRevert)
   }
 
   /**

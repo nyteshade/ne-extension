@@ -7,6 +7,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _a, _Patch_PatchEntry;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Patch = void 0;
+const patchtoggle_js_1 = require("./patchtoggle.js");
 /**
  * The Patch class provides a mechanism to apply patches to properties or
  * methods of an object (the owner). It keeps track of the original state of
@@ -81,6 +82,18 @@ class Patch {
             });
             this.applied = true;
         }
+    }
+    /**
+     * Creates an easy to use toggle for working with `Patch` classes
+     *
+     * @param {boolean} preventRevert true if calling stop() on the toggle does not
+     * revert the patch. false, the default, if it should.
+     * @returns {PatchToggle} an instance of PatchToggle wrapped around this instance
+     * of `Patch`
+     * @example const toggle = ObjectExtensions.createToggle().start()
+     */
+    createToggle(preventRevert = false) {
+        return new patchtoggle_js_1.PatchToggle(this, preventRevert);
     }
     /**
      * Reverts all applied patches on the owner object, restoring any overridden
