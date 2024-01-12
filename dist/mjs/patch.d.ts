@@ -82,6 +82,16 @@ export class Patch {
      */
     get patches(): any[];
     /**
+     * Depending on how the PatchEntry is configured, accessing the patch
+     * by name can be somewhat irritating, so this provides an object with
+     * the actual current patch value at the time patchValues is requested.
+     *
+     * @example let { patch1, patch2 } = patch.patchValues
+     * @returns {object} an object with the patchName mapped to the current
+     * computed patchEntry value.
+     */
+    get patchValues(): object;
+    /**
      * Retrieves the conflict entries (existing properties on the owner that
      * will be overridden by patches) as an array of [key, patchEntry] pairs.
      *
