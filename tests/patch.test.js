@@ -1,7 +1,20 @@
 const { afterEach } = require('node:test');
 const {
   Patch,
-} = require('../dist/cjs/index.js')
+} = require('../dist/cjs/index.js');
+
+class Deferred {
+  constructor() {
+    this.promise = new Promise((resolve, reject) => {
+      this.resolve = resolve
+      this.reject = reject
+    })
+  }
+
+  reject = null
+  resolve = null
+  promise = null
+}
 
 describe('Patch Class Tests', () => {
   let owner;
@@ -50,6 +63,99 @@ describe('Patch Class Tests', () => {
     });
   });
 
+  describe('conditionalPatch', () => {
+    it('should allow a global condition', async () => {
+      const owner = {}
+      const then = Date.now()
+      const deferred = new Deferred()
+      const conditionalPatch = new Patch(owner, {prop: 'value'}, {
+        condition() { return (Date.now() - then) >= 100 }
+      })
+
+      try {
+        conditionalPatch.apply()
+        expect(conditionalPatch.patchEntries.prop.condition).toBeTruthy()
+        expect(Reflect.has(owner, 'prop')).toBeFalsy()
+
+        setTimeout(() => deferred.resolve(true), 100)
+        await deferred.promise
+
+        conditionalPatch.apply()
+        expect(Reflect.has(owner, 'prop')).toBeTruthy()
+      }
+      finally {
+        conditionalPatch.revert()
+      }
+    })
+
+    it('should allow for a patch specific condition', async () => {
+      const owner = {}
+      const then = Date.now()
+      const deferred = new Deferred()
+      const conditionalPatch = new Patch(owner, {prop: 'value', prop2: true}, {
+        conditions: {
+          prop2() { return (Date.now() - then) >= 100 }
+        }
+      })
+
+      try {
+        conditionalPatch.apply()
+        expect(conditionalPatch.patchEntries.prop?.condition).toBeFalsy()
+        expect(conditionalPatch.patchEntries.prop2.condition).toBeTruthy()
+        expect(Reflect.has(owner, 'prop')).toBeTruthy()
+        expect(Reflect.has(owner, 'prop2')).toBeFalsy()
+
+        setTimeout(() => deferred.resolve(true), 100)
+        await deferred.promise
+
+        conditionalPatch.apply()
+        expect(Reflect.has(owner, 'prop2')).toBeTruthy()
+      }
+      finally {
+        conditionalPatch.revert()
+      }
+    })
+
+    it('should allow for a patch specific condition with global fallback', async () => {
+      const owner = {}
+      const then = Date.now()
+      const deferred = new Deferred()
+      const deferred2 = new Deferred()
+      const conditionalPatch = new Patch(owner, {prop: 'value', prop2: true}, {
+        condition() {
+          return (Date.now() - then) >= 200
+        },
+        conditions: {
+          prop2() { return (Date.now() - then) >= 100 }
+        }
+      })
+
+      try {
+        conditionalPatch.apply()
+        expect(conditionalPatch.patchEntries.prop?.condition).toBeTruthy()
+        expect(conditionalPatch.patchEntries.prop2.condition).toBeTruthy()
+        expect(Reflect.has(owner, 'prop')).toBeFalsy()
+        expect(Reflect.has(owner, 'prop2')).toBeFalsy()
+
+        setTimeout(() => deferred.resolve(true), 100)
+        await deferred.promise
+
+        conditionalPatch.apply()
+        expect(Reflect.has(owner, 'prop')).toBeFalsy()
+        expect(Reflect.has(owner, 'prop2')).toBeTruthy()
+
+        setTimeout(() => deferred2.resolve(true), 200)
+        await deferred2.promise
+        conditionalPatch.apply()
+        expect(Reflect.has(owner, 'prop')).toBeTruthy()
+        expect(Reflect.has(owner, 'prop2')).toBeTruthy()
+      }
+      finally {
+        conditionalPatch.revert()
+      }
+    })
+  })
+
   describe('revert method', () => {
     it('should revert all patches and restore original properties', () => {
       patch.apply();
@@ -65,16 +171,24 @@ describe('Patch Class Tests', () => {
     });
   });
 
-  describe('patches getter', () => {
+  describe('entries getter', () => {
     it('should return all patch entries', () => {
-      const patches = patch.patches;
-      expect(patches.length).toBe(Object.keys(mockPatches).length);
-      expect(patches).toEqual(expect.arrayContaining([
+      const entries = patch.entries;
+      expect(entries.length).toBe(Object.keys(mockPatches).length);
+      expect(entries).toEqual(expect.arrayContaining([
         expect.arrayContaining(['patchedProp', expect.anything()]),
         expect.arrayContaining(['originalProp', expect.anything()])
       ]));
     });
   });
+
+  describe('patches getter', () => {
+    it('should return patches by key', () => {
+      const patches = patch.patches;
+      expect(patches.patchedProp).toBeTruthy()
+      expect(patches.originalProp).toBeTruthy()
+    })
+  })
 
   describe('conflicts getter', () => {
     it('should return all conflict entries', () => {

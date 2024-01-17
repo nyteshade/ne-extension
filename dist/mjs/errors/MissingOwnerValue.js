@@ -29,3 +29,4 @@ export class MissingOwnerValue extends Error {
         return this.constructor.name;
     }
 }
+//# sourceMappingURL=MissingOwnerValue.js.map

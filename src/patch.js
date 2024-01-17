@@ -1,4 +1,5 @@
 import { PatchToggle } from './patchtoggle.js'
+import { PatchEntry } from './patchentry.js'
 
 /**
  * The Patch class provides a mechanism to apply patches to properties or
@@ -7,7 +8,31 @@ import { PatchToggle } from './patchtoggle.js'
  */
 export class Patch {
   /**
-   * Constructs a new Patch instance.
+   * Constructs a new Patch instance. Supported options for Patch instances
+   * include either a global condition for the Patch to be applied or
+   * specific property conditions subjecting only a subset of the patches
+   * to conditional application.
+   *
+   * @example
+   * ```
+   * const custom = Symbol.for('nodejs.util.inspect.custom')
+   * const patch = new Patch(
+   *   Object,
+   *   {
+   *     property: 'value',
+   *     [custom](depth, options, inspect) {
+   *       // ... custom return string for nodejs
+   *     }
+   *   },
+   *   {
+   *     conditions: {
+   *       [custom]() { return process?.versions?.node !== null },
+   *     },
+   *   }
+   * )
+   * patch.apply() // applies `property` but only applies the `custom`
+   *               // property if the JavaScript is running in NodeJS
+   * ```
    *
    * @param {object} owner The object to which patches will be applied.
    * @param {object} patches An object containing properties or methods to
@@ -18,18 +43,33 @@ export class Patch {
     Object.assign(this, {
       owner,
       options,
-      applied: false,
     })
 
     this.patchConflicts = {}
     this.patchEntries = {}
     this.patchesOwner = patches
+    this.patchCount = 0
+    this.patchesApplied = 0
+
+    const globalCondition = this?.options.condition
 
     Reflect.ownKeys(patches).forEach(key => {
-      this.patchEntries[key] = new Patch.#PatchEntry(key, this.patchesOwner)
+      const condition = this?.options?.conditions?.[key] ?? globalCondition
+      try {
+        this.patchEntries[key] = new PatchEntry(key, this.patchesOwner, condition)
+        this.patchCount += 1
+      }
+      catch (error) {
+        console.error(`Failed to process patch for ${key}\n`, error)
+      }
 
       if (Reflect.has(this.owner, key)) {
-        this.patchConflicts[key] = new Patch.#PatchEntry(key, this.owner)
+        try {
+          this.patchConflicts[key] = new PatchEntry(key, this.owner)
+        }
+        catch (error) {
+          console.error(`Cannot capture conflicting patch key ${key}\n`, error)
+        }
       }
     })
 
@@ -45,7 +85,7 @@ export class Patch {
    *
    * @returns {Array} An array of [key, patchEntry] pairs.
    */
-  get patches() {
+  get entries() {
     return Reflect.ownKeys(this.patchEntries).map(key => {
       return [key, this.patchEntries[key]]
     })
@@ -60,8 +100,8 @@ export class Patch {
    * @returns {object} an object with the patchName mapped to the current
    * computed patchEntry value.
    */
-  get patchValues() {
-    return this.patches.reduce((acc, [key, patchEntry]) => {
+  get patches() {
+    return this.entries.reduce((acc, [key, patchEntry]) => {
       acc[key] = patchEntry.computed
       return acc
     }, {})
@@ -80,16 +120,101 @@ export class Patch {
   }
 
   /**
-   * Applies all patches to the owner object. If a property with the same key
-   * already exists on the owner, it will be overridden.
+   * Checks to see if the tracked number of applied patches is greater than 0
+   *
+   * @returns {boolean} true if at least one patch has been applied
    */
-  apply() {
-    if (!this.applied) {
-      this.patches.forEach(([,patch]) => {
-        Object.defineProperty(this.owner, patch.key, patch.descriptor)
-      })
+  get applied() {
+    return this.patchesApplied > 0
+  }
 
-      this.applied = true
+  /**
+   * Provided for semantics, but this method is synonymous with {@link applied}.
+   *
+   * @returns {boolean} true if at least one patch has been applied
+   */
+  get isPartiallyPatched() {
+    return this.applied
+  }
+
+  /**
+   * Returns true only when the number of tracked patches matches the number
+   * of applied patches.
+   *
+   * @returns {boolean} true if applied patches is equal to the count of patches
+   */
+  get isFullyPatched() {
+    return this.patchCount == this.patchesApplied
+  }
+
+  /**
+   * Applies all patches to the owner object. If a property with the same key
+   * already exists on the owner, it will be overridden. Optionally a callback
+   * can be supplied to the call to revert. If the callback is a valid function,
+   * it will be invoked with an object containing the results of the reversion
+   * of the patch. The callback receives a single parameter which is an object
+   * of counts. It has the signature:
+   *
+   * ```
+   * type counts = {
+   *   patches: number;
+   *   applied: number;
+   *   errors: Array<PatchEntry,Error>;
+   *   notApplied: number;
+   * }
+   * ```
+   *
+   * While the keys may be obvious to some, `patches` is the count of patches
+   * this instance tracks. `applied` is the number of patches that were applied
+   * 'errors' is an array of arrays where the first element is the `PatchEntry`
+   * and the second element is an `Error` indicating the problem. An error will
+   * only be generated if `isAllowed` is `true` and the patch still failed to
+   * apply Lastly `notApplied` is the number of patches that were unable to
+   * be applied.
+   *
+   * Additional logic that should track
+   * ```
+   *   • patches should === applied when done
+   *   • errors.length should be 0 when done
+   *   • notApplied should be 0 when done
+   * ```
+   *
+   * @param {function} metrics - a callback which receives a status of the
+   * `revert` action if supplied. This callback will not be invoked, nor will
+   * any of the other logic be captured, if {@link applied} returns false
+   */
+  apply(metrics) {
+    const entries = this.entries
+    const counts = {
+      patches: entries.length,
+      applied: 0,
+      errors: [],
+      notApplied: entries.length,
+    }
+
+    entries.forEach(([,patch]) => {
+      if (patch.isAllowed) {
+        // Patch
+        Object.defineProperty(this.owner, patch.key, patch.descriptor)
+
+        // Verify
+        let oDesc = Object.getOwnPropertyDescriptor(this.owner, patch.key)
+        if (this.#equalDescriptors(oDesc, patch.descriptor)) {
+          counts.applied += 1
+          counts.notApplied -= 1
+        }
+        else {
+          counts.errors.push([patch, new Error(
+            `Could not apply patch for key ${patch.key}`
+          )])
+        }
+      }
+    })
+
+    this.patchesApplied = counts.applied
+
+    if (typeof metrics === 'function') {
+      metrics(counts)
     }
   }
 
@@ -108,19 +233,90 @@ export class Patch {
 
   /**
    * Reverts all applied patches on the owner object, restoring any overridden
-   * properties to their original state.
+   * properties to their original state. Optionally a callback can be supplied to
+   * the call to revert. If the callback is a valid function, it will be invoked
+   * with an object containing the results of the reversion of the patch. The
+   * callback receives a single parameter which is an object of counts. It has
+   * the signature:
+   *
+   * ```
+   * type counts = {
+   *   patches: number;
+   *   reverted: number;
+   *   restored: number;
+   *   conflicts: number;
+   *   errors: Array<PatchEntry,Error>;
+   *   stillApplied: number;
+   * }
+   * ```
+   *
+   * While the keys may be obvious to some, `patches` is the count of patches
+   * this instance tracks. `reverted` is the number of patches that were removed'
+   * `restored` is the number of originally conflicting keys that were restored.
+   * `conflicts` is the total number of conflicts expected. `errors` is an array of
+   * arrays where the first element is the `PatchEntry` and the second element
+   * is an `Error` indicating the problem. Lastly `stillApplied` is the number of
+   * patchesApplied still tracked. If this is greater than zero, you can assume
+   * something went wrong.
+   *
+   * Additional logic that should track
+   * ```
+   *   • patches should === reverted when done
+   *   • restored should === conflicts when done
+   *   • errors.length should be 0 when done
+   *   • stillApplied should be 0 when done
+   * ```
+   *
+   * @param {function} metrics - a callback which receives a status of the
+   * `revert` action if supplied. This callback will not be invoked, nor will
+   * any of the other logic be captured, if {@link applied} returns false
    */
-  revert() {
-    if (this.applied) {
-      this.patches.forEach(([,patch]) => {
-        delete this.owner[patch.key]
-      })
+  revert(metrics) {
+    if (!this.applied) {
+      return
+    }
 
-      this.conflicts.forEach(([,patch]) => {
-        Object.defineProperty(this.owner, patch.key, patch.descriptor)
-      })
+    const entries = this.entries
+    const conflicts = this.conflicts
 
-      this.applied = false
+    const counts = {
+      patches: entries.length,
+      reverted: 0,
+      restored: 0,
+      conflicts: conflicts.length,
+      errors: [],
+      stillApplied: 0,
+    }
+
+    entries.forEach(([,patch]) => {
+      const successful = delete this.owner[patch.key]
+      if (successful) {
+        this.patchesApplied -= 1
+        counts.reverted += 1
+      }
+      else {
+        counts.errors.push([patch, new Error(
+          `Failed to revert patch ${patch.key}`
+        )])
+      }
+    })
+
+    conflicts.forEach(([,patch]) => {
+      Object.defineProperty(this.owner, patch.key, patch.descriptor)
+      const appliedDescriptor = Object.getOwnPropertyDescriptor(this.owner, patch.key)
+      if (this.#equalDescriptors(patch.descriptor, appliedDescriptor)) {
+        counts.restored += 1
+      }
+      else {
+        counts.errors.push([patch, new Error(
+          `Failed to restore original ${patch.key}`
+        )])
+      }
+    })
+
+    counts.stillApplied = this.patchesApplied
+    if (typeof metrics === 'function') {
+      metrics(counts)
     }
   }
 
@@ -143,6 +339,23 @@ export class Patch {
    * Additional options for patching behavior.
    */
   options = null
+
+  #equalDescriptors(left, right) {
+    if (!left || !right) {
+      return false
+    }
+
+    let circuit = true
+
+    circuit = circuit && left.configurable === right.configurable
+    circuit = circuit && left.enumerable === right.enumerable
+    circuit = circuit && left.value === right.value
+    circuit = circuit && left.writable === right.writable
+    circuit = circuit && left.get === right.get
+    circuit = circuit && left.set === right.set
+
+    return circuit
+  }
 
   /**
    * A global mapping of all patches in play
@@ -176,98 +389,6 @@ export class Patch {
       for (const patch of Patch.patches.get(owner)) {
         patch.revert()
       }
-    }
-  }
-
-  /**
-   * Internal class representing a single patch entry.
-   */
-  static #PatchEntry = class {
-    /**
-     * Constructs a new PatchEntry instance.
-     *
-     * @param {string} property The property key to be patched.
-     * @param {object} [owningObject=globalThis] The object from which the
-     * property descriptor is taken.
-     */
-    constructor(property, owningObject = globalThis) {
-      Object.assign(this, {
-        key: property,
-        descriptor: Object.getOwnPropertyDescriptor(owningObject, property),
-        owner: owningObject
-      })
-    }
-
-    /**
-     * Computes and returns the current value of the patch, based on its type
-     * (data or accessor).
-     *
-     * @returns {any} The current value of the patch.
-     */
-    get computed() {
-      if (this.isAccessor) {
-        return this.descriptor.get.bind(this.owner).call()
-      }
-      else {
-        return this.descriptor.value
-      }
-    }
-
-    /**
-     * Checks if the patch is a data property (has a value).
-     *
-     * @returns {boolean} True if the patch is a data property, false otherwise.
-     */
-    get isData() {
-      return Reflect.has(this.descriptor, 'value')
-    }
-
-    /**
-     * Checks if the patch is an accessor property (has a getter).
-     *
-     * @returns {boolean} True if the patch is an accessor property, false otherwise.
-     */
-    get isAccessor() {
-      return Reflect.has(this.descriptor, 'get')
-    }
-
-    /**
-     * Checks if the patch is read-only (not configurable or not writable).
-     *
-     * @returns {boolean} True if the patch is read-only, false otherwise.
-     */
-    get isReadOnly() {
-      return (
-        (Reflect.has(this.descriptor, 'configurable') && !this.descriptor.configurable) ||
-        (Reflect.has(this.descriptor, 'writable') && !this.descriptor.writable)
-      )
-    }
-
-    /**
-     * Custom getter for the toStringTag symbol. Provides the class name of
-     * the PatchEntry instance.
-     *
-     * @returns {string} The class name of the PatchEntry instance.
-     */
-    get [Symbol.toStringTag]() {
-      return this.constructor.name
-    }
-
-    /**
-     * Custom inspect function for Node.js that provides a formatted representation
-     * of the PatchEntry instance, primarily for debugging purposes.
-     *
-     * @param {number} depth The depth to which the object should be formatted.
-     * @param {object} options Formatting options.
-     * @param {function} inspect The inspection function to format the object.
-     * @returns {string} A formatted string representing the PatchEntry instance.
-     */
-    [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
-      return `PatchEntry<${
-        this.key
-      }, ${
-        this.isData ? 'Data' : 'Accessor'
-      }${this.isReadOnly ? ' [ReadOnly]' : ''}>`
     }
   }
 }

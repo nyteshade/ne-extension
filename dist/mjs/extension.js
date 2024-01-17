@@ -91,3 +91,4 @@ export class Extension extends Patch {
         return this.constructor.name;
     }
 }
+//# sourceMappingURL=extension.js.map

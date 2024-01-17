@@ -95,3 +95,4 @@ class Extension extends patch_js_1.Patch {
     }
 }
 exports.Extension = Extension;
+//# sourceMappingURL=extension.js.map

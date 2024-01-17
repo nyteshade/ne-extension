@@ -31,3 +31,4 @@ export class CannotBeExtendedError extends Error {
         return this.constructor.name;
     }
 }
+//# sourceMappingURL=CannotBeExtendedError.js.map

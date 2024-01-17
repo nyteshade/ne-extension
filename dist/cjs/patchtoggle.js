@@ -91,3 +91,4 @@ class PatchToggle {
     }
 }
 exports.PatchToggle = PatchToggle;
+//# sourceMappingURL=patchtoggle.js.map

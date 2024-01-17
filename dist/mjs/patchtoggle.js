@@ -87,3 +87,4 @@ export class PatchToggle {
         return inspect(`${objName} ${status}`, { ...options, depth });
     }
 }
+//# sourceMappingURL=patchtoggle.js.map

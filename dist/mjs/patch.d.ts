@@ -25,46 +25,31 @@ export class Patch {
      */
     static disableFor(owner: object): void;
     /**
-     * Internal class representing a single patch entry.
-     */
-    static "__#1@#PatchEntry": {
-        new (property: string, owningObject?: object | undefined): {
-            /**
-             * Computes and returns the current value of the patch, based on its type
-             * (data or accessor).
-             *
-             * @returns {any} The current value of the patch.
-             */
-            readonly computed: any;
-            /**
-             * Checks if the patch is a data property (has a value).
-             *
-             * @returns {boolean} True if the patch is a data property, false otherwise.
-             */
-            readonly isData: boolean;
-            /**
-             * Checks if the patch is an accessor property (has a getter).
-             *
-             * @returns {boolean} True if the patch is an accessor property, false otherwise.
-             */
-            readonly isAccessor: boolean;
-            /**
-             * Checks if the patch is read-only (not configurable or not writable).
-             *
-             * @returns {boolean} True if the patch is read-only, false otherwise.
-             */
-            readonly isReadOnly: boolean;
-            /**
-             * Custom getter for the toStringTag symbol. Provides the class name of
-             * the PatchEntry instance.
-             *
-             * @returns {string} The class name of the PatchEntry instance.
-             */
-            readonly [Symbol.toStringTag]: string;
-        };
-    };
-    /**
-     * Constructs a new Patch instance.
+     * Constructs a new Patch instance. Supported options for Patch instances
+     * include either a global condition for the Patch to be applied or
+     * specific property conditions subjecting only a subset of the patches
+     * to conditional application.
+     *
+     * @example
+     * ```
+     * const custom = Symbol.for('nodejs.util.inspect.custom')
+     * const patch = new Patch(
+     *   Object,
+     *   {
+     *     property: 'value',
+     *     [custom](depth, options, inspect) {
+     *       // ... custom return string for nodejs
+     *     }
+     *   },
+     *   {
+     *     conditions: {
+     *       [custom]() { return process?.versions?.node !== null },
+     *     },
+     *   }
+     * )
+     * patch.apply() // applies `property` but only applies the `custom`
+     *               // property if the JavaScript is running in NodeJS
+     * ```
      *
      * @param {object} owner The object to which patches will be applied.
      * @param {object} patches An object containing properties or methods to
@@ -75,12 +60,14 @@ export class Patch {
     patchConflicts: {};
     patchEntries: {};
     patchesOwner: object;
+    patchCount: number;
+    patchesApplied: number;
     /**
      * Retrieves the patch entries as an array of [key, patchEntry] pairs.
      *
      * @returns {Array} An array of [key, patchEntry] pairs.
      */
-    get patches(): any[];
+    get entries(): any[];
     /**
      * Depending on how the PatchEntry is configured, accessing the patch
      * by name can be somewhat irritating, so this provides an object with
@@ -90,7 +77,7 @@ export class Patch {
      * @returns {object} an object with the patchName mapped to the current
      * computed patchEntry value.
      */
-    get patchValues(): object;
+    get patches(): object;
     /**
      * Retrieves the conflict entries (existing properties on the owner that
      * will be overridden by patches) as an array of [key, patchEntry] pairs.
@@ -99,11 +86,61 @@ export class Patch {
      */
     get conflicts(): any[];
     /**
-     * Applies all patches to the owner object. If a property with the same key
-     * already exists on the owner, it will be overridden.
+     * Checks to see if the tracked number of applied patches is greater than 0
+     *
+     * @returns {boolean} true if at least one patch has been applied
      */
-    apply(): void;
-    applied: boolean | undefined;
+    get applied(): boolean;
+    /**
+     * Provided for semantics, but this method is synonymous with {@link applied}.
+     *
+     * @returns {boolean} true if at least one patch has been applied
+     */
+    get isPartiallyPatched(): boolean;
+    /**
+     * Returns true only when the number of tracked patches matches the number
+     * of applied patches.
+     *
+     * @returns {boolean} true if applied patches is equal to the count of patches
+     */
+    get isFullyPatched(): boolean;
+    /**
+     * Applies all patches to the owner object. If a property with the same key
+     * already exists on the owner, it will be overridden. Optionally a callback
+     * can be supplied to the call to revert. If the callback is a valid function,
+     * it will be invoked with an object containing the results of the reversion
+     * of the patch. The callback receives a single parameter which is an object
+     * of counts. It has the signature:
+     *
+     * ```
+     * type counts = {
+     *   patches: number;
+     *   applied: number;
+     *   errors: Array<PatchEntry,Error>;
+     *   notApplied: number;
+     * }
+     * ```
+     *
+     * While the keys may be obvious to some, `patches` is the count of patches
+     * this instance tracks. `applied` is the number of patches that were applied
+     * 'errors' is an array of arrays where the first element is the `PatchEntry`
+     * and the second element is an `Error` indicating the problem. An error will
+     * only be generated if `isAllowed` is `true` and the patch still failed to
+     * apply Lastly `notApplied` is the number of patches that were unable to
+     * be applied.
+     *
+     * Additional logic that should track
+     * ```
+     *   • patches should === applied when done
+     *   • errors.length should be 0 when done
+     *   • notApplied should be 0 when done
+     * ```
+     *
+     * @param {function} metrics - a callback which receives a status of the
+     * `revert` action if supplied. This callback will not be invoked, nor will
+     * any of the other logic be captured, if {@link applied} returns false
+     */
+    apply(metrics: Function): void;
     /**
      * Creates an easy to use toggle for working with `Patch` classes
      *
@@ -116,9 +153,45 @@ export class Patch {
     createToggle(preventRevert?: boolean): PatchToggle;
     /**
      * Reverts all applied patches on the owner object, restoring any overridden
-     * properties to their original state.
+     * properties to their original state. Optionally a callback can be supplied to
+     * the call to revert. If the callback is a valid function, it will be invoked
+     * with an object containing the results of the reversion of the patch. The
+     * callback receives a single parameter which is an object of counts. It has
+     * the signature:
+     *
+     * ```
+     * type counts = {
+     *   patches: number;
+     *   reverted: number;
+     *   restored: number;
+     *   conflicts: number;
+     *   errors: Array<PatchEntry,Error>;
+     *   stillApplied: number;
+     * }
+     * ```
+     *
+     * While the keys may be obvious to some, `patches` is the count of patches
+     * this instance tracks. `reverted` is the number of patches that were removed'
+     * `restored` is the number of originally conflicting keys that were restored.
+     * `conflicts` is the total number of conflicts expected. `errors` is an array of
+     * arrays where the first element is the `PatchEntry` and the second element
+     * is an `Error` indicating the problem. Lastly `stillApplied` is the number of
+     * patchesApplied still tracked. If this is greater than zero, you can assume
+     * something went wrong.
+     *
+     * Additional logic that should track
+     * ```
+     *   • patches should === reverted when done
+     *   • restored should === conflicts when done
+     *   • errors.length should be 0 when done
+     *   • stillApplied should be 0 when done
+     * ```
+     *
+     * @param {function} metrics - a callback which receives a status of the
+     * `revert` action if supplied. This callback will not be invoked, nor will
+     * any of the other logic be captured, if {@link applied} returns false
      */
-    revert(): void;
+    revert(metrics: Function): void;
     /**
      * Removes this Patch instance from being tracked amongst all the tracked Patch
      * instances. The JavaScript virtual machine will clean this instance up once
@@ -133,5 +206,6 @@ export class Patch {
      * Additional options for patching behavior.
      */
     options: null;
+    #private;
 }
 import { PatchToggle } from './patchtoggle.js';

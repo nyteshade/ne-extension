@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>extension.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#typeOf">typeOf</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">extension.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { CannotBeExtendedError } from "./errors/CannotBeExtendedError.js"
+import { MissingOwnerValue } from './errors/MissingOwnerValue.js'
+import { Patch } from './patch.js'
+
+/**
+ * The Extension class, inheriting from the Patch class, is specifically designed
+ * for extending properties or methods of a given object. It facilitates the
+ * extension process by determining the target key and value for the extension and
+ * ensuring the target property is writable and configurable. If these conditions
+ * are not met, the class throws a CannotBeExtendedError. This class is useful
+ * in scenarios like testing, dynamic behavior adjustments, or managing complex
+ * object configurations.
+ */
+export class Extension extends Patch {
+  /**
+   * Constructs a new Extension instance. This constructor initializes the extension
+   * by determining the target key and value for the extension and ensuring that
+   * the property to be extended is configurable and writable. It throws an error
+   * if these conditions are not satisfied. The constructor leverages the Patch
+   * class's functionalities to manage the extension effectively.
+   *
+   * @param {Function|string} keyClassOrFn - The key, class, or function to be
+   * used for the extension. If a function or class is provided, its name is used
+   * as the key.
+   * @param {*} value - The value or method to be used for the extension.
+   * @param {object} [owner=globalThis] - The object to which the extension will
+   * be applied.
+   * @param {object} [options={}] - Additional options for the extension behavior.
+   * @throws {CannotBeExtendedError} If the target property is not writable or
+   * configurable.
+   * @throws {MissingOwnerValue} If the `keyClassOrFn` value is null or there
+   * is an error determining the key and extension values, MissingOwnerValue is
+   * thrown.
+   */
+  constructor(keyClassOrFn, value, owner = globalThis, options = {}) {
+    let { key, extension, valid } = Extension.determineInput(keyClassOrFn)
+    extension = value || extension
+
+    if (!valid) {
+      throw new MissingOwnerValue(owner, key)
+    }
+
+    const descriptor = Object.getOwnPropertyDescriptor(owner, key)
+    if (descriptor) {
+      if (
+        (Reflect.has(descriptor, 'writable') &amp;&amp; !descriptor.writable) ||
+        (Reflect.has(descriptor, 'configurable') &amp;&amp; !descriptor.configurable)
+      ) {
+        throw new CannotBeExtendedError(owner, key)
+      }
+    }
+
+    super(owner, { [key]: extension }, options)
+    this.key = key
+  }
+
+  /**
+   * Determines the input type for the extension. This method processes the input
+   * and identifies the key for the extension and the associated value or method.
+   * It supports inputs as either a string key or a function/class, providing
+   * flexibility in defining extensions.
+   *
+   * @param {Function|string} keyClassOrFn - The key, class, or function provided
+   * as input. If a function or class is provided, its name is used as the key.
+   * containing the determined key, the extension value/method, and a validity flag
+   * indicating whether the input is usable.
+   * @returns {{key: string|null, extension: *|null, valid: boolean}} An object
+   */
+  static determineInput(keyClassOrFn) {
+    let input = { key: null, extension: null, valid: false }
+
+    if (keyClassOrFn instanceof Function) {
+      input = { key: keyClassOrFn.name, extension: keyClassOrFn, valid: true }
+    }
+    else if (typeof keyClassOrFn === 'string' || keyClassOrFn instanceof String) {
+      input = { key: keyClassOrFn, extension: null, valid: true }
+    }
+
+    return input
+  }
+
+  /**
+   * Custom inspect function for Node.js that provides a formatted representation
+   * of the Extension instance, primarily for debugging purposes.
+   *
+   * @param {number} depth The depth to which the object should be formatted.
+   * @param {object} options Formatting options.
+   * @param {function} inspect The inspection function to format the object.
+   * @returns {string} A formatted string representing the Extension instance.
+   */
+  [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
+    return `Extension&lt;${this.key}>`
+  }
+
+  /**
+   * Custom getter for the toStringTag symbol. Provides the class name when the
+   * object is converted to a string, typically used for debugging and logging.
+   *
+   * @returns {string} The class name of the Extension instance.
+   */
+  get [Symbol.toStringTag]() {
+    return this.constructor.name
+  }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Jan 17 2024 00:02:06 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

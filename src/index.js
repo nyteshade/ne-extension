@@ -1,5 +1,6 @@
 export { Extension } from './extension.js'
 export { Patch } from './patch.js'
+export { PatchEntry } from './patchentry.js'
 export { PatchToggle } from './patchtoggle.js'
 
 import { CannotBeExtendedError } from './errors/CannotBeExtendedError.js'
