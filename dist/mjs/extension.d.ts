@@ -47,6 +47,37 @@ export class Extension extends Patch {
      */
     constructor(keyClassOrFn: Function | string, value: any, owner?: object | undefined, options?: object | undefined);
     key: string | null;
+    class: any;
+    function: any;
+    /**
+     * Returns true if this `Extension` represents a `function`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a `function`, or
+     * `false` if it does not
+     */
+    get isFunction(): boolean;
+    /**
+     * Returns true if this `Extension` represents a `class`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a `class`, or
+     * `false` if it does not
+     */
+    get isClass(): boolean;
+    /**
+     * Returns true if this `Extension` represents a `primitive`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a
+     * primitive value or `false` if it does not.
+     */
+    get isPrimitive(): boolean;
+    /**
+     * Returns true if this `Extension` represents a value that is not
+     * coerced into an `Object` wrapper when wrapped with `Object(value)`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a value
+     * that is alrady an `object`, `false` otherwise.
+     */
+    get isObject(): boolean;
     /**
      * Custom getter for the toStringTag symbol. Provides the class name when the
      * object is converted to a string, typically used for debugging and logging.

@@ -1,6 +1,8 @@
 import { CannotBeExtendedError } from "./errors/CannotBeExtendedError.js";
 import { MissingOwnerValue } from './errors/MissingOwnerValue.js';
 import { Patch } from './patch.js';
+/** Shared array of primitive types for use with `isPrimitive` */
+const primitives = ['number', 'boolean', 'bigint', 'string', 'symbol'];
 /**
  * The Extension class, inheriting from the Patch class, is specifically designed
  * for extending properties or methods of a given object. It facilitates the
@@ -32,7 +34,8 @@ export class Extension extends Patch {
      * thrown.
      */
     constructor(keyClassOrFn, value, owner = globalThis, options = {}) {
-        let { key, extension, valid } = Extension.determineInput(keyClassOrFn);
+        const metadata = Extension.determineInput(keyClassOrFn);
+        let { key, extension, valid } = metadata;
         extension = value || extension;
         if (!valid) {
             throw new MissingOwnerValue(owner, key);
@@ -46,6 +49,41 @@ export class Extension extends Patch {
         }
         super(owner, { [key]: extension }, options);
         this.key = key;
+        this.class = metadata.class;
+        this.function = metadata.function;
+    }
+    /**
+     * Returns true if this `Extension` represents a `function`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a `function`, or
+     * `false` if it does not
+     */
+    get isFunction() { return !!(this.function); }
+    /**
+     * Returns true if this `Extension` represents a `class`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a `class`, or
+     * `false` if it does not
+     */
+    get isClass() { return !!(this.class); }
+    /**
+     * Returns true if this `Extension` represents a `primitive`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a
+     * primitive value or `false` if it does not.
+     */
+    get isPrimitive() {
+        return ~primitives.indexOf(typeof this.value);
+    }
+    /**
+     * Returns true if this `Extension` represents a value that is not
+     * coerced into an `Object` wrapper when wrapped with `Object(value)`
+     *
+     * @returns {boolean} `true` if this `Extension` introduces a value
+     * that is alrady an `object`, `false` otherwise.
+     */
+    get isObject() {
+        return Object(this.value) === this.value;
     }
     /**
      * Determines the input type for the extension. This method processes the input
@@ -62,7 +100,17 @@ export class Extension extends Patch {
     static determineInput(keyClassOrFn) {
         let input = { key: null, extension: null, valid: false };
         if (keyClassOrFn instanceof Function) {
-            input = { key: keyClassOrFn.name, extension: keyClassOrFn, valid: true };
+            input = {
+                key: keyClassOrFn.name,
+                extension: keyClassOrFn,
+                valid: true
+            };
+            if (/^class .*/.exec(keyClassOrFn.toString())) {
+                input.class = keyClassOrFn;
+            }
+            if (/^(async )?function .*/.exec(keyClassOrFn.toString())) {
+                input.function = keyClassOrFn;
+            }
         }
         else if (typeof keyClassOrFn === 'string' || keyClassOrFn instanceof String) {
             input = { key: keyClassOrFn, extension: null, valid: true };
