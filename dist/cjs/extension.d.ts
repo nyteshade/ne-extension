@@ -26,6 +26,34 @@ export class Extension extends Patch {
         valid: boolean;
     };
     /**
+     * Creates a new ExtensionSet with the provided name and extensions.
+     *
+     * @param {string} name - The name of the extension set.
+     * @param {...Extension|Function} extensions - A list of extensions or
+     * functions to include in the set.
+     * @returns {ExtensionSet} A new instance of ExtensionSet containing the
+     * given extensions.
+     */
+    static createSet(name: string, ...extensions: (Extension | Function)[]): ExtensionSet;
+    /**
+     * Represents a set of extensions.
+     */
+    static ExtensionSet: {
+        new (name: string, ...extensions: (Extension | Function)[]): {
+            name: string;
+            extensionObjects: Set<any>;
+            extensions: Set<any>;
+            /**
+             * Applies all extensions in the set.
+             */
+            apply(): void;
+            /**
+             * Reverts all extensions in the set.
+             */
+            revert(): void;
+        };
+    };
+    /**
      * Constructs a new Extension instance. This constructor initializes the extension
      * by determining the target key and value for the extension and ensuring that
      * the property to be extended is configurable and writable. It throws an error

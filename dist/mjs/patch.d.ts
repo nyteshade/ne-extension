@@ -25,6 +25,22 @@ export class Patch {
      */
     static disableFor(owner: object): void;
     /**
+     * A getter for the custom inspect symbol used by Node.js.
+     *
+     * @returns {symbol} The custom inspect symbol.
+     */
+    static get CustomInspect(): symbol;
+    /**
+     * Strips leading and trailing control characters, brackets, braces, and
+     * quotes from a string. This is typically used to clean strings that may
+     * have special characters or escape sequences that are not desired in the
+     * output.
+     *
+     * @param {string} fromString The string to be stripped of extras.
+     * @returns {string} The cleaned string with extras stripped.
+     */
+    static stripExtras(fromString: string): string;
+    /**
      * Constructs a new Patch instance. Supported options for Patch instances
      * include either a global condition for the Patch to be applied or
      * specific property conditions subjecting only a subset of the patches

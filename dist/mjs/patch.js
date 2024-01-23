@@ -439,5 +439,27 @@ export class Patch {
             }
         }
     }
+    /**
+     * A getter for the custom inspect symbol used by Node.js.
+     *
+     * @returns {symbol} The custom inspect symbol.
+     */
+    static get CustomInspect() {
+        return Symbol.for('nodejs.util.inspect.custom');
+    }
+    /**
+     * Strips leading and trailing control characters, brackets, braces, and
+     * quotes from a string. This is typically used to clean strings that may
+     * have special characters or escape sequences that are not desired in the
+     * output.
+     *
+     * @param {string} fromString The string to be stripped of extras.
+     * @returns {string} The cleaned string with extras stripped.
+     */
+    static stripExtras(fromString) {
+        return fromString
+            .replaceAll(/^(\x1B\[\d+m)?[\[\{]\s?|\s?[\]\}](\x1B\[\d+m)?$/gm, '$1$2')
+            .replaceAll(/['"](.*?)['"]/gm, '$1');
+    }
 }
 //# sourceMappingURL=patch.js.map

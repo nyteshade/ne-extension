@@ -148,6 +148,61 @@ class Extension extends patch_js_1.Patch {
     get [Symbol.toStringTag]() {
         return this.constructor.name;
     }
+    /**
+     * Creates a new ExtensionSet with the provided name and extensions.
+     *
+     * @param {string} name - The name of the extension set.
+     * @param {...Extension|Function} extensions - A list of extensions or
+     * functions to include in the set.
+     * @returns {ExtensionSet} A new instance of ExtensionSet containing the
+     * given extensions.
+     */
+    static createSet(name, ...extensions) {
+        return new Extension.ExtensionSet(name, ...extensions);
+    }
 }
 exports.Extension = Extension;
+/**
+ * Represents a set of extensions.
+ */
+Extension.ExtensionSet = class ExtensionSet {
+    /**
+     * Creates an instance of ExtensionSet.
+     *
+     * @param {string} name - The name of the extension set.
+     * @param {...(Extension|Function)} extensions - Extensions or functions to
+     * add to the set.
+     */
+    constructor(name, ...extensions) {
+        this.name = name;
+        this.extensionObjects = new Set();
+        this.extensions = new Set();
+        for (const extensionValue of extensions) {
+            if (extensionValue instanceof Extension) {
+                this.extensions.add(extensionValue);
+                this.extensionObjects.add(extensionValue.patches[extensionValue.key]);
+            }
+            else if (extensionValue instanceof Function) {
+                this.extensionObjects.add(extensionValue);
+                this.extensions.add(new Extension(extensionValue));
+            }
+        }
+    }
+    /**
+     * Applies all extensions in the set.
+     */
+    apply() {
+        for (const extension of this.extensions) {
+            extension.apply();
+        }
+    }
+    /**
+     * Reverts all extensions in the set.
+     */
+    revert() {
+        for (const extension of this.extensions) {
+            extension.revert();
+        }
+    }
+};
 //# sourceMappingURL=extension.js.map
