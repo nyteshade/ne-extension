@@ -3,7 +3,7 @@ export { Patch } from "./patch.js";
 export { PatchEntry } from "./patchentry.js";
 export { PatchToggle } from "./patchtoggle.js";
 export namespace Errors {
-    let CannotBeExtended: typeof CannotBeExtendedError;
-    let MissingOwnerValue: typeof import("./errors/MissingOwnerValue.js").MissingOwnerValue;
+    const CannotBeExtended: typeof CannotBeExtendedError;
+    const MissingOwnerValue: typeof import("./errors/MissingOwnerValue.js").MissingOwnerValue;
 }
 import { CannotBeExtendedError } from './errors/CannotBeExtendedError.js';

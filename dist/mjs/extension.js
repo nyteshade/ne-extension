@@ -127,7 +127,14 @@ export class Extension extends Patch {
      * @returns {string} A formatted string representing the Extension instance.
      */
     [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
-        return `Extension<${this.key}>`;
+        const exprs = {
+            get braces() { return /^(\x1B\[\d+m)?[\[\{]|[\]\}](\x1B\[\d+m)?$/g; },
+            get quotes() { return /^(\x1B\[\d+m)?['"]|["'](\x1B\[\d+m)?$/g; },
+        };
+        const key = inspect(this.key, options).replaceAll(exprs.quotes, '$1$2');
+        const val = (inspect(this.patches[this.key], options)
+            .replaceAll(exprs.braces, '$1$2'));
+        return `Extension[${key}:${val}]`;
     }
     /**
      * Custom getter for the toStringTag symbol. Provides the class name when the

@@ -57,10 +57,45 @@ export class Patch {
      * @param {object} [options={}] Additional options for patching behavior.
      */
     constructor(owner: object, patches: object, options?: object | undefined);
-    patchConflicts: {};
-    patchEntries: {};
+    /**
+     * A record of conflicts between existing and patched properties or methods.
+     * This object maps property names to their respective PatchEntry instances,
+     * which contain information about the original and patched values.
+     *
+     * @type {object}
+     */
+    patchConflicts: object;
+    /**
+     * An object to store patch entries. Each key corresponds to a property or
+     * method name on the owner object, and the value is the associated
+     * PatchEntry instance which contains the patched and original values.
+     *
+     * @type {object}
+     */
+    patchEntries: object;
+    /**
+     * The object containing the patches to be applied to the owner. It is
+     * initially undefined and will be populated with the patches passed to the
+     * constructor.
+     *
+     * @type {object}
+     */
     patchesOwner: object;
+    /**
+     * The count of patches that have been applied. This is incremented
+     * each time a patch is applied and decremented when a patch is
+     * reverted.
+     *
+     * @type {number}
+     */
     patchCount: number;
+    /**
+     * The number of patches that have been successfully applied. This count
+     * is incremented after each successful patch application and decremented
+     * when a patch is reverted.
+     *
+     * @type {number}
+     */
     patchesApplied: number;
     /**
      * Retrieves the patch entries as an array of [key, patchEntry] pairs.
@@ -78,6 +113,16 @@ export class Patch {
      * computed patchEntry value.
      */
     get patches(): object;
+    /**
+     * Retrieves an array of patch keys.
+     *
+     * This getter returns an array containing only the keys of the patch entries,
+     * which can be useful for iterating over the patches or checking for the
+     * existence of specific patches by key.
+     *
+     * @returns {string[]} An array of patch keys.
+     */
+    get patchKeys(): string[];
     /**
      * Retrieves the conflict entries (existing properties on the owner that
      * will be overridden by patches) as an array of [key, patchEntry] pairs.

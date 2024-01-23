@@ -50,6 +50,46 @@ class Patch {
     constructor(owner, patches, options = {}) {
         _Patch_instances.add(this);
         /**
+         * A record of conflicts between existing and patched properties or methods.
+         * This object maps property names to their respective PatchEntry instances,
+         * which contain information about the original and patched values.
+         *
+         * @type {object}
+         */
+        this.patchConflicts = {};
+        /**
+         * An object to store patch entries. Each key corresponds to a property or
+         * method name on the owner object, and the value is the associated
+         * PatchEntry instance which contains the patched and original values.
+         *
+         * @type {object}
+         */
+        this.patchEntries = {};
+        /**
+         * The object containing the patches to be applied to the owner. It is
+         * initially undefined and will be populated with the patches passed to the
+         * constructor.
+         *
+         * @type {object}
+         */
+        this.patchesOwner = undefined;
+        /**
+         * The count of patches that have been applied. This is incremented
+         * each time a patch is applied and decremented when a patch is
+         * reverted.
+         *
+         * @type {number}
+         */
+        this.patchCount = 0;
+        /**
+         * The number of patches that have been successfully applied. This count
+         * is incremented after each successful patch application and decremented
+         * when a patch is reverted.
+         *
+         * @type {number}
+         */
+        this.patchesApplied = 0;
+        /**
          * The object to which the patches are applied.
          */
         this.owner = null;
@@ -61,11 +101,7 @@ class Patch {
             owner,
             options,
         });
-        this.patchConflicts = {};
-        this.patchEntries = {};
         this.patchesOwner = patches;
-        this.patchCount = 0;
-        this.patchesApplied = 0;
         const globalCondition = this?.options.condition;
         Reflect.ownKeys(patches).forEach(key => {
             const condition = this?.options?.conditions?.[key] ?? globalCondition;
@@ -114,6 +150,18 @@ class Patch {
             acc[key] = patchEntry.computed;
             return acc;
         }, {});
+    }
+    /**
+     * Retrieves an array of patch keys.
+     *
+     * This getter returns an array containing only the keys of the patch entries,
+     * which can be useful for iterating over the patches or checking for the
+     * existence of specific patches by key.
+     *
+     * @returns {string[]} An array of patch keys.
+     */
+    get patchKeys() {
+        return this.entries.map(([key, _]) => key);
     }
     /**
      * Retrieves the conflict entries (existing properties on the owner that
@@ -316,6 +364,46 @@ class Patch {
         patches.splice(patches.find(e => e === this), 1);
     }
     /**
+     * Custom inspection function for Node.js that is called when `util.inspect`
+     * is used to convert the instance to a string. This allows for customizing
+     * the output of `util.inspect` for objects of this class.
+     *
+     * @param {number} depth The current depth of the inspection. If the depth
+     * is less than the recurse times set, it will return the object itself,
+     * otherwise it will return the inspected result.
+     * @param {object} options An object containing options for the inspection.
+     * @param {function} inspect The inspection function provided by Node.js
+     * that can be called to inspect other properties with the same options as
+     * the original call.
+     * @returns {string} A string representation of the instance tailored for
+     * Node.js' `util.inspect`.
+     */
+    [(_Patch_instances = new WeakSet(), _Patch_equalDescriptors = function _Patch_equalDescriptors(left, right) {
+        if (!left || !right) {
+            return false;
+        }
+        return (left.configurable === right.configurable &&
+            left.enumerable === right.enumerable &&
+            left.value === right.value &&
+            left.writable === right.writable &&
+            left.get === right.get &&
+            left.set === right.set);
+    }, Symbol.for('nodejs.util.inspect.custom'))](depth, options, inspect) {
+        const exprs = {
+            get quotes() { return /^(\x1B\[\d+m)?['"]|["'](\x1B\[\d+m)?$/g; },
+            get arrays() { return /^(\x1B\[\d+m)?\[ | \](\x1B\[\d+m)?$/g; },
+        };
+        const opts = { ...options, depth };
+        const type = this.owner?.name ?? '';
+        const name = (type.length
+            ? `[${inspect(type, options).replaceAll(exprs.quotes, '$1$2')}]`
+            : '');
+        const keys = (inspect(this.patchKeys, opts)
+            .replaceAll(exprs.arrays, '$1$2')
+            .replaceAll(/'(.*?)'/g, "$1"));
+        return `${this.constructor.name}${name} { ${keys} }`;
+    }
+    /**
      * Applies all patches associated with a given owner object. This method
      * is used to enable all patches for a specific owner if they have been
      * previously registered.
@@ -345,19 +433,6 @@ class Patch {
     }
 }
 exports.Patch = Patch;
-_Patch_instances = new WeakSet(), _Patch_equalDescriptors = function _Patch_equalDescriptors(left, right) {
-    if (!left || !right) {
-        return false;
-    }
-    let circuit = true;
-    circuit = circuit && left.configurable === right.configurable;
-    circuit = circuit && left.enumerable === right.enumerable;
-    circuit = circuit && left.value === right.value;
-    circuit = circuit && left.writable === right.writable;
-    circuit = circuit && left.get === right.get;
-    circuit = circuit && left.set === right.set;
-    return circuit;
-};
 /**
  * A global mapping of all patches in play
  */

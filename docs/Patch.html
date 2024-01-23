@@ -362,7 +362,7 @@ be patched onto the owner.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line127">line 127</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line181">line 181</a>
     </li></ul></dd>
     
 
@@ -430,7 +430,7 @@ will be overridden by patches) as an array of [key, patchEntry] pairs.</p></li><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line116">line 116</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -498,7 +498,7 @@ will be overridden by patches) as an array of [key, patchEntry] pairs.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line88">line 88</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -566,7 +566,7 @@ of applied patches.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line146">line 146</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line200">line 200</a>
     </li></ul></dd>
     
 
@@ -634,7 +634,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line136">line 136</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line190">line 190</a>
     </li></ul></dd>
     
 
@@ -701,7 +701,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line341">line 341</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line395">line 395</a>
     </li></ul></dd>
     
 
@@ -768,7 +768,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line336">line 336</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line390">line 390</a>
     </li></ul></dd>
     
 
@@ -820,6 +820,325 @@ of applied patches.</p>
 
         
             
+<h4 class="name" id="patchConflicts"><span class="type-signature"></span>patchConflicts<span class="type-signature"> :object</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>A record of conflicts between existing and patched properties or methods.<br>
+This object maps property names to their respective PatchEntry instances,<br>
+which contain information about the original and patched values.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>A record of conflicts between existing and patched properties or methods.<br>
+This object maps property names to their respective PatchEntry instances,<br>
+which contain information about the original and patched values.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="patchCount"><span class="type-signature"></span>patchCount<span class="type-signature"> :number</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The count of patches that have been applied. This is incremented<br>
+each time a patch is applied and decremented when a patch is<br>
+reverted.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The count of patches that have been applied. This is incremented<br>
+each time a patch is applied and decremented when a patch is<br>
+reverted.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="patchEntries"><span class="type-signature"></span>patchEntries<span class="type-signature"> :object</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>An object to store patch entries. Each key corresponds to a property or<br>
+method name on the owner object, and the value is the associated<br>
+PatchEntry instance which contains the patched and original values.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>An object to store patch entries. Each key corresponds to a property or<br>
+method name on the owner object, and the value is the associated<br>
+PatchEntry instance which contains the patched and original values.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="patchKeys"><span class="type-signature"></span>patchKeys<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves an array of patch keys.</p>
+<p>This getter returns an array containing only the keys of the patch entries,<br>
+which can be useful for iterating over the patches or checking for the<br>
+existence of specific patches by key.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line160">line 160</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves an array of patch keys.</p>
+<p>This getter returns an array containing only the keys of the patch entries,<br>
+which can be useful for iterating over the patches or checking for the<br>
+existence of specific patches by key.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="patches"><span class="type-signature"></span>patches<span class="type-signature"></span></h4>
 
 
@@ -837,7 +1156,7 @@ the actual current patch value at the time patchValues is requested.</p></li></u
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line103">line 103</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -911,7 +1230,7 @@ the actual current patch value at the time patchValues is requested.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line363">line 363</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line462">line 462</a>
     </li></ul></dd>
     
 
@@ -955,6 +1274,170 @@ the actual current patch value at the time patchValues is requested.</p>
 </div>
 
 
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="patchesApplied"><span class="type-signature"></span>patchesApplied<span class="type-signature"> :number</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The number of patches that have been successfully applied. This count<br>
+is incremented after each successful patch application and decremented<br>
+when a patch is reverted.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The number of patches that have been successfully applied. This count<br>
+is incremented after each successful patch application and decremented<br>
+when a patch is reverted.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="patchesOwner"><span class="type-signature"></span>patchesOwner<span class="type-signature"> :object</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The object containing the patches to be applied to the owner. It is<br>
+initially undefined and will be populated with the patches passed to the<br>
+constructor.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The object containing the patches to be applied to the owner. It is<br>
+initially undefined and will be populated with the patches passed to the<br>
+constructor.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+
+        </li>
+    </ul>
 
 
 
@@ -1012,7 +1495,7 @@ be applied.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line186">line 186</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -1149,7 +1632,7 @@ any of the other logic be captured, if applied returns false</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line230">line 230</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line284">line 284</a>
     </li></ul></dd>
     
 
@@ -1324,7 +1807,7 @@ nothing else is holding a reference to it.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line328">line 328</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -1437,7 +1920,7 @@ something went wrong.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line274">line 274</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -1576,7 +2059,7 @@ previously applied.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line387">line 387</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line486">line 486</a>
     </li></ul></dd>
     
 
@@ -1713,7 +2196,7 @@ previously registered.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line372">line 372</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line471">line 471</a>
     </li></ul></dd>
     
 
@@ -1847,7 +2330,7 @@ previously registered.</p></li></ul></dd>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Jan 19 2024 22:31:10 GMT-0600 (Central Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Jan 22 2024 22:48:22 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
