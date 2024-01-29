@@ -403,7 +403,7 @@ export class Patch {
    * @returns {Iterator} An iterator that yields `[key, patchEntry]` pairs.
    */
   [Symbol.iterator]() {
-    return this.patches.entries()
+    return this.entries.entries()
   }
 
   /**

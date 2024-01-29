@@ -372,7 +372,7 @@ class Patch {
      * @returns {Iterator} An iterator that yields `[key, patchEntry]` pairs.
      */
     [(_Patch_instances = new WeakSet(), Symbol.iterator)]() {
-        return this.patches.entries();
+        return this.entries.entries();
     }
     /**
      * Custom inspection function for Node.js that is called when `util.inspect`

@@ -362,7 +362,7 @@ export class Patch {
      * @returns {Iterator} An iterator that yields `[key, patchEntry]` pairs.
      */
     [Symbol.iterator]() {
-        return this.patches.entries();
+        return this.entries.entries();
     }
     /**
      * Compares two property descriptor objects to determine if they are equivalent.
