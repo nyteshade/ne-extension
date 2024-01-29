@@ -354,6 +354,17 @@ export class Patch {
      */
     options = null;
     /**
+     * Creates an iterator for the patch entries, allowing the `Patch` instance to
+     * be directly iterable using a `for...of` loop. Each iteration will yield a
+     * `[key, patchEntry]` pair, where `key` is the property name and `patchEntry`
+     * is the corresponding `PatchEntry` instance.
+     *
+     * @returns {Iterator} An iterator that yields `[key, patchEntry]` pairs.
+     */
+    [Symbol.iterator]() {
+        return this.patches.entries();
+    }
+    /**
      * Compares two property descriptor objects to determine if they are equivalent.
      *
      * This method checks if both descriptors have the same value for the

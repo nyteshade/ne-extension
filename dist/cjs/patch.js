@@ -364,6 +364,17 @@ class Patch {
         patches.splice(patches.find(e => e === this), 1);
     }
     /**
+     * Creates an iterator for the patch entries, allowing the `Patch` instance to
+     * be directly iterable using a `for...of` loop. Each iteration will yield a
+     * `[key, patchEntry]` pair, where `key` is the property name and `patchEntry`
+     * is the corresponding `PatchEntry` instance.
+     *
+     * @returns {Iterator} An iterator that yields `[key, patchEntry]` pairs.
+     */
+    [(_Patch_instances = new WeakSet(), Symbol.iterator)]() {
+        return this.patches.entries();
+    }
+    /**
      * Custom inspection function for Node.js that is called when `util.inspect`
      * is used to convert the instance to a string. This allows for customizing
      * the output of `util.inspect` for objects of this class.
@@ -378,7 +389,7 @@ class Patch {
      * @returns {string} A string representation of the instance tailored for
      * Node.js' `util.inspect`.
      */
-    [(_Patch_instances = new WeakSet(), _Patch_equalDescriptors = function _Patch_equalDescriptors(left, right) {
+    [(_Patch_equalDescriptors = function _Patch_equalDescriptors(left, right) {
         if (!left || !right) {
             return false;
         }
