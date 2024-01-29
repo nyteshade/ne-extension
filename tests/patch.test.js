@@ -208,6 +208,29 @@ describe('Patch Class Tests', () => {
     });
   });
 
+  describe('should be iterable', () => {
+    it('should allow iteration via for loop', () => {
+      patch.apply();
+
+      const knownKeys = ['originalProp', 'patchedProp'];
+
+      for (let [key, value] of patch) {
+        expect(knownKeys.some(k => k === key))
+      }
+
+      patch.revert();
+    })
+
+    it('should be convertible to an array', () => {
+      patch.apply() ;
+
+      const entries = Array.from(patch);
+
+      expect(entries[0][0]).toMatch(/originalProp|patchedProp/)
+      expect(entries[1][0]).toMatch(/originalProp|patchedProp/)
+    })
+  })
+
   describe('disableFor method', () => {
     it('should revert all patches for a given owner', () => {
       Patch.enableFor(owner);
