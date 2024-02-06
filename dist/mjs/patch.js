@@ -397,6 +397,7 @@ export class Patch {
             if (successful) {
                 this.patchesApplied -= 1;
                 counts.reverted += 1;
+                this.patchState.set(patch, false);
             }
             else {
                 counts.errors.push([patch, new Error(`Failed to revert patch ${patch.key}`)]);

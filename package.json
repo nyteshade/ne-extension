@@ -1,6 +1,6 @@
 {
   "author": "Brielle Harrison <nyteshade at gmail.com>",
-  "browser": "dist/@nejs/extension.bundle.2.5.0.js",
+  "browser": "dist/@nejs/extension.bundle.2.6.0.js",
   "description": "A small library for extending existing JavaScript",
   "devDependencies": {
     "@jest/expect": "^29.7.0",
