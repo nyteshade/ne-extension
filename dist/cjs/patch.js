@@ -4,7 +4,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Patch_instances, _Patch_equalDescriptors;
+var _Patch_instances, _a, _Patch_equalDescriptors, _Patch_allPatchesForOwner;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Patch = void 0;
 const patchtoggle_js_1 = require("./patchtoggle.js");
@@ -97,6 +97,12 @@ class Patch {
          * Additional options for patching behavior.
          */
         this.options = null;
+        /**
+         * Patches that are currently live and active will have true as their
+         * value and inert or non-applied patches will have false as their
+         * value. The key is always the associated {@link PatchEntry}.
+         */
+        this.patchState = new Map();
         Object.assign(this, {
             owner,
             options,
@@ -121,10 +127,10 @@ class Patch {
                 }
             }
         });
-        if (!Patch.patches.has(owner)) {
-            Patch.patches.set(owner, []);
+        if (!_a.patches.has(owner)) {
+            _a.patches.set(owner, []);
         }
-        Patch.patches.get(owner).push(this);
+        _a.patches.get(owner).push(this);
     }
     /**
      * Retrieves the patch entries as an array of [key, patchEntry] pairs.
@@ -133,6 +139,42 @@ class Patch {
      */
     get entries() {
         return Reflect.ownKeys(this.patchEntries).map(key => {
+            return [key, this.patchEntries[key]];
+        });
+    }
+    /**
+     * Retrieves an array of patch entries that have been successfully applied.
+     * Each entry is a key-value pair array where the key is the patch identifier
+     * and the value is the corresponding `PatchEntry` object. Only patches with
+     * a state of `true` in `patchState` are included, indicating they are
+     * currently applied to the owner object.
+     *
+     * @returns {Array} An array of [key, patchEntry]
+     * pairs representing the applied patches.
+     */
+    get appliedEntries() {
+        return Reflect.
+            ownKeys(this.patchEntries).
+            filter(key => this.patchState.get(key) === true).
+            map(key => {
+            return [key, this.patchEntries[key]];
+        });
+    }
+    /**
+     * Retrieves an array of patch entries that have not been applied. Each entry
+     * is a key-value pair array where the key is the patch identifier and the
+     * value is the corresponding `PatchEntry` object. Only patches with a state
+     * of `false` in `patchState` are included, indicating they are not currently
+     * applied to the owner object.
+     *
+     * @returns {Array} An array of [key, patchEntry]
+     * pairs representing the unapplied patches.
+     */
+    get unappliedEntries() {
+        return Reflect.
+            ownKeys(this.patchEntries).
+            filter(key => this.patchState.get(key) === false).
+            map(key => {
             return [key, this.patchEntries[key]];
         });
     }
@@ -148,6 +190,45 @@ class Patch {
     get patches() {
         return this.entries.reduce((acc, [key, patchEntry]) => {
             acc[key] = patchEntry.computed;
+            return acc;
+        }, {});
+    }
+    /**
+     * Retrieves an object containing all patches that have been successfully
+     * applied. The object's keys are the patch keys, and the values are the
+     * computed values of the corresponding patch entries. Only patches with
+     * a state of `true` in `patchState` are considered applied.
+     *
+     * @returns {object} An object mapping each applied patch key to its
+     * computed value.
+     */
+    get appliedPatches() {
+        return this.entries.reduce((acc, [key, patchEntry]) => {
+            if (this.patchState.get(key) === true) {
+                acc[key] = patchEntry.computed;
+            }
+            return acc;
+        }, {});
+    }
+    /**
+     * Retrieves an object containing all patches that have not been applied.
+     * The object's keys are the patch keys, and the values are the computed
+     * values of the corresponding patch entries. Only patches with a state
+     * of `false` in `patchState` are considered unapplied.
+     *
+     * @example
+     * // Assuming `patch` is an instance of `Patch` and `patch1` is unapplied:
+     * let unapplied = patch.unappliedPatches;
+     * console.log(unapplied); // { patch1: computedValueOfPatch1 }
+     *
+     * @returns {object} An object mapping each unapplied patch key to its
+     * computed value.
+     */
+    get unappliedPatches() {
+        return this.entries.reduce((acc, [key, patchEntry]) => {
+            if (this.patchState.get(key) === false) {
+                acc[key] = patchEntry.computed;
+            }
             return acc;
         }, {});
     }
@@ -243,6 +324,7 @@ class Patch {
             errors: [],
             notApplied: entries.length,
         };
+        this.patchState.clear();
         entries.forEach(([, patch]) => {
             if (patch.isAllowed) {
                 // Patch
@@ -252,10 +334,15 @@ class Patch {
                 if (__classPrivateFieldGet(this, _Patch_instances, "m", _Patch_equalDescriptors).call(this, oDesc, patch.descriptor)) {
                     counts.applied += 1;
                     counts.notApplied -= 1;
+                    this.patchState.set(patch, true);
                 }
                 else {
                     counts.errors.push([patch, new Error(`Could not apply patch for key ${patch.key}`)]);
+                    this.patchState.set(patch, false);
                 }
+            }
+            else {
+                this.patchState.set(patch, false);
             }
         });
         this.patchesApplied = counts.applied;
@@ -360,7 +447,7 @@ class Patch {
      * nothing else is holding a reference to it.
      */
     release() {
-        const patches = Patch.patches.get(this.owner);
+        const patches = _a.patches.get(this.owner);
         patches.splice(patches.find(e => e === this), 1);
     }
     /**
@@ -422,8 +509,8 @@ class Patch {
      * @param {object} owner The object whose patches are to be applied.
      */
     static enableFor(owner) {
-        if (Patch.patches.has(owner)) {
-            for (const patch of Patch.patches.get(owner)) {
+        if (_a.patches.has(owner)) {
+            for (const patch of _a.patches.get(owner)) {
                 patch.apply();
             }
         }
@@ -436,11 +523,105 @@ class Patch {
      * @param {object} owner The object whose patches are to be reverted.
      */
     static disableFor(owner) {
-        if (Patch.patches.has(owner)) {
-            for (const patch of Patch.patches.get(owner)) {
+        if (_a.patches.has(owner)) {
+            for (const patch of _a.patches.get(owner)) {
                 patch.revert();
             }
         }
+    }
+    /**
+     * A static getter that provides a proxy to manage and interact with the
+     * patches that have been applied globally. This proxy abstracts the
+     * underlying details and presents a simplified interface for querying and
+     * manipulating applied patches. It is particularly useful in IDEs, as it
+     * allows developers to access the state of applied patches without needing
+     * to delve into the source code.
+     *
+     * @returns {Object} An object showing all the keys known to be patched for
+     * the default owner, `globalThis`
+     */
+    static get applied() {
+        return __classPrivateFieldGet(this, _a, "m", _Patch_allPatchesForOwner).call(this, globalThis, true);
+    }
+    /**
+     * A static getter that provides access to a proxy representing all known
+     * patches, whether applied or not. This is useful for inspecting the
+     * complete set of patches that have been registered in the system, without
+     * limiting the view to only those that are currently active. The proxy
+     * abstracts the underlying details and presents a simplified interface for
+     * querying and manipulating the patches.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of all
+     * registered patches, allowing for operations like checking if a patch is
+     * known and retrieving patch values.
+     */
+    static get known() {
+        return __classPrivateFieldGet(this, _a, "m", _Patch_allPatchesForOwner).call(this, globalThis, false);
+    }
+    /**
+     * A static getter that provides access to a proxy for managing patch
+     * entries with a toggle functionality. This proxy allows the temporary
+     * application of patches within a certain scope, and automatically reverts
+     * them after the scope ends. It is useful for applying patches in a
+     * controlled manner, ensuring that they do not remain active beyond the
+     * intended usage.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of the
+     * patches with toggle functionality, allowing for temporary application
+     * and automatic reversion of patches.
+     */
+    static get use() {
+        return __classPrivateFieldGet(this, _a, "m", _Patch_allPatchesForOwner).call(this, globalThis, false, true);
+    }
+    /**
+     * Returns an object with getters to access different proxy views of patches
+     * scoped to a specific owner. This allows for interaction with patches
+     * that are either applied, known, or used within a certain scope, providing
+     * a controlled environment for patch management.
+     *
+     * @param {object} owner - The object to scope the patch proxies to.
+     * @returns {object} An object containing getters for `applied`, `known`,
+     * and `use` proxies:
+     * - `applied`: Proxy for patches applied to the owner.
+     * - `known`: Proxy for all patches known to the owner, applied or not.
+     * - `use`: Proxy that allows temporary application of patches.
+     */
+    static scopedTo(owner) {
+        const allForOwner = (owner, appliedOnly, wrapInToggle = false) => {
+            return __classPrivateFieldGet(this, _a, "m", _Patch_allPatchesForOwner).call(this, owner, appliedOnly, wrapInToggle);
+        };
+        return {
+            /**
+             * Getter for a proxy that represents patches applied to the owner.
+             * This proxy provides a simplified interface for interacting with
+             * applied patches, such as checking their status or retrieving values.
+             *
+             * @returns {Proxy} A proxy to the applied patches.
+             */
+            get applied() {
+                return allForOwner(owner, true, false);
+            },
+            /**
+             * Getter for a proxy that represents all patches known to the owner,
+             * whether they are applied or not. This proxy allows for querying
+             * and manipulation of the patches without directly accessing them.
+             *
+             * @returns {Proxy} A proxy to all known patches.
+             */
+            get known() {
+                return allForOwner(owner, false, false);
+            },
+            /**
+             * Getter for a proxy that enables temporary application of patches
+             * within a certain scope. The patches are automatically reverted
+             * after the scope ends, ensuring controlled usage.
+             *
+             * @returns {Proxy} A proxy to patches with toggle functionality.
+             */
+            get use() {
+                return allForOwner(owner, false, true);
+            }
+        };
     }
     /**
      * A getter for the custom inspect symbol used by Node.js.
@@ -466,6 +647,50 @@ class Patch {
     }
 }
 exports.Patch = Patch;
+_a = Patch, _Patch_allPatchesForOwner = function _Patch_allPatchesForOwner(owner, onlyApplied, wrapInToggle = false) {
+    return [..._a.patches.values()].
+        flat().
+        filter(patch => patch.owner === owner).
+        reduce((accumulator, patch) => {
+        for (const [, patchEntry] of patch.entries) {
+            if (onlyApplied && patch.patchState.get(patchEntry) !== true) {
+                continue;
+            }
+            if (wrapInToggle) {
+                accumulator[patchEntry.key] = async (usage) => {
+                    if (typeof usage !== 'function') {
+                        return;
+                    }
+                    const type = Object.prototype.toString.call(usage);
+                    const toggle = patch.createToggle();
+                    toggle.start();
+                    if ('[object AsyncFunction]' === type) {
+                        await usage(patchEntry.computed, patchEntry);
+                    }
+                    else {
+                        usage(patchEntry.computed, patchEntry);
+                    }
+                    toggle.stop();
+                };
+                continue;
+            }
+            if (patchEntry.isAccessor) {
+                let dynName = `applyAccessorFor_${String(patchEntry.key)}`;
+                let dynNameContainer = {
+                    [dynName](applyTo) {
+                        patchEntry.applyTo(applyTo);
+                        return applyTo;
+                    }
+                };
+                accumulator[patchEntry.key] = dynNameContainer[dynName];
+            }
+            else {
+                patchEntry.applyTo(accumulator);
+            }
+        }
+        return accumulator;
+    }, {});
+};
 /**
  * A global mapping of all patches in play
  */

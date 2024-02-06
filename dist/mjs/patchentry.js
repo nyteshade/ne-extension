@@ -91,6 +91,30 @@ export class PatchEntry {
         return validAndPresent ? this.condition() : true;
     }
     /**
+     * Applies the patch entry to a given object. This method takes the
+     * descriptor from the current patch entry and defines it on the target
+     * object. If `bindAccessors` is true and the descriptor contains accessor
+     * methods (getters/setters), they will be bound to the original owner of
+     * the patch before being applied to ensure the correct `this` context.
+     *
+     * @param {object} anotherObject - The object to which the patch will be
+     * applied.
+     * @param {boolean} [bindAccessors=false] - Whether to bind accessor methods
+     * to the patch's owner.
+     */
+    applyTo(anotherObject, bindAccessors = false) {
+        const descriptor = { ...this.descriptor };
+        if (bindAccessors) {
+            if (typeof descriptor.get === 'function') {
+                descriptor.get = descriptor.get.bind(this.owner);
+            }
+            if (typeof descriptor.set === 'function') {
+                descriptor.set = descriptor.set.bind(this.owner);
+            }
+        }
+        Object.defineProperty(anotherObject, this.key, descriptor);
+    }
+    /**
      * Custom getter for the toStringTag symbol. Provides the class name of
      * the PatchEntry instance.
      *

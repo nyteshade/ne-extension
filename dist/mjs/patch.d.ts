@@ -25,6 +25,79 @@ export class Patch {
      */
     static disableFor(owner: object): void;
     /**
+     * A static getter that provides a proxy to manage and interact with the
+     * patches that have been applied globally. This proxy abstracts the
+     * underlying details and presents a simplified interface for querying and
+     * manipulating applied patches. It is particularly useful in IDEs, as it
+     * allows developers to access the state of applied patches without needing
+     * to delve into the source code.
+     *
+     * @returns {Object} An object showing all the keys known to be patched for
+     * the default owner, `globalThis`
+     */
+    static get applied(): Object;
+    /**
+     * A static getter that provides access to a proxy representing all known
+     * patches, whether applied or not. This is useful for inspecting the
+     * complete set of patches that have been registered in the system, without
+     * limiting the view to only those that are currently active. The proxy
+     * abstracts the underlying details and presents a simplified interface for
+     * querying and manipulating the patches.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of all
+     * registered patches, allowing for operations like checking if a patch is
+     * known and retrieving patch values.
+     */
+    static get known(): ProxyConstructor;
+    /**
+     * A static getter that provides access to a proxy for managing patch
+     * entries with a toggle functionality. This proxy allows the temporary
+     * application of patches within a certain scope, and automatically reverts
+     * them after the scope ends. It is useful for applying patches in a
+     * controlled manner, ensuring that they do not remain active beyond the
+     * intended usage.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of the
+     * patches with toggle functionality, allowing for temporary application
+     * and automatic reversion of patches.
+     */
+    static get use(): ProxyConstructor;
+    /**
+     * Returns an object with getters to access different proxy views of patches
+     * scoped to a specific owner. This allows for interaction with patches
+     * that are either applied, known, or used within a certain scope, providing
+     * a controlled environment for patch management.
+     *
+     * @param {object} owner - The object to scope the patch proxies to.
+     * @returns {object} An object containing getters for `applied`, `known`,
+     * and `use` proxies:
+     * - `applied`: Proxy for patches applied to the owner.
+     * - `known`: Proxy for all patches known to the owner, applied or not.
+     * - `use`: Proxy that allows temporary application of patches.
+     */
+    static scopedTo(owner: object): object;
+    /**
+     * Aggregates patches for a given owner into a single object, optionally
+     * filtering by applied status and wrapping in a toggle function.
+     *
+     * This method collects all patches associated with the specified owner
+     * and constructs an object where each patch is represented by its key.
+     * If `onlyApplied` is true, only patches that are currently applied will
+     * be included. If `wrapInToggle` is true, each patch will be represented
+     * as a function that temporarily applies the patch when called.
+     *
+     * @param {object} owner - The owner object whose patches are to be
+     * aggregated.
+     * @param {boolean} onlyApplied - If true, only include patches that
+     * are applied.
+     * @param {boolean} [wrapInToggle=false] - If true, wrap patches in a
+     * toggle function for temporary application.
+     * @returns {object} An object representing the aggregated patches, with
+     * each patch keyed by its property name.
+     * @private
+     */
+    private static "__#1@#allPatchesForOwner";
+    /**
      * A getter for the custom inspect symbol used by Node.js.
      *
      * @returns {symbol} The custom inspect symbol.
@@ -120,6 +193,28 @@ export class Patch {
      */
     get entries(): any[];
     /**
+     * Retrieves an array of patch entries that have been successfully applied.
+     * Each entry is a key-value pair array where the key is the patch identifier
+     * and the value is the corresponding `PatchEntry` object. Only patches with
+     * a state of `true` in `patchState` are included, indicating they are
+     * currently applied to the owner object.
+     *
+     * @returns {Array} An array of [key, patchEntry]
+     * pairs representing the applied patches.
+     */
+    get appliedEntries(): any[];
+    /**
+     * Retrieves an array of patch entries that have not been applied. Each entry
+     * is a key-value pair array where the key is the patch identifier and the
+     * value is the corresponding `PatchEntry` object. Only patches with a state
+     * of `false` in `patchState` are included, indicating they are not currently
+     * applied to the owner object.
+     *
+     * @returns {Array} An array of [key, patchEntry]
+     * pairs representing the unapplied patches.
+     */
+    get unappliedEntries(): any[];
+    /**
      * Depending on how the PatchEntry is configured, accessing the patch
      * by name can be somewhat irritating, so this provides an object with
      * the actual current patch value at the time patchValues is requested.
@@ -129,6 +224,31 @@ export class Patch {
      * computed patchEntry value.
      */
     get patches(): object;
+    /**
+     * Retrieves an object containing all patches that have been successfully
+     * applied. The object's keys are the patch keys, and the values are the
+     * computed values of the corresponding patch entries. Only patches with
+     * a state of `true` in `patchState` are considered applied.
+     *
+     * @returns {object} An object mapping each applied patch key to its
+     * computed value.
+     */
+    get appliedPatches(): object;
+    /**
+     * Retrieves an object containing all patches that have not been applied.
+     * The object's keys are the patch keys, and the values are the computed
+     * values of the corresponding patch entries. Only patches with a state
+     * of `false` in `patchState` are considered unapplied.
+     *
+     * @example
+     * // Assuming `patch` is an instance of `Patch` and `patch1` is unapplied:
+     * let unapplied = patch.unappliedPatches;
+     * console.log(unapplied); // { patch1: computedValueOfPatch1 }
+     *
+     * @returns {object} An object mapping each unapplied patch key to its
+     * computed value.
+     */
+    get unappliedPatches(): object;
     /**
      * Retrieves an array of patch keys.
      *
@@ -267,6 +387,12 @@ export class Patch {
      * Additional options for patching behavior.
      */
     options: null;
+    /**
+     * Patches that are currently live and active will have true as their
+     * value and inert or non-applied patches will have false as their
+     * value. The key is always the associated {@link PatchEntry}.
+     */
+    patchState: Map<any, any>;
     /**
      * Creates an iterator for the patch entries, allowing the `Patch` instance to
      * be directly iterable using a `for...of` loop. Each iteration will yield a

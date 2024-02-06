@@ -29,7 +29,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
     
 </nav>
 
@@ -362,7 +362,7 @@ be patched onto the owner.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line181">line 181</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line260">line 260</a>
     </li></ul></dd>
     
 
@@ -414,6 +414,154 @@ be patched onto the owner.</p></td>
 
         
             
+<h4 class="name" id="appliedEntries"><span class="type-signature"></span>appliedEntries<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves an array of patch entries that have been successfully applied.<br>
+Each entry is a key-value pair array where the key is the patch identifier<br>
+and the value is the corresponding <code>PatchEntry</code> object. Only patches with<br>
+a state of <code>true</code> in <code>patchState</code> are included, indicating they are<br>
+currently applied to the owner object.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line145">line 145</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves an array of patch entries that have been successfully applied.<br>
+Each entry is a key-value pair array where the key is the patch identifier<br>
+and the value is the corresponding <code>PatchEntry</code> object. Only patches with<br>
+a state of <code>true</code> in <code>patchState</code> are included, indicating they are<br>
+currently applied to the owner object.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="appliedPatches"><span class="type-signature"></span>appliedPatches<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves an object containing all patches that have been successfully<br>
+applied. The object's keys are the patch keys, and the values are the<br>
+computed values of the corresponding patch entries. Only patches with<br>
+a state of <code>true</code> in <code>patchState</code> are considered applied.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line198">line 198</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves an object containing all patches that have been successfully<br>
+applied. The object's keys are the patch keys, and the values are the<br>
+computed values of the corresponding patch entries. Only patches with<br>
+a state of <code>true</code> in <code>patchState</code> are considered applied.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="conflicts"><span class="type-signature"></span>conflicts<span class="type-signature"></span></h4>
 
 
@@ -430,7 +578,7 @@ will be overridden by patches) as an array of [key, patchEntry] pairs.</p></li><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line170">line 170</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line249">line 249</a>
     </li></ul></dd>
     
 
@@ -566,7 +714,7 @@ of applied patches.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line200">line 200</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line279">line 279</a>
     </li></ul></dd>
     
 
@@ -628,13 +776,13 @@ of applied patches.</p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Provided for semantics, but this method is synonymous with applied.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Provided for semantics, but this method is synonymous with <a href="global.html#applied">applied</a>.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line190">line 190</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -674,7 +822,7 @@ of applied patches.</p>
 
 
 <div class="description usertext">
-    <p>Provided for semantics, but this method is synonymous with applied.</p>
+    <p>Provided for semantics, but this method is synonymous with <a href="global.html#applied">applied</a>.</p>
 </div>
 
 
@@ -701,7 +849,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line395">line 395</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line483">line 483</a>
     </li></ul></dd>
     
 
@@ -768,7 +916,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line390">line 390</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line478">line 478</a>
     </li></ul></dd>
     
 
@@ -1084,7 +1232,7 @@ existence of specific patches by key.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line160">line 160</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -1139,6 +1287,77 @@ existence of specific patches by key.</p>
 
         
             
+<h4 class="name" id="patchState"><span class="type-signature"></span>patchState<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Patches that are currently live and active will have true as their<br>
+value and inert or non-applied patches will have false as their<br>
+value. The key is always the associated <a href="PatchEntry.html">PatchEntry</a>.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line490">line 490</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Patches that are currently live and active will have true as their<br>
+value and inert or non-applied patches will have false as their<br>
+value. The key is always the associated <a href="PatchEntry.html">PatchEntry</a>.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="patches"><span class="type-signature"></span>patches<span class="type-signature"></span></h4>
 
 
@@ -1156,7 +1375,7 @@ the actual current patch value at the time patchValues is requested.</p></li></u
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line144">line 144</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line182">line 182</a>
     </li></ul></dd>
     
 
@@ -1230,7 +1449,7 @@ the actual current patch value at the time patchValues is requested.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line474">line 474</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line569">line 569</a>
     </li></ul></dd>
     
 
@@ -1446,6 +1665,161 @@ constructor.</p>
 
         
             
+<h4 class="name" id="unappliedEntries"><span class="type-signature"></span>unappliedEntries<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves an array of patch entries that have not been applied. Each entry<br>
+is a key-value pair array where the key is the patch identifier and the<br>
+value is the corresponding <code>PatchEntry</code> object. Only patches with a state<br>
+of <code>false</code> in <code>patchState</code> are included, indicating they are not currently<br>
+applied to the owner object.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line164">line 164</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves an array of patch entries that have not been applied. Each entry<br>
+is a key-value pair array where the key is the patch identifier and the<br>
+value is the corresponding <code>PatchEntry</code> object. Only patches with a state<br>
+of <code>false</code> in <code>patchState</code> are included, indicating they are not currently<br>
+applied to the owner object.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="unappliedPatches"><span class="type-signature"></span>unappliedPatches<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves an object containing all patches that have not been applied.<br>
+The object's keys are the patch keys, and the values are the computed<br>
+values of the corresponding patch entries. Only patches with a state<br>
+of <code>false</code> in <code>patchState</code> are considered unapplied.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line221">line 221</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves an object containing all patches that have not been applied.<br>
+The object's keys are the patch keys, and the values are the computed<br>
+values of the corresponding patch entries. Only patches with a state<br>
+of <code>false</code> in <code>patchState</code> are considered unapplied.</p>
+</div>
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>// Assuming `patch` is an instance of `Patch` and `patch1` is unapplied:
+let unapplied = patch.unappliedPatches;
+console.log(unapplied); // { patch1: computedValueOfPatch1 }</code></pre>
+
+
+
+        
+            
 <h4 class="name" id=".CustomInspect"><span class="type-signature type-signature-static">(static) </span>CustomInspect<span class="type-signature"></span></h4>
 
 
@@ -1461,7 +1835,7 @@ constructor.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line511">line 511</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line783">line 783</a>
     </li></ul></dd>
     
 
@@ -1502,6 +1876,237 @@ constructor.</p>
 
 <div class="description usertext">
     <p>A getter for the custom inspect symbol used by Node.js.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".applied"><span class="type-signature type-signature-static">(static) </span>applied<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>A static getter that provides a proxy to manage and interact with the<br>
+patches that have been applied globally. This proxy abstracts the<br>
+underlying details and presents a simplified interface for querying and<br>
+manipulating applied patches. It is particularly useful in IDEs, as it<br>
+allows developers to access the state of applied patches without needing<br>
+to delve into the source code.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line612">line 612</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>A static getter that provides a proxy to manage and interact with the<br>
+patches that have been applied globally. This proxy abstracts the<br>
+underlying details and presents a simplified interface for querying and<br>
+manipulating applied patches. It is particularly useful in IDEs, as it<br>
+allows developers to access the state of applied patches without needing<br>
+to delve into the source code.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".known"><span class="type-signature type-signature-static">(static) </span>known<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>A static getter that provides access to a proxy representing all known<br>
+patches, whether applied or not. This is useful for inspecting the<br>
+complete set of patches that have been registered in the system, without<br>
+limiting the view to only those that are currently active. The proxy<br>
+abstracts the underlying details and presents a simplified interface for<br>
+querying and manipulating the patches.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line628">line 628</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>A static getter that provides access to a proxy representing all known<br>
+patches, whether applied or not. This is useful for inspecting the<br>
+complete set of patches that have been registered in the system, without<br>
+limiting the view to only those that are currently active. The proxy<br>
+abstracts the underlying details and presents a simplified interface for<br>
+querying and manipulating the patches.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".use"><span class="type-signature type-signature-static">(static) </span>use<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>A static getter that provides access to a proxy for managing patch<br>
+entries with a toggle functionality. This proxy allows the temporary<br>
+application of patches within a certain scope, and automatically reverts<br>
+them after the scope ends. It is useful for applying patches in a<br>
+controlled manner, ensuring that they do not remain active beyond the<br>
+intended usage.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line644">line 644</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>A static getter that provides access to a proxy for managing patch<br>
+entries with a toggle functionality. This proxy allows the temporary<br>
+application of patches within a certain scope, and automatically reverts<br>
+them after the scope ends. It is useful for applying patches in a<br>
+controlled manner, ensuring that they do not remain active beyond the<br>
+intended usage.</p>
 </div>
 
 
@@ -1562,7 +2167,7 @@ be applied.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line240">line 240</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line319">line 319</a>
     </li></ul></dd>
     
 
@@ -1653,7 +2258,7 @@ be applied.</p>
 
             <td class="description last"><p>a callback which receives a status of the<br>
 <code>revert</code> action if supplied. This callback will not be invoked, nor will<br>
-any of the other logic be captured, if applied returns false</p></td>
+any of the other logic be captured, if <a href="global.html#applied">applied</a> returns false</p></td>
         </tr>
 
     
@@ -1699,7 +2304,7 @@ any of the other logic be captured, if applied returns false</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line284">line 284</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -1874,7 +2479,7 @@ nothing else is holding a reference to it.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line382">line 382</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line470">line 470</a>
     </li></ul></dd>
     
 
@@ -1987,7 +2592,7 @@ something went wrong.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line328">line 328</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line416">line 416</a>
     </li></ul></dd>
     
 
@@ -2078,7 +2683,7 @@ something went wrong.</p>
 
             <td class="description last"><p>a callback which receives a status of the<br>
 <code>revert</code> action if supplied. This callback will not be invoked, nor will<br>
-any of the other logic be captured, if applied returns false</p></td>
+any of the other logic be captured, if <a href="global.html#applied">applied</a> returns false</p></td>
         </tr>
 
     
@@ -2126,7 +2731,7 @@ previously applied.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line498">line 498</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line593">line 593</a>
     </li></ul></dd>
     
 
@@ -2263,7 +2868,7 @@ previously registered.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line483">line 483</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line578">line 578</a>
     </li></ul></dd>
     
 
@@ -2382,6 +2987,173 @@ previously registered.</p></li></ul></dd>
 
     
 
+    <h4 class="name" id=".scopedTo"><span class="type-signature type-signature-static">(static) </span>scopedTo<span class="signature">(owner)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Returns an object with getters to access different proxy views of patches<br>
+scoped to a specific owner. This allows for interaction with patches<br>
+that are either applied, known, or used within a certain scope, providing<br>
+a controlled environment for patch management.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line661">line 661</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>owner</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The object to scope the patch proxies to.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An object containing getters for <code>applied</code>, <code>known</code>,<br>
+and <code>use</code> proxies:</p>
+<ul>
+<li><code>applied</code>: Proxy for patches applied to the owner.</li>
+<li><code>known</code>: Proxy for all patches known to the owner, applied or not.</li>
+<li><code>use</code>: Proxy that allows temporary application of patches.</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id=".stripExtras"><span class="type-signature type-signature-static">(static) </span>stripExtras<span class="signature">(fromString)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
@@ -2401,7 +3173,7 @@ output.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line524">line 524</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line796">line 796</a>
     </li></ul></dd>
     
 
@@ -2558,7 +3330,7 @@ output.</p></li></ul></dd>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun Jan 28 2024 21:17:36 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Feb 06 2024 00:43:53 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
