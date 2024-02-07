@@ -29,7 +29,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li><li data-type='method'><a href="Extension.html#.scopedTo">scopedTo</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#lazy">lazy</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
     
 </nav>
 
@@ -142,7 +142,7 @@ applied patches, such as checking their status or retrieving values.</p></li></u
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line675">line 675</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line700">line 700</a>
     </li></ul></dd>
     
 
@@ -213,7 +213,7 @@ and manipulation of the patches without directly accessing them.</p></li></ul></
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line686">line 686</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line711">line 711</a>
     </li></ul></dd>
     
 
@@ -256,6 +256,79 @@ and manipulation of the patches without directly accessing them.</p></li></ul></
     <p>Getter for a proxy that represents all patches known to the owner,<br>
 whether they are applied or not. This proxy allows for querying<br>
 and manipulation of the patches without directly accessing them.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="lazy"><span class="type-signature"></span>lazy<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Getter for a proxy that represents patches that are not immediately<br>
+applied but are applied on request. This allows for patches to be<br>
+applied only when they are explicitly needed, potentially improving<br>
+performance by deferring the application of patches until necessary.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line734">line 734</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Getter for a proxy that represents patches that are not immediately<br>
+applied but are applied on request. This allows for patches to be<br>
+applied only when they are explicitly needed, potentially improving<br>
+performance by deferring the application of patches until necessary.</p>
 </div>
 
 
@@ -351,7 +424,7 @@ after the scope ends, ensuring controlled usage.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line697">line 697</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line722">line 722</a>
     </li></ul></dd>
     
 
@@ -599,7 +672,7 @@ after the scope ends, ensuring controlled usage.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Feb 06 2024 00:52:00 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Feb 07 2024 02:24:22 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

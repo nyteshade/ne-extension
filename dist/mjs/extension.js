@@ -86,6 +86,80 @@ export class Extension extends Patch {
         return Object(this.value) === this.value;
     }
     /**
+     * A static getter that provides a proxy to manage and interact with the
+     * patches that have been applied globally. This proxy abstracts the
+     * underlying details and presents a simplified interface for querying and
+     * manipulating applied patches. It is particularly useful in IDEs, as it
+     * allows developers to access the state of applied patches without needing
+     * to delve into the source code.
+     *
+     * @returns {Object} An object showing all the keys known to be patched for
+     * the default owner, `globalThis`
+     */
+    static get applied() {
+        return Patch.applied;
+    }
+    /**
+     * A static getter that provides access to a proxy representing all known
+     * patches, whether applied or not. This is useful for inspecting the
+     * complete set of patches that have been registered in the system, without
+     * limiting the view to only those that are currently active. The proxy
+     * abstracts the underlying details and presents a simplified interface for
+     * querying and manipulating the patches.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of all
+     * registered patches, allowing for operations like checking if a patch is
+     * known and retrieving patch values.
+     */
+    static get known() {
+        return Patch.known;
+    }
+    /**
+     * A static getter that provides access to a proxy for managing patch
+     * entries with a toggle functionality. This proxy allows the temporary
+     * application of patches within a certain scope, and automatically reverts
+     * them after the scope ends. It is useful for applying patches in a
+     * controlled manner, ensuring that they do not remain active beyond the
+     * intended usage.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of the
+     * patches with toggle functionality, allowing for temporary application
+     * and automatic reversion of patches.
+     */
+    static get use() {
+        return Patch.use;
+    }
+    /**
+     * A static getter that provides access to a proxy for managing patch
+     * entries with lazy initialization. This proxy defers the creation and
+     * application of patches until they are explicitly requested. It is
+     * beneficial for performance optimization, as it avoids the overhead of
+     * initializing patches that may not be used.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of the
+     * patches with lazy initialization, allowing patches to be created and
+     * applied only when needed.
+     */
+    static get lazy() {
+        return Patch.lazy;
+    }
+    /**
+     * Returns an object with getters to access different proxy views of patches
+     * scoped to a specific owner. This allows for interaction with patches
+     * that are either applied, known, or used within a certain scope, providing
+     * a controlled environment for patch management.
+     *
+     * @param {object} owner - The object to scope the patch proxies to.
+     * @returns {object} An object containing getters for `applied`, `known`,
+     * and `use` proxies:
+     * - `applied`: Proxy for patches applied to the owner.
+     * - `known`: Proxy for all patches known to the owner, applied or not.
+     * - `use`: Proxy that allows temporary application of patches.
+     */
+    static scopedTo(owner) {
+        return Patch.scopedTo(owner);
+    }
+    /**
      * Determines the input type for the extension. This method processes the input
      * and identifies the key for the extension and the associated value or method.
      * It supports inputs as either a string key or a function/class, providing

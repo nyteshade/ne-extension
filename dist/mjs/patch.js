@@ -583,6 +583,20 @@ export class Patch {
         return this.#allPatchesForOwner(globalThis, false, true);
     }
     /**
+     * A static getter that provides access to a proxy for managing patch
+     * entries with lazy initialization. This proxy defers the creation and
+     * application of patches until they are explicitly requested. It is
+     * beneficial for performance optimization, as it avoids the overhead of
+     * initializing patches that may not be used.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of the
+     * patches with lazy initialization, allowing patches to be created and
+     * applied only when needed.
+     */
+    static get lazy() {
+        return this.#allPatchesForOwner(globalThis, false, false, true);
+    }
+    /**
      * Returns an object with getters to access different proxy views of patches
      * scoped to a specific owner. This allows for interaction with patches
      * that are either applied, known, or used within a certain scope, providing
@@ -596,8 +610,8 @@ export class Patch {
      * - `use`: Proxy that allows temporary application of patches.
      */
     static scopedTo(owner) {
-        const allForOwner = (owner, appliedOnly, wrapInToggle = false) => {
-            return this.#allPatchesForOwner(owner, appliedOnly, wrapInToggle);
+        const allForOwner = (owner, appliedOnly, wrapInToggle = false, applyOnRequest = false) => {
+            return this.#allPatchesForOwner(owner, appliedOnly, wrapInToggle, applyOnRequest);
         };
         return {
             /**
@@ -629,7 +643,18 @@ export class Patch {
              */
             get use() {
                 return allForOwner(owner, false, true);
-            }
+            },
+            /**
+             * Getter for a proxy that represents patches that are not immediately
+             * applied but are applied on request. This allows for patches to be
+             * applied only when they are explicitly needed, potentially improving
+             * performance by deferring the application of patches until necessary.
+             *
+             * @returns {Proxy} A proxy to patches that are applied on request.
+             */
+            get lazy() {
+                return allForOwner(owner, false, false, true);
+            },
         };
     }
     /**
@@ -652,7 +677,7 @@ export class Patch {
      * each patch keyed by its property name.
      * @private
      */
-    static #allPatchesForOwner(owner, onlyApplied, wrapInToggle = false) {
+    static #allPatchesForOwner(owner, onlyApplied, wrapInToggle = false, applyOnRequest = false) {
         return [...Patch.patches.values()].
             flat().
             filter(patch => patch.owner === owner).
@@ -678,6 +703,17 @@ export class Patch {
                         toggle.stop();
                     };
                     continue;
+                }
+                if (applyOnRequest) {
+                    Object.defineProperty(accumulator, patchEntry.key, {
+                        get() {
+                            patch.apply();
+                            return patchEntry.computed;
+                        },
+                        enumerable: true,
+                        configurable: true,
+                    });
+                    return accumulator;
                 }
                 if (patchEntry.isAccessor) {
                     let dynName = `applyAccessorFor_${String(patchEntry.key)}`;

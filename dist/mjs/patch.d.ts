@@ -63,6 +63,18 @@ export class Patch {
      */
     static get use(): ProxyConstructor;
     /**
+     * A static getter that provides access to a proxy for managing patch
+     * entries with lazy initialization. This proxy defers the creation and
+     * application of patches until they are explicitly requested. It is
+     * beneficial for performance optimization, as it avoids the overhead of
+     * initializing patches that may not be used.
+     *
+     * @returns {Proxy} A proxy object that represents a virtual view of the
+     * patches with lazy initialization, allowing patches to be created and
+     * applied only when needed.
+     */
+    static get lazy(): ProxyConstructor;
+    /**
      * Returns an object with getters to access different proxy views of patches
      * scoped to a specific owner. This allows for interaction with patches
      * that are either applied, known, or used within a certain scope, providing

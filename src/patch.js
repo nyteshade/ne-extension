@@ -147,7 +147,7 @@ export class Patch {
       ownKeys(this.patchEntries).
       filter(key => this.patchState.get(key) === true).
       map(key => {
-        return [key, this.patchEntries[key]]      
+        return [key, this.patchEntries[key]]
       })
   }
 
@@ -166,7 +166,7 @@ export class Patch {
       ownKeys(this.patchEntries).
       filter(key => this.patchState.get(key) === false).
       map(key => {
-        return [key, this.patchEntries[key]]      
+        return [key, this.patchEntries[key]]
       })
   }
 
@@ -339,7 +339,7 @@ export class Patch {
           counts.notApplied -= 1
 
           this.patchState.set(patch, true)
-          
+
         }
         else {
           counts.errors.push([patch, new Error(
@@ -485,7 +485,7 @@ export class Patch {
 
   /**
    * Patches that are currently live and active will have true as their
-   * value and inert or non-applied patches will have false as their 
+   * value and inert or non-applied patches will have false as their
    * value. The key is always the associated {@link PatchEntry}.
    */
   patchState = new Map();
@@ -647,6 +647,21 @@ export class Patch {
   }
 
   /**
+   * A static getter that provides access to a proxy for managing patch
+   * entries with lazy initialization. This proxy defers the creation and
+   * application of patches until they are explicitly requested. It is
+   * beneficial for performance optimization, as it avoids the overhead of
+   * initializing patches that may not be used.
+   *
+   * @returns {Proxy} A proxy object that represents a virtual view of the
+   * patches with lazy initialization, allowing patches to be created and
+   * applied only when needed.
+   */
+  static get lazy() {
+    return this.#allPatchesForOwner(globalThis, false, false, true)
+  }
+
+  /**
    * Returns an object with getters to access different proxy views of patches
    * scoped to a specific owner. This allows for interaction with patches
    * that are either applied, known, or used within a certain scope, providing
@@ -660,8 +675,18 @@ export class Patch {
    * - `use`: Proxy that allows temporary application of patches.
    */
   static scopedTo(owner) {
-    const allForOwner = (owner, appliedOnly, wrapInToggle = false) => {
-      return this.#allPatchesForOwner(owner, appliedOnly, wrapInToggle)
+    const allForOwner = (
+      owner,
+      appliedOnly,
+      wrapInToggle = false,
+      applyOnRequest = false
+    ) => {
+      return this.#allPatchesForOwner(
+        owner,
+        appliedOnly,
+        wrapInToggle,
+        applyOnRequest
+      )
     }
 
     return {
@@ -696,39 +721,52 @@ export class Patch {
        */
       get use() {
         return allForOwner(owner, false, true)
-      }
+      },
+
+      /**
+       * Getter for a proxy that represents patches that are not immediately
+       * applied but are applied on request. This allows for patches to be
+       * applied only when they are explicitly needed, potentially improving
+       * performance by deferring the application of patches until necessary.
+       *
+       * @returns {Proxy} A proxy to patches that are applied on request.
+       */
+      get lazy() {
+        return allForOwner(owner, false, false, true)
+      },
     }
   }
 
   /**
    * Aggregates patches for a given owner into a single object, optionally
    * filtering by applied status and wrapping in a toggle function.
-   * 
+   *
    * This method collects all patches associated with the specified owner
    * and constructs an object where each patch is represented by its key.
    * If `onlyApplied` is true, only patches that are currently applied will
    * be included. If `wrapInToggle` is true, each patch will be represented
    * as a function that temporarily applies the patch when called.
-   * 
-   * @param {object} owner - The owner object whose patches are to be 
+   *
+   * @param {object} owner - The owner object whose patches are to be
    * aggregated.
-   * @param {boolean} onlyApplied - If true, only include patches that 
+   * @param {boolean} onlyApplied - If true, only include patches that
    * are applied.
-   * @param {boolean} [wrapInToggle=false] - If true, wrap patches in a 
+   * @param {boolean} [wrapInToggle=false] - If true, wrap patches in a
    * toggle function for temporary application.
-   * @returns {object} An object representing the aggregated patches, with 
+   * @returns {object} An object representing the aggregated patches, with
    * each patch keyed by its property name.
    * @private
    */
   static #allPatchesForOwner(
-    owner, 
-    onlyApplied, 
-    wrapInToggle = false
+    owner,
+    onlyApplied,
+    wrapInToggle = false,
+    applyOnRequest = false
   ) {
     return [...Patch.patches.values()].
       flat().
       filter(patch => patch.owner === owner).
-      reduce((accumulator, patch) => { 
+      reduce((accumulator, patch) => {
         for (const [,patchEntry] of patch.entries) {
           if (onlyApplied && patch.patchState.get(patchEntry) !== true) {
             continue
@@ -743,7 +781,7 @@ export class Patch {
               const type = Object.prototype.toString.call(usage)
               const toggle = patch.createToggle()
 
-              toggle.start()              
+              toggle.start()
               if('[object AsyncFunction]' === type) {
                 await usage(patchEntry.computed, patchEntry)
               }
@@ -754,25 +792,39 @@ export class Patch {
             }
 
             continue
-          }          
+          }
 
-          if (patchEntry.isAccessor) { 
+          if (applyOnRequest) {
+            Object.defineProperty(accumulator, patchEntry.key, {
+              get() {
+                patch.apply()
+                return patchEntry.computed
+              },
+              enumerable: true,
+              configurable: true,
+            });
+
+            return accumulator;
+          }
+
+
+          if (patchEntry.isAccessor) {
             let dynName = `applyAccessorFor_${String(patchEntry.key)}`
-            let dynNameContainer = { 
-              [dynName](applyTo) { 
+            let dynNameContainer = {
+              [dynName](applyTo) {
                 patchEntry.applyTo(applyTo)
                 return applyTo
-              } 
-            }; 
-            
-            accumulator[patchEntry.key] = dynNameContainer[dynName] 
-          } 
-          else { 
-            patchEntry.applyTo(accumulator) 
-          } 
+              }
+            };
+
+            accumulator[patchEntry.key] = dynNameContainer[dynName]
+          }
+          else {
+            patchEntry.applyTo(accumulator)
+          }
         }
 
-        return accumulator 
+        return accumulator
       }, {})
   }
 
