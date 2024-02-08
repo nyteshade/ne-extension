@@ -804,7 +804,7 @@ export class Patch {
               configurable: true,
             });
 
-            return accumulator;
+            continue;
           }
 
 

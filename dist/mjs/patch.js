@@ -713,7 +713,7 @@ export class Patch {
                         enumerable: true,
                         configurable: true,
                     });
-                    return accumulator;
+                    continue;
                 }
                 if (patchEntry.isAccessor) {
                     let dynName = `applyAccessorFor_${String(patchEntry.key)}`;

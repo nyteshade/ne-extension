@@ -709,7 +709,7 @@ _a = Patch, _Patch_allPatchesForOwner = function _Patch_allPatchesForOwner(owner
                     enumerable: true,
                     configurable: true,
                 });
-                return accumulator;
+                continue;
             }
             if (patchEntry.isAccessor) {
                 let dynName = `applyAccessorFor_${String(patchEntry.key)}`;
