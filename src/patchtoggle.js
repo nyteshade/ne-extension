@@ -1,4 +1,4 @@
-import { Patch } from "./patch";
+import { Patch } from "./patch.js";
 
 /**
  * Early usage of the Patch and Extension classes made it clear that it was

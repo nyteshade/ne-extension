@@ -47,4 +47,4 @@ export class PatchToggle {
      */
     get [Symbol.toStringTag](): string;
 }
-import { Patch } from "./patch";
+import { Patch } from "./patch.js";

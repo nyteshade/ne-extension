@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatchToggle = void 0;
-const patch_1 = require("./patch");
+const patch_js_1 = require("./patch.js");
 /**
  * Early usage of the Patch and Extension classes made it clear that it was
  * cumbersome to use a Patch temporarily for a block of code and excessive
