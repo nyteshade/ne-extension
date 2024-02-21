@@ -126,6 +126,196 @@ export class Patch {
      */
     static stripExtras(fromString: string): string;
     /**
+     * Accessor for a Symbol uniquely representing properties that are
+     * non-enumerable but configurable. This symbol can be used to tag
+     * properties with these characteristics in a consistent manner across
+     * different parts of the application.
+     *
+     * @returns {symbol} A Symbol for properties that are non-enumerable
+     * but configurable.
+     */
+    static get kMutablyHidden(): symbol;
+    /**
+     * Applies a custom descriptor patch to an instance, marking properties as
+     * non-enumerable but configurable. This method utilizes the `kMutablyHidden`
+     * symbol to tag properties accordingly. It's useful for hiding properties
+     * in a way that they remain configurable for future changes.
+     *
+     * @param {object} instance The object instance to apply the patch to.
+     * @param {object} [store=Object.create(null)] An optional store object to
+     * hold patched properties' original values and descriptors.
+     * @returns {object} The result of applying the custom descriptor patch,
+     * typically a modified version of the `store` object containing the patched
+     * properties' descriptors.
+     */
+    static mutablyHidden(instance: object, store?: object | undefined): object;
+    /**
+     * Accessor for a Symbol uniquely representing properties that are both
+     * enumerable and configurable. This symbol can be used to tag properties
+     * with these characteristics in a consistent manner across different parts
+     * of the application. The symbol is created or retrieved based on a
+     * standardized JSON string, ensuring consistency in its representation.
+     *
+     * @returns {symbol} A Symbol for properties that are both enumerable and
+     * configurable, allowing them to be listed in object property enumerations
+     * and reconfigured or deleted.
+     */
+    static get kMutablyVisible(): symbol;
+    /**
+     * Applies a custom descriptor patch to an instance, marking properties as
+     * both enumerable and configurable. This method leverages the `kMutablyVisible`
+     * symbol to tag properties, making them visible in enumerations and allowing
+     * them to be reconfigured or deleted. This is particularly useful for
+     * properties that need to be exposed for iteration or manipulation while
+     * maintaining the ability to modify their descriptors in the future.
+     *
+     * @param {object} instance The object instance to apply the patch to.
+     * @param {object} [store=Object.create(null)] An optional store object to
+     * hold patched properties' original values and descriptors. If not provided,
+     * a new object will be used to store this information.
+     * @returns {object} The result of applying the custom descriptor patch,
+     * typically a modified version of the `store` object containing the patched
+     * properties' descriptors.
+     */
+    static mutablyVisible(instance: object, store?: object | undefined): object;
+    /**
+     * Accessor for a Symbol uniquely identifying properties that are neither
+     * enumerable nor configurable. This symbol is used to tag properties to
+     * ensure they are hidden from enumeration and cannot be reconfigured or
+     * deleted, providing a level of immutability. The symbol is generated or
+     * retrieved based on a standardized JSON string, ensuring consistency
+     * across different parts of the application.
+     *
+     * @returns {symbol} A Symbol for properties that are neither enumerable
+     * nor configurable, effectively making them immutable and hidden from
+     * property enumerations.
+     */
+    static get kImmutablyHidden(): symbol;
+    /**
+     * Applies a descriptor patch to an object instance, marking properties as
+     * neither enumerable nor configurable. This method uses the `kImmutablyHidden`
+     * symbol to tag properties, ensuring they remain hidden from enumerations
+     * and cannot be reconfigured or deleted. This enhances property immutability
+     * and privacy within an object. It's particularly useful for securing
+     * properties that should not be exposed or altered.
+     *
+     * @param {object} instance The object instance to apply the patch to.
+     * @param {object} [store=Object.create(null)] An optional store object to
+     * hold patched properties' original values and descriptors. If not provided,
+     * a new object will be used to store this information.
+     * @returns {object} The result of applying the descriptor patch, typically
+     * a modified version of the `store` object containing the patched properties'
+     * descriptors.
+     */
+    static immutablyHidden(instance: object, store?: object | undefined): object;
+    /**
+     * Accessor for a Symbol uniquely identifying properties that are visible
+     * (enumerable) but not configurable. This symbol is used to tag properties
+     * to ensure they are included in enumerations such as loops and object
+     * keys retrievals, yet cannot be reconfigured or deleted. This provides a
+     * balance between visibility and immutability. The symbol is generated or
+     * retrieved based on a standardized JSON string, ensuring consistency
+     * across different parts of the application.
+     *
+     * @returns {symbol} A Symbol for properties that are enumerable but not
+     * configurable, making them visible in enumerations while preventing
+     * modifications to their descriptors.
+     */
+    static get kImmutablyVisible(): symbol;
+    /**
+     * Applies a descriptor patch to an object instance, marking properties as
+     * enumerable but not configurable. This method leverages the
+     * `kImmutablyVisible` symbol to tag properties, ensuring they are visible
+     * in property enumerations like loops and `Object.keys` retrievals, yet
+     * remain immutable by preventing reconfiguration or deletion. This method
+     * is particularly useful for making properties visible while maintaining
+     * their immutability and preventing modifications.
+     *
+     * @param {object} instance The object instance to apply the patch to.
+     * @param {object} [store=Object.create(null)] An optional store object to
+     * hold patched
+     * properties' original values and descriptors. If not provided, a new
+     * object will be used to store this information.
+     * @returns {object} The result of applying the descriptor patch, typically
+     * a modified version of the `store` object containing the patched properties'
+     * descriptors.
+     */
+    static immutablyVisible(instance: object, store?: object | undefined): object;
+    /**
+     * Applies a custom descriptor patch to an object instance using a provided
+     * symbol to tag the patched properties. This method also ensures the instance
+     * is tracked for cleanup and stores the patch information in a WeakMap for
+     * future reference or rollback. It's designed to work with property
+     * descriptors that are either hidden or visible but immutable.
+     *
+     * @param {symbol} symbol The symbol used to tag the patched properties,
+     * indicating the nature of the patch (e.g., hidden or visible but immutable).
+     * @param {object} instance The object instance to which the patch is applied.
+     * @param {object} [store=Object.create(null)] An optional object to store
+     * the original property descriptors before the patch is applied. If not
+     * provided, an empty object will be used.
+     * @returns {object} The store object associated with the instance in the
+     * WeakMap, containing the patched properties' descriptors.
+     */
+    static customDescriptorPatch(instance: object, symbol: symbol, store?: object | undefined): object;
+    /**
+     * Determines if a given symbol is recognized as a patch symbol within the
+     * system. Patch symbols are predefined symbols used to tag properties with
+     * specific visibility and mutability characteristics. This method checks
+     * if the provided symbol matches any of the known patch symbols.
+     *
+     * @param {symbol} maybeSymbol The symbol to check against known patch symbols.
+     * @returns {boolean} True if the symbol is a known patch symbol, false otherwise.
+     */
+    static isKnownPatchSymbol(maybeSymbol: symbol): boolean;
+    /**
+     * Constructs an object or executes a function based on the `patchesOwner`
+     * parameter, utilizing a custom descriptor patch. This method is intended
+     * for advanced manipulation of object properties or function behaviors
+     * through patching mechanisms defined by symbols. It applies a custom
+     * descriptor patch to the `instance` using the provided `symbol` and
+     * `store`, then either returns the `patchesOwner` directly if it's not a
+     * function, or invokes it with the patched store.
+     *
+     * @param {Function|Object} patchesOwner The target function to be invoked
+     * or the object to be returned directly. If a function, it is called with
+     * the patched store.
+     * @param {Object} instance The object instance to which the patch is applied.
+     * @param {Symbol} symbol A symbol indicating the nature of the patch to be
+     * applied, typically representing specific property behaviors.
+     * @param {Object} [store=Object.create(null)] An optional object to store
+     * the original property descriptors before the patch is applied. Defaults
+     * to an empty object if not provided.
+     * @returns {Function|Object} The result of calling `patchesOwner` with the
+     * patched store if `patchesOwner` is a function, or `patchesOwner` itself
+     * if it is not a function.
+     */
+    static constructWithStore(patchesOwner: Function | Object, instance: Object, symbol: Symbol, store?: Object | undefined): Function | Object;
+    /**
+     * Retrieves descriptor overrides from a symbol if it is recognized as a
+     * known patch symbol. This method is crucial for dynamically adjusting
+     * property descriptors based on predefined symbols, facilitating the
+     * application of specific property behaviors (e.g., visibility, mutability)
+     * without direct manipulation of the descriptors. It parses the symbol's
+     * description, which is expected to be a JSON string representing the
+     * descriptor overrides, and returns these overrides as an object.
+     *
+     * @param {symbol} symbol The symbol whose description contains JSON
+     * stringified descriptor overrides.
+     * @returns {object} An object representing the descriptor overrides if the
+     * symbol is recognized; otherwise, an empty object.
+     */
+    static getDescriptorOverridesFromSymbol(symbol: symbol): object;
+    /**
+     * A WeakMap to store patch information for object instances. This map
+     * associates each patched object instance with its corresponding store
+     * object, which contains the original property descriptors before the
+     * patch was applied. The use of a WeakMap ensures that the memory used
+     * to store this information can be reclaimed once the object instances
+     * are no longer in use, preventing memory leaks.
+     */
+    static stores: WeakMap<WeakKey, any>;
+    /**
      * Constructs a new Patch instance. Supported options for Patch instances
      * include either a global condition for the Patch to be applied or
      * specific property conditions subjecting only a subset of the patches
@@ -155,7 +345,8 @@ export class Patch {
      * @param {object} owner The object to which patches will be applied.
      * @param {object} patches An object containing properties or methods to
      *                         be patched onto the owner.
-     * @param {object} [options={}] Additional options for patching behavior.
+     * @param {object} [options=Object.create(null)] Additional options for
+     * patching behavior.
      */
     constructor(owner: object, patches: object, options?: object | undefined);
     /**
@@ -198,6 +389,20 @@ export class Patch {
      * @type {number}
      */
     patchesApplied: number;
+    /**
+     * Iterates over the properties of `patchesOwner` and attempts to generate
+     * patches based on the provided conditions and overrides. This method
+     * supports conditional patching, allowing patches to be applied only if
+     * certain conditions are met. It also handles descriptor overrides for
+     * patch symbols, enabling custom behavior for patched properties.
+     *
+     * @param {object} patchesOwner The object containing the patches to be
+     * applied. Each key in this object represents a property to be patched.
+     * @param {object} [overrides] Optional. An object containing descriptor
+     * overrides for the properties to be patched. If not provided, overrides
+     * will be determined based on patch symbols.
+     */
+    generatePatchEntries(patchesOwner: object, overrides?: object | undefined): void;
     /**
      * Retrieves the patch entries as an array of [key, patchEntry] pairs.
      *

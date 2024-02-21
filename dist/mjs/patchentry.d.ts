@@ -6,21 +6,28 @@
  */
 export class PatchEntry {
     /**
-     * Constructs a new PatchEntry instance.
+     * Constructs a new PatchEntry instance, encapsulating the logic for
+     * patching a property onto an object with optional conditions and
+     * descriptor overrides.
      *
-     * @param {string|symbol} property The property key to be patched.
-     * @param {object} [owningObject=globalThis] The object from which the
-     * property descriptor is taken.
-     * @param {function} condition if a valid function is passed here, the
-     * expectation is that it takes no parameters and returns a `boolean`. If
-     * `true`, then this entry can be applied. If `false`, it indicates to the
-     * consuming `Patch` that it cannot be applied.
-     * @throws {TypeError} if `owningObject` is not a valid object (i.e. one that
-     * can contain property descriptors and assigned values), then a `TypeError`
-     * is thrown. A `TypeError` is also thrown if `property` is null, or neither
-     * an object nor symbol.
+     * This constructor validates the provided property and owningObject,
+     * constructs a property descriptor by merging the existing descriptor
+     * (if any) with any provided overrides, and initializes the PatchEntry
+     * instance with these details.
+     *
+     * @param {string|symbol} property The property key to patch. Must be a
+     * non-null string or symbol.
+     * @param {object} [owningObject=globalThis] The object to which the
+     * property will be patched. Defaults to the global object.
+     * @param {Function} [condition=undefined] An optional function that
+     * determines if the patch should be applied. If undefined, the patch
+     * is always applied.
+     * @param {object} [descriptorOverrides={}] Optional overrides for the
+     * property descriptor of the patch.
+     * @throws {TypeError} If `property` is not a string or symbol, or if
+     * `owningObject` is not an object.
      */
-    constructor(property: string | symbol, owningObject?: object | undefined, condition?: Function);
+    constructor(property: string | symbol, owningObject?: object | undefined, condition?: Function | undefined, descriptorOverrides?: object | undefined);
     /**
      * Computes and returns the current value of the patch, based on its type
      * (data or accessor).

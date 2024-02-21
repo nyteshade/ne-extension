@@ -88,6 +88,63 @@ describe('Patch Class Tests', () => {
       }
     })
 
+    it('should allow custom descriptors in definition', () => {
+      p = new Patch(Object.prototype, {
+        visible: true,
+        [Patch.kMutablyHidden]: {
+          presentButNotEnumerated: true
+        },
+        [Patch.kImmutablyHidden](store) { return {
+            get sekret() { return store.sekret },
+            set sekret(value) { store.sekret = value }
+          }
+        },
+      })
+
+      p.apply()
+
+      let o = { }
+
+      let ownPropNames = Object.getOwnPropertyNames(o);
+
+      expect(o.visible).toBe(true)
+      expect(ownPropNames.includes('visible')).toBe(false)
+      expect(Reflect.has(o, 'visible'))
+
+      expect(o.presentButNotEnumerated).toBe(true)
+      expect(ownPropNames.includes('presentButNotEnumerated')).toBe(false)
+
+      expect(ownPropNames.includes('sekret')).toBeFalsy()
+      expect(Reflect.has(o, 'sekret')).toBe(true)
+      expect(o.sekret).toBeFalsy()
+
+      o.sekret = true
+      ownPropNames = Object.getOwnPropertyNames(o)
+      expect(Reflect.has(o, 'sekret')).toBe(true)
+      expect(ownPropNames.includes('sekret')).toBeFalsy()
+      expect(o.sekret).toBeTruthy()
+
+      expect(Object.keys(Object.getOwnPropertyDescriptors(o)).length).toBe(0)
+
+      let expected = ['visible', 'presentButNotEnumerated', 'sekret']
+      let descriptors = Object.entries(
+        Object.getOwnPropertyDescriptors(Object.prototype)
+      ).
+        filter(([key,value]) => expected.some(k => k === key)).
+        reduce((acc,[key,value])=> ({...acc, [key]:value}), Object.create(null))
+
+      expect(descriptors.visible.enumerable).toBe(true)
+      expect(descriptors.visible.configurable).toBe(true)
+
+      expect(descriptors.presentButNotEnumerated.enumerable).toBe(false)
+      expect(descriptors.presentButNotEnumerated.configurable).toBe(true)
+
+      expect(descriptors.sekret.enumerable).toBe(false)
+      expect(descriptors.sekret.configurable).toBe(false)
+      expect(descriptors.sekret.get).toBeTruthy()
+      expect(descriptors.sekret.set).toBeTruthy()
+    })
+
     it('should allow for a patch specific condition', async () => {
       const owner = {}
       const then = Date.now()

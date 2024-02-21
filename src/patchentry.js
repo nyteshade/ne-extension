@@ -5,22 +5,35 @@
  * reverted.
  */
 export class PatchEntry {
+
   /**
-   * Constructs a new PatchEntry instance.
+   * Constructs a new PatchEntry instance, encapsulating the logic for
+   * patching a property onto an object with optional conditions and
+   * descriptor overrides.
    *
-   * @param {string|symbol} property The property key to be patched.
-   * @param {object} [owningObject=globalThis] The object from which the
-   * property descriptor is taken.
-   * @param {function} condition if a valid function is passed here, the
-   * expectation is that it takes no parameters and returns a `boolean`. If
-   * `true`, then this entry can be applied. If `false`, it indicates to the
-   * consuming `Patch` that it cannot be applied.
-   * @throws {TypeError} if `owningObject` is not a valid object (i.e. one that
-   * can contain property descriptors and assigned values), then a `TypeError`
-   * is thrown. A `TypeError` is also thrown if `property` is null, or neither
-   * an object nor symbol.
+   * This constructor validates the provided property and owningObject,
+   * constructs a property descriptor by merging the existing descriptor
+   * (if any) with any provided overrides, and initializes the PatchEntry
+   * instance with these details.
+   *
+   * @param {string|symbol} property The property key to patch. Must be a
+   * non-null string or symbol.
+   * @param {object} [owningObject=globalThis] The object to which the
+   * property will be patched. Defaults to the global object.
+   * @param {Function} [condition=undefined] An optional function that
+   * determines if the patch should be applied. If undefined, the patch
+   * is always applied.
+   * @param {object} [descriptorOverrides={}] Optional overrides for the
+   * property descriptor of the patch.
+   * @throws {TypeError} If `property` is not a string or symbol, or if
+   * `owningObject` is not an object.
    */
-  constructor(property, owningObject = globalThis, condition = undefined) {
+  constructor(
+    property,
+    owningObject = globalThis,
+    condition = undefined,
+    descriptorOverrides = {}
+  ) {
     const isNullish = (value) => (value === null || value === undefined)
     const isKey = (value, types = ['string', 'symbol']) =>
       !isNullish(value) && (!!types.find(f => f === (typeof value)))
@@ -32,16 +45,25 @@ export class PatchEntry {
         'owningObject', owningObject, `(type: ${typeof owningObject})`,
         'condition', condition, `(type: ${typeof condition})`,
       )
-      throw new TypeError('Property must be non-null and either a string or symbol')
+      throw new TypeError(
+        'Property must be non-null and either a string or symbol'
+      )
     }
 
     if (!isObject(owningObject)) {
-      throw new TypeError('Cannot create Patch entry as owning object is invalid')
+      throw new TypeError(
+        'Cannot create Patch entry as owning object is invalid'
+      )
+    }
+
+    const descriptor = {
+      ...Object.getOwnPropertyDescriptor(owningObject, property),
+      ...Object(descriptorOverrides)
     }
 
     Object.assign(this, {
       key: property,
-      descriptor: Object.getOwnPropertyDescriptor(owningObject, property),
+      descriptor,
       owner: owningObject,
       condition: (typeof condition === 'function') ? condition : undefined
     })
@@ -116,9 +138,9 @@ export class PatchEntry {
    * methods (getters/setters), they will be bound to the original owner of
    * the patch before being applied to ensure the correct `this` context.
    *
-   * @param {object} anotherObject - The object to which the patch will be 
+   * @param {object} anotherObject - The object to which the patch will be
    * applied.
-   * @param {boolean} [bindAccessors=false] - Whether to bind accessor methods 
+   * @param {boolean} [bindAccessors=false] - Whether to bind accessor methods
    * to the patch's owner.
    */
   applyTo(anotherObject, bindAccessors = false) {

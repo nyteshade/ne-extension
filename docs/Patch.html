@@ -29,7 +29,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li><li data-type='method'><a href="Extension.html#.scopedTo">scopedTo</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#lazy">lazy</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li><li data-type='method'><a href="Extension.html#.scopedTo">scopedTo</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#generatePatchEntries">generatePatchEntries</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.constructWithStore">constructWithStore</a></li><li data-type='method'><a href="Patch.html#.customDescriptorPatch">customDescriptorPatch</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.getDescriptorOverridesFromSymbol">getDescriptorOverridesFromSymbol</a></li><li data-type='method'><a href="Patch.html#.immutablyHidden">immutablyHidden</a></li><li data-type='method'><a href="Patch.html#.immutablyVisible">immutablyVisible</a></li><li data-type='method'><a href="Patch.html#.isKnownPatchSymbol">isKnownPatchSymbol</a></li><li data-type='method'><a href="Patch.html#.mutablyHidden">mutablyHidden</a></li><li data-type='method'><a href="Patch.html#.mutablyVisible">mutablyVisible</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#lazy">lazy</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
     
 </nav>
 
@@ -289,12 +289,13 @@ be patched onto the owner.</p></td>
             
                 <td class="default">
                 
-                    <code>{}</code>
+                    <code>Object.create(null)</code>
                 
                 </td>
             
 
-            <td class="description last"><p>Additional options for patching behavior.</p></td>
+            <td class="description last"><p>Additional options for<br>
+patching behavior.</p></td>
         </tr>
 
     
@@ -362,7 +363,7 @@ be patched onto the owner.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line260">line 260</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -433,7 +434,7 @@ currently applied to the owner object.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line145">line 145</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -507,7 +508,7 @@ a state of <code>true</code> in <code>patchState</code> are considered applied.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line198">line 198</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line231">line 231</a>
     </li></ul></dd>
     
 
@@ -578,7 +579,7 @@ will be overridden by patches) as an array of [key, patchEntry] pairs.</p></li><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line249">line 249</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line282">line 282</a>
     </li></ul></dd>
     
 
@@ -646,7 +647,7 @@ will be overridden by patches) as an array of [key, patchEntry] pairs.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line129">line 129</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -714,7 +715,7 @@ of applied patches.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line279">line 279</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line312">line 312</a>
     </li></ul></dd>
     
 
@@ -782,7 +783,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line269">line 269</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -849,7 +850,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line484">line 484</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line517">line 517</a>
     </li></ul></dd>
     
 
@@ -916,7 +917,7 @@ of applied patches.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line479">line 479</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line512">line 512</a>
     </li></ul></dd>
     
 
@@ -1232,7 +1233,7 @@ existence of specific patches by key.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line239">line 239</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -1304,7 +1305,7 @@ value. The key is always the associated <a href="PatchEntry.html">PatchEntry</a>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line491">line 491</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line524">line 524</a>
     </li></ul></dd>
     
 
@@ -1375,7 +1376,7 @@ the actual current patch value at the time patchValues is requested.</p></li></u
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line182">line 182</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -1449,7 +1450,7 @@ the actual current patch value at the time patchValues is requested.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line570">line 570</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line603">line 603</a>
     </li></ul></dd>
     
 
@@ -1665,6 +1666,83 @@ constructor.</p>
 
         
             
+<h4 class="name" id="stores"><span class="type-signature"></span>stores<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>A WeakMap to store patch information for object instances. This map<br>
+associates each patched object instance with its corresponding store<br>
+object, which contains the original property descriptors before the<br>
+patch was applied. The use of a WeakMap ensures that the memory used<br>
+to store this information can be reclaimed once the object instances<br>
+are no longer in use, preventing memory leaks.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line1159">line 1159</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>A WeakMap to store patch information for object instances. This map<br>
+associates each patched object instance with its corresponding store<br>
+object, which contains the original property descriptors before the<br>
+patch was applied. The use of a WeakMap ensures that the memory used<br>
+to store this information can be reclaimed once the object instances<br>
+are no longer in use, preventing memory leaks.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="unappliedEntries"><span class="type-signature"></span>unappliedEntries<span class="type-signature"></span></h4>
 
 
@@ -1684,7 +1762,7 @@ applied to the owner object.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line164">line 164</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -1758,7 +1836,7 @@ of <code>false</code> in <code>patchState</code> are considered unapplied.</p></
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line221">line 221</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -1835,7 +1913,7 @@ console.log(unapplied); // { patch1: computedValueOfPatch1 }</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line836">line 836</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line869">line 869</a>
     </li></ul></dd>
     
 
@@ -1907,7 +1985,7 @@ to delve into the source code.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line613">line 613</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line646">line 646</a>
     </li></ul></dd>
     
 
@@ -1964,6 +2042,310 @@ to delve into the source code.</p>
 
         
             
+<h4 class="name" id=".kImmutablyHidden"><span class="type-signature type-signature-static">(static) </span>kImmutablyHidden<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Accessor for a Symbol uniquely identifying properties that are neither<br>
+enumerable nor configurable. This symbol is used to tag properties to<br>
+ensure they are hidden from enumeration and cannot be reconfigured or<br>
+deleted, providing a level of immutability. The symbol is generated or<br>
+retrieved based on a standardized JSON string, ensuring consistency<br>
+across different parts of the application.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line971">line 971</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Accessor for a Symbol uniquely identifying properties that are neither<br>
+enumerable nor configurable. This symbol is used to tag properties to<br>
+ensure they are hidden from enumeration and cannot be reconfigured or<br>
+deleted, providing a level of immutability. The symbol is generated or<br>
+retrieved based on a standardized JSON string, ensuring consistency<br>
+across different parts of the application.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".kImmutablyVisible"><span class="type-signature type-signature-static">(static) </span>kImmutablyVisible<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Accessor for a Symbol uniquely identifying properties that are visible<br>
+(enumerable) but not configurable. This symbol is used to tag properties<br>
+to ensure they are included in enumerations such as loops and object<br>
+keys retrievals, yet cannot be reconfigured or deleted. This provides a<br>
+balance between visibility and immutability. The symbol is generated or<br>
+retrieved based on a standardized JSON string, ensuring consistency<br>
+across different parts of the application.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line1008">line 1008</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Accessor for a Symbol uniquely identifying properties that are visible<br>
+(enumerable) but not configurable. This symbol is used to tag properties<br>
+to ensure they are included in enumerations such as loops and object<br>
+keys retrievals, yet cannot be reconfigured or deleted. This provides a<br>
+balance between visibility and immutability. The symbol is generated or<br>
+retrieved based on a standardized JSON string, ensuring consistency<br>
+across different parts of the application.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".kMutablyHidden"><span class="type-signature type-signature-static">(static) </span>kMutablyHidden<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Accessor for a Symbol uniquely representing properties that are<br>
+non-enumerable but configurable. This symbol can be used to tag<br>
+properties with these characteristics in a consistent manner across<br>
+different parts of the application.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line903">line 903</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Accessor for a Symbol uniquely representing properties that are<br>
+non-enumerable but configurable. This symbol can be used to tag<br>
+properties with these characteristics in a consistent manner across<br>
+different parts of the application.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".kMutablyVisible"><span class="type-signature type-signature-static">(static) </span>kMutablyVisible<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Accessor for a Symbol uniquely representing properties that are both<br>
+enumerable and configurable. This symbol can be used to tag properties<br>
+with these characteristics in a consistent manner across different parts<br>
+of the application. The symbol is created or retrieved based on a<br>
+standardized JSON string, ensuring consistency in its representation.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line935">line 935</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Accessor for a Symbol uniquely representing properties that are both<br>
+enumerable and configurable. This symbol can be used to tag properties<br>
+with these characteristics in a consistent manner across different parts<br>
+of the application. The symbol is created or retrieved based on a<br>
+standardized JSON string, ensuring consistency in its representation.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
 <h4 class="name" id=".known"><span class="type-signature type-signature-static">(static) </span>known<span class="type-signature"></span></h4>
 
 
@@ -1984,7 +2366,7 @@ querying and manipulating the patches.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line629">line 629</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line662">line 662</a>
     </li></ul></dd>
     
 
@@ -2060,7 +2442,7 @@ initializing patches that may not be used.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line660">line 660</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line693">line 693</a>
     </li></ul></dd>
     
 
@@ -2136,7 +2518,7 @@ intended usage.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line645">line 645</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line678">line 678</a>
     </li></ul></dd>
     
 
@@ -2242,7 +2624,7 @@ be applied.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line319">line 319</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line352">line 352</a>
     </li></ul></dd>
     
 
@@ -2379,7 +2761,7 @@ any of the other logic be captured, if <a href="global.html#applied">applied</a>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line372">line 372</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line405">line 405</a>
     </li></ul></dd>
     
 
@@ -2536,6 +2918,192 @@ of <code>Patch</code></p>
 
     
 
+    <h4 class="name" id="generatePatchEntries"><span class="type-signature"></span>generatePatchEntries<span class="signature">(patchesOwner, overrides<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Iterates over the properties of <code>patchesOwner</code> and attempts to generate<br>
+patches based on the provided conditions and overrides. This method<br>
+supports conditional patching, allowing patches to be applied only if<br>
+certain conditions are met. It also handles descriptor overrides for<br>
+patch symbols, enabling custom behavior for patched properties.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line117">line 117</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>patchesOwner</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The object containing the patches to be<br>
+applied. Each key in this object represents a property to be patched.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>overrides</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Optional. An object containing descriptor<br>
+overrides for the properties to be patched. If not provided, overrides<br>
+will be determined based on patch symbols.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="release"><span class="type-signature"></span>release<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
@@ -2554,7 +3122,7 @@ nothing else is holding a reference to it.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line471">line 471</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line504">line 504</a>
     </li></ul></dd>
     
 
@@ -2667,7 +3235,7 @@ something went wrong.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line416">line 416</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line449">line 449</a>
     </li></ul></dd>
     
 
@@ -2788,6 +3356,569 @@ any of the other logic be captured, if <a href="global.html#applied">applied</a>
 
     
 
+    <h4 class="name" id=".constructWithStore"><span class="type-signature type-signature-static">(static) </span>constructWithStore<span class="signature">(patchesOwner, instance, symbol, store<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function|Object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Constructs an object or executes a function based on the <code>patchesOwner</code><br>
+parameter, utilizing a custom descriptor patch. This method is intended<br>
+for advanced manipulation of object properties or function behaviors<br>
+through patching mechanisms defined by symbols. It applies a custom<br>
+descriptor patch to the <code>instance</code> using the provided <code>symbol</code> and<br>
+<code>store</code>, then either returns the <code>patchesOwner</code> directly if it's not a<br>
+function, or invokes it with the patched store.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line1107">line 1107</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>patchesOwner</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The target function to be invoked<br>
+or the object to be returned directly. If a function, it is called with<br>
+the patched store.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The object instance to which the patch is applied.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>symbol</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Symbol</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>A symbol indicating the nature of the patch to be<br>
+applied, typically representing specific property behaviors.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>store</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>Object.create(null)</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>An optional object to store<br>
+the original property descriptors before the patch is applied. Defaults<br>
+to an empty object if not provided.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The result of calling <code>patchesOwner</code> with the<br>
+patched store if <code>patchesOwner</code> is a function, or <code>patchesOwner</code> itself<br>
+if it is not a function.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+|
+
+<span class="param-type">Object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".customDescriptorPatch"><span class="type-signature type-signature-static">(static) </span>customDescriptorPatch<span class="signature">(symbol, instance, store<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Applies a custom descriptor patch to an object instance using a provided<br>
+symbol to tag the patched properties. This method also ensures the instance<br>
+is tracked for cleanup and stores the patch information in a WeakMap for<br>
+future reference or rollback. It's designed to work with property<br>
+descriptors that are either hidden or visible but immutable.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line1050">line 1050</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>symbol</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">symbol</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The symbol used to tag the patched properties,<br>
+indicating the nature of the patch (e.g., hidden or visible but immutable).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The object instance to which the patch is applied.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>store</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>Object.create(null)</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>An optional object to store<br>
+the original property descriptors before the patch is applied. If not<br>
+provided, an empty object will be used.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The store object associated with the instance in the<br>
+WeakMap, containing the patched properties' descriptors.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id=".disableFor"><span class="type-signature type-signature-static">(static) </span>disableFor<span class="signature">(owner)</span><span class="type-signature"></span></h4>
 
     
@@ -2806,7 +3937,7 @@ previously applied.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line594">line 594</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line627">line 627</a>
     </li></ul></dd>
     
 
@@ -2943,7 +4074,7 @@ previously registered.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line579">line 579</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line612">line 612</a>
     </li></ul></dd>
     
 
@@ -3062,6 +4193,1224 @@ previously registered.</p></li></ul></dd>
 
     
 
+    <h4 class="name" id=".getDescriptorOverridesFromSymbol"><span class="type-signature type-signature-static">(static) </span>getDescriptorOverridesFromSymbol<span class="signature">(symbol)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves descriptor overrides from a symbol if it is recognized as a<br>
+known patch symbol. This method is crucial for dynamically adjusting<br>
+property descriptors based on predefined symbols, facilitating the<br>
+application of specific property behaviors (e.g., visibility, mutability)<br>
+without direct manipulation of the descriptors. It parses the symbol's<br>
+description, which is expected to be a JSON string representing the<br>
+descriptor overrides, and returns these overrides as an object.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line1141">line 1141</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>symbol</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">symbol</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The symbol whose description contains JSON<br>
+stringified descriptor overrides.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An object representing the descriptor overrides if the<br>
+symbol is recognized; otherwise, an empty object.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".immutablyHidden"><span class="type-signature type-signature-static">(static) </span>immutablyHidden<span class="signature">(instance, store<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Applies a descriptor patch to an object instance, marking properties as<br>
+neither enumerable nor configurable. This method uses the <code>kImmutablyHidden</code><br>
+symbol to tag properties, ensuring they remain hidden from enumerations<br>
+and cannot be reconfigured or deleted. This enhances property immutability<br>
+and privacy within an object. It's particularly useful for securing<br>
+properties that should not be exposed or altered.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line991">line 991</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The object instance to apply the patch to.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>store</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>Object.create(null)</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>An optional store object to<br>
+hold patched properties' original values and descriptors. If not provided,<br>
+a new object will be used to store this information.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The result of applying the descriptor patch, typically<br>
+a modified version of the <code>store</code> object containing the patched properties'<br>
+descriptors.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".immutablyVisible"><span class="type-signature type-signature-static">(static) </span>immutablyVisible<span class="signature">(instance, store<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Applies a descriptor patch to an object instance, marking properties as<br>
+enumerable but not configurable. This method leverages the<br>
+<code>kImmutablyVisible</code> symbol to tag properties, ensuring they are visible<br>
+in property enumerations like loops and <code>Object.keys</code> retrievals, yet<br>
+remain immutable by preventing reconfiguration or deletion. This method<br>
+is particularly useful for making properties visible while maintaining<br>
+their immutability and preventing modifications.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line1030">line 1030</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The object instance to apply the patch to.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>store</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>Object.create(null)</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>An optional store object to<br>
+hold patched<br>
+properties' original values and descriptors. If not provided, a new<br>
+object will be used to store this information.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The result of applying the descriptor patch, typically<br>
+a modified version of the <code>store</code> object containing the patched properties'<br>
+descriptors.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isKnownPatchSymbol"><span class="type-signature type-signature-static">(static) </span>isKnownPatchSymbol<span class="signature">(maybeSymbol)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Determines if a given symbol is recognized as a patch symbol within the<br>
+system. Patch symbols are predefined symbols used to tag properties with<br>
+specific visibility and mutability characteristics. This method checks<br>
+if the provided symbol matches any of the known patch symbols.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line1072">line 1072</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>maybeSymbol</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">symbol</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The symbol to check against known patch symbols.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if the symbol is a known patch symbol, false otherwise.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".mutablyHidden"><span class="type-signature type-signature-static">(static) </span>mutablyHidden<span class="signature">(instance, store<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Applies a custom descriptor patch to an instance, marking properties as<br>
+non-enumerable but configurable. This method utilizes the <code>kMutablyHidden</code><br>
+symbol to tag properties accordingly. It's useful for hiding properties<br>
+in a way that they remain configurable for future changes.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line920">line 920</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The object instance to apply the patch to.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>store</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>Object.create(null)</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>An optional store object to<br>
+hold patched properties' original values and descriptors.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The result of applying the custom descriptor patch,<br>
+typically a modified version of the <code>store</code> object containing the patched<br>
+properties' descriptors.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".mutablyVisible"><span class="type-signature type-signature-static">(static) </span>mutablyVisible<span class="signature">(instance, store<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Applies a custom descriptor patch to an instance, marking properties as<br>
+both enumerable and configurable. This method leverages the <code>kMutablyVisible</code><br>
+symbol to tag properties, making them visible in enumerations and allowing<br>
+them to be reconfigured or deleted. This is particularly useful for<br>
+properties that need to be exposed for iteration or manipulation while<br>
+maintaining the ability to modify their descriptors in the future.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line955">line 955</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The object instance to apply the patch to.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>store</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>Object.create(null)</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>An optional store object to<br>
+hold patched properties' original values and descriptors. If not provided,<br>
+a new object will be used to store this information.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The result of applying the custom descriptor patch,<br>
+typically a modified version of the <code>store</code> object containing the patched<br>
+properties' descriptors.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id=".scopedTo"><span class="type-signature type-signature-static">(static) </span>scopedTo<span class="signature">(owner)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
@@ -3081,7 +5430,7 @@ a controlled environment for patch management.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line677">line 677</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line710">line 710</a>
     </li></ul></dd>
     
 
@@ -3248,7 +5597,7 @@ output.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line849">line 849</a>
+        <a href="patch.js.html">patch.js</a>, <a href="patch.js.html#line882">line 882</a>
     </li></ul></dd>
     
 
@@ -3405,7 +5754,7 @@ output.</p></li></ul></dd>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Feb 19 2024 21:59:44 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Feb 21 2024 13:32:28 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

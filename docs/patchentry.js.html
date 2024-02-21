@@ -29,7 +29,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li><li data-type='method'><a href="Extension.html#.scopedTo">scopedTo</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#lazy">lazy</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li><li data-type='method'><a href="Extension.html#.scopedTo">scopedTo</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#generatePatchEntries">generatePatchEntries</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.constructWithStore">constructWithStore</a></li><li data-type='method'><a href="Patch.html#.customDescriptorPatch">customDescriptorPatch</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.getDescriptorOverridesFromSymbol">getDescriptorOverridesFromSymbol</a></li><li data-type='method'><a href="Patch.html#.immutablyHidden">immutablyHidden</a></li><li data-type='method'><a href="Patch.html#.immutablyVisible">immutablyVisible</a></li><li data-type='method'><a href="Patch.html#.isKnownPatchSymbol">isKnownPatchSymbol</a></li><li data-type='method'><a href="Patch.html#.mutablyHidden">mutablyHidden</a></li><li data-type='method'><a href="Patch.html#.mutablyVisible">mutablyVisible</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#lazy">lazy</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
     
 </nav>
 
@@ -52,22 +52,35 @@
  * reverted.
  */
 export class PatchEntry {
+
   /**
-   * Constructs a new PatchEntry instance.
+   * Constructs a new PatchEntry instance, encapsulating the logic for
+   * patching a property onto an object with optional conditions and
+   * descriptor overrides.
    *
-   * @param {string|symbol} property The property key to be patched.
-   * @param {object} [owningObject=globalThis] The object from which the
-   * property descriptor is taken.
-   * @param {function} condition if a valid function is passed here, the
-   * expectation is that it takes no parameters and returns a `boolean`. If
-   * `true`, then this entry can be applied. If `false`, it indicates to the
-   * consuming `Patch` that it cannot be applied.
-   * @throws {TypeError} if `owningObject` is not a valid object (i.e. one that
-   * can contain property descriptors and assigned values), then a `TypeError`
-   * is thrown. A `TypeError` is also thrown if `property` is null, or neither
-   * an object nor symbol.
+   * This constructor validates the provided property and owningObject,
+   * constructs a property descriptor by merging the existing descriptor
+   * (if any) with any provided overrides, and initializes the PatchEntry
+   * instance with these details.
+   *
+   * @param {string|symbol} property The property key to patch. Must be a
+   * non-null string or symbol.
+   * @param {object} [owningObject=globalThis] The object to which the
+   * property will be patched. Defaults to the global object.
+   * @param {Function} [condition=undefined] An optional function that
+   * determines if the patch should be applied. If undefined, the patch
+   * is always applied.
+   * @param {object} [descriptorOverrides={}] Optional overrides for the
+   * property descriptor of the patch.
+   * @throws {TypeError} If `property` is not a string or symbol, or if
+   * `owningObject` is not an object.
    */
-  constructor(property, owningObject = globalThis, condition = undefined) {
+  constructor(
+    property,
+    owningObject = globalThis,
+    condition = undefined,
+    descriptorOverrides = {}
+  ) {
     const isNullish = (value) => (value === null || value === undefined)
     const isKey = (value, types = ['string', 'symbol']) =>
       !isNullish(value) &amp;&amp; (!!types.find(f => f === (typeof value)))
@@ -79,16 +92,25 @@ export class PatchEntry {
         'owningObject', owningObject, `(type: ${typeof owningObject})`,
         'condition', condition, `(type: ${typeof condition})`,
       )
-      throw new TypeError('Property must be non-null and either a string or symbol')
+      throw new TypeError(
+        'Property must be non-null and either a string or symbol'
+      )
     }
 
     if (!isObject(owningObject)) {
-      throw new TypeError('Cannot create Patch entry as owning object is invalid')
+      throw new TypeError(
+        'Cannot create Patch entry as owning object is invalid'
+      )
+    }
+
+    const descriptor = {
+      ...Object.getOwnPropertyDescriptor(owningObject, property),
+      ...Object(descriptorOverrides)
     }
 
     Object.assign(this, {
       key: property,
-      descriptor: Object.getOwnPropertyDescriptor(owningObject, property),
+      descriptor,
       owner: owningObject,
       condition: (typeof condition === 'function') ? condition : undefined
     })
@@ -163,9 +185,9 @@ export class PatchEntry {
    * methods (getters/setters), they will be bound to the original owner of
    * the patch before being applied to ensure the correct `this` context.
    *
-   * @param {object} anotherObject - The object to which the patch will be 
+   * @param {object} anotherObject - The object to which the patch will be
    * applied.
-   * @param {boolean} [bindAccessors=false] - Whether to bind accessor methods 
+   * @param {boolean} [bindAccessors=false] - Whether to bind accessor methods
    * to the patch's owner.
    */
   applyTo(anotherObject, bindAccessors = false) {
@@ -223,7 +245,7 @@ export class PatchEntry {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Feb 19 2024 21:59:44 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Feb 21 2024 13:32:28 GMT-0700 (Mountain Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
