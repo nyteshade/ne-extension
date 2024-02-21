@@ -17,6 +17,33 @@ export class Patch {
      */
     static enableFor(owner: object): void;
     /**
+     * Enables patches for all static members registered in the system. This
+     * method iterates over all registered owners, identifying those represented
+     * by functions (typically static members or classes) and enables patches
+     * specifically for them. It's particularly useful for activating patches
+     * that are meant to modify or enhance static properties or methods of
+     * classes.
+     */
+    static enableProbableStatics(): void;
+    /**
+     * Iterates over all registered owners and enables patches for those
+     * identified as instance entities (non-functions). This method is
+     * particularly useful for activating patches on instance-level properties
+     * or methods of classes, without affecting static-level patches. It ensures
+     * that only owners not represented by functions, typically instance members,
+     * are targeted for patch enabling.
+     */
+    static enableProbableInstances(): void;
+    /**
+     * Enables all patches for every owner currently registered in the system.
+     * This static method iterates over all owners that have patches registered
+     * and applies those patches by invoking `enableFor` on each owner. This
+     * method is particularly useful when a global application of all patches
+     * is required, without the need to manually enable them for each owner
+     * individually.
+     */
+    static enableAll(): void;
+    /**
      * Reverts all patches associated with a given owner object. This method
      * is used to disable all patches for a specific owner if they have been
      * previously applied.
@@ -24,6 +51,32 @@ export class Patch {
      * @param {object} owner The object whose patches are to be reverted.
      */
     static disableFor(owner: object): void;
+    /**
+     * Disables all patches for every owner currently registered in the system.
+     * This method iterates over all owners that have patches registered and
+     * reverts those patches by invoking `disableFor` on each owner. It is
+     * particularly useful when a global reversion of all patches is required,
+     * without the need to manually disable them for each owner individually.
+     */
+    static disableAll(): void;
+    /**
+     * Iterates over all registered owners and disables patches for those
+     * identified as static entities (functions). This method is particularly
+     * useful for reverting patches to static methods or properties of classes,
+     * without affecting instance-level patches. It ensures that only owners
+     * represented by functions, typically static members, are targeted for
+     * patch disabling.
+     */
+    static disableProbableStatics(): void;
+    /**
+     * Iterates over all registered owners and disables patches for those
+     * not identified as static entities (functions). This method is
+     * particularly useful for reverting patches applied to instance-level
+     * properties or methods, ensuring that patches on static members remain
+     * unaffected. It targets only owners not represented by functions,
+     * typically instance members, for patch disabling.
+     */
+    static disableProbableInstances(): void;
     /**
      * A static getter that provides a proxy to manage and interact with the
      * patches that have been applied globally. This proxy abstracts the
