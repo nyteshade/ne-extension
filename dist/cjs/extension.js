@@ -206,12 +206,9 @@ class Extension extends patch_js_1.Patch {
     [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
         const exprs = {
             get braces() { return /^(\x1B\[\d+m)?[\[\{]|[\]\}](\x1B\[\d+m)?$/g; },
-            get quotes() { return /^(\x1B\[\d+m)?['"]|["'](\x1B\[\d+m)?$/g; },
         };
-        const key = inspect(this.key, options).replaceAll(exprs.quotes, '$1$2');
-        const val = (inspect(this.patches[this.key], options)
-            .replaceAll(exprs.braces, '$1$2'));
-        return `Extension[${key}:${val}]`;
+        const val = inspect(this.patches[this.key], options).replaceAll(exprs.braces, '$1$2');
+        return `Extension[${val}]`;
     }
     /**
      * Custom getter for the toStringTag symbol. Provides the class name when the

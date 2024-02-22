@@ -227,16 +227,12 @@ export class Extension extends Patch {
   [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
     const exprs = {
       get braces() { return /^(\x1B\[\d+m)?[\[\{]|[\]\}](\x1B\[\d+m)?$/g },
-      get quotes() { return /^(\x1B\[\d+m)?['"]|["'](\x1B\[\d+m)?$/g },
     }
 
-    const key = inspect(this.key, options).replaceAll(exprs.quotes, '$1$2')
-    const val = (
-      inspect(this.patches[this.key], options)
-      .replaceAll(exprs.braces, '$1$2')
-    )
+    const val =
+      inspect(this.patches[this.key], options).replaceAll(exprs.braces, '$1$2')
 
-    return `Extension[${key}:${val}]`
+    return `Extension[${val}]`
   }
 
   /**

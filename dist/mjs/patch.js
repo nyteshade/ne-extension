@@ -558,18 +558,15 @@ export class Patch {
      * Node.js' `util.inspect`.
      */
     [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
-        const exprs = {
-            get quotes() { return /^(\x1B\[\d+m)?['"]|["'](\x1B\[\d+m)?$/g; },
-            get arrays() { return /^(\x1B\[\d+m)?\[ | \](\x1B\[\d+m)?$/g; },
-        };
-        const opts = { ...options, depth };
         const type = this.ownerDisplayName ?? '';
         const name = (type.length
-            ? `[${inspect(type, options).replaceAll(exprs.quotes, '$1$2')}]`
+            ? `[\x1b[32m${type}\x1b[39m]`
             : '');
-        const keys = (inspect(this.patchKeys, opts)
-            .replaceAll(exprs.arrays, '$1$2')
-            .replaceAll(/'(.*?)'/g, "$1"));
+        const keys = (this.prettyEntries
+            .map(entry => {
+            return `\x1b[2;33m${entry}\x1b[22;39m`;
+        })
+            .join(', '));
         return `${this.constructor.name}${name} { ${keys} }`;
     }
     /**
