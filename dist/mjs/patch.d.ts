@@ -369,6 +369,24 @@ export class Patch {
      */
     static stores: WeakMap<WeakKey, any>;
     /**
+     * Creates and returns an object that wraps a string with additional
+     * properties and methods, making it more informative and useful for
+     * debugging purposes. This method enhances a string by associating it
+     * with a key-value pair and providing custom inspection functionality
+     * for Node.js environments.
+     *
+     * @param {string} string The base string to be wrapped and enhanced.
+     * @param {string} key The key associated with the string, accessible via the
+     * `key` property of the returned object.
+     * @param {any} value The value associated with the key, accessible via the
+     * `value` property of the returned object.
+     * @returns {object} An object that wraps the original string and includes
+     * additional properties (`key`, `value`, `entry`, `entries`) and methods
+     * (`valueOf`, custom inspection method for Node.js) for enhanced usability
+     * and debugging.
+     */
+    static stringRef(string: string, key: string, value: any): object;
+    /**
      * Constructs a new Patch instance. Supported options for Patch instances
      * include either a global condition for the Patch to be applied or
      * specific property conditions subjecting only a subset of the patches
@@ -442,6 +460,16 @@ export class Patch {
      * @type {number}
      */
     patchesApplied: number;
+    /**
+     * The `displayName` property is used to store a human-readable name for the
+     * Patch instance. This name can be used for logging or debugging purposes to
+     * easily identify the patch in a more meaningful way than a generic identifier
+     * or memory reference. It is initially set to `undefined` and can be updated
+     * to any string value as needed.
+     *
+     * @type {string|undefined}
+     */
+    ownerDisplayName: string | undefined;
     /**
      * Iterates over the properties of `patchesOwner` and attempts to generate
      * patches based on the provided conditions and overrides. This method
@@ -529,6 +557,27 @@ export class Patch {
      * @returns {string[]} An array of patch keys.
      */
     get patchKeys(): string[];
+    /**
+     * Generates a list of entries with enhanced string representations. This
+     * getter iterates over the `entries` property, transforming each [key, value]
+     * pair into a more informative string object. This is particularly useful
+     * for debugging or logging, as it provides a clear, readable format for
+     * each entry. The string representation includes the entry's key and value,
+     * with the key being converted to a string using its `Symbol.toStringTag`,
+     * `name` property, or a direct string conversion as fallback.
+     *
+     * Each value in the resultant array additionally has '.key', `.value`,
+     * `.entry` and `.entries` accessors. The `.key` is the `owner` object, the
+     * `.value` is the `PatchEntry` instance. The entry accessor provides the
+     * key and value in an array as one might expect to find the
+     * `Object.entries()` array and `.entries` is the same as `[stringRef.entry]`
+     * or `[[key, value]]`.
+     *
+     * @returns {Array} An array of string objects, each representing an entry
+     * from the `entries` property. Each string object is enhanced with additional
+     * properties and methods for improved usability and debugging.
+     */
+    get prettyEntries(): any[];
     /**
      * Retrieves the conflict entries (existing properties on the owner that
      * will be overridden by patches) as an array of [key, patchEntry] pairs.

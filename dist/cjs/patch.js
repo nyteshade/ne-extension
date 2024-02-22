@@ -91,6 +91,16 @@ class Patch {
          */
         this.patchesApplied = 0;
         /**
+         * The `displayName` property is used to store a human-readable name for the
+         * Patch instance. This name can be used for logging or debugging purposes to
+         * easily identify the patch in a more meaningful way than a generic identifier
+         * or memory reference. It is initially set to `undefined` and can be updated
+         * to any string value as needed.
+         *
+         * @type {string|undefined}
+         */
+        this.ownerDisplayName = undefined;
+        /**
          * The object to which the patches are applied.
          */
         this.owner = null;
@@ -108,6 +118,10 @@ class Patch {
             owner,
             options,
         });
+        this.ownerDisplayName = options?.displayName;
+        if (!options?.displayName) {
+            this.ownerDisplayName = owner?.name ?? owner?.[Symbol.toStringTag];
+        }
         this.patchesOwner = _a.constructWithStore(patches, this);
         this.generatePatchEntries(this.patchesOwner);
         if (!_a.patches.has(owner)) {
@@ -269,6 +283,36 @@ class Patch {
      */
     get patchKeys() {
         return this.entries.map(([key, _]) => key);
+    }
+    /**
+     * Generates a list of entries with enhanced string representations. This
+     * getter iterates over the `entries` property, transforming each [key, value]
+     * pair into a more informative string object. This is particularly useful
+     * for debugging or logging, as it provides a clear, readable format for
+     * each entry. The string representation includes the entry's key and value,
+     * with the key being converted to a string using its `Symbol.toStringTag`,
+     * `name` property, or a direct string conversion as fallback.
+     *
+     * Each value in the resultant array additionally has '.key', `.value`,
+     * `.entry` and `.entries` accessors. The `.key` is the `owner` object, the
+     * `.value` is the `PatchEntry` instance. The entry accessor provides the
+     * key and value in an array as one might expect to find the
+     * `Object.entries()` array and `.entries` is the same as `[stringRef.entry]`
+     * or `[[key, value]]`.
+     *
+     * @returns {Array} An array of string objects, each representing an entry
+     * from the `entries` property. Each string object is enhanced with additional
+     * properties and methods for improved usability and debugging.
+     */
+    get prettyEntries() {
+        const asString = o => o?.[Symbol.toStringTag] ?? o?.name ?? String(o);
+        const prettyEntries = this.entries.map(([key, value]) => _a.stringRef(asString(key), key, value));
+        Object.defineProperty(prettyEntries, 'asEntries', {
+            get() { return this.map(pe => pe.entry); },
+            enumerable: false,
+            configurable: true,
+        });
+        return prettyEntries;
     }
     /**
      * Retrieves the conflict entries (existing properties on the owner that
@@ -519,7 +563,7 @@ class Patch {
             get arrays() { return /^(\x1B\[\d+m)?\[ | \](\x1B\[\d+m)?$/g; },
         };
         const opts = { ...options, depth };
-        const type = this.owner?.name ?? '';
+        const type = this.ownerDisplayName ?? '';
         const name = (type.length
             ? `[${inspect(type, options).replaceAll(exprs.quotes, '$1$2')}]`
             : '');
@@ -1019,6 +1063,37 @@ class Patch {
             overrides = JSON.parse(symbol.description);
         }
         return overrides;
+    }
+    /**
+     * Creates and returns an object that wraps a string with additional
+     * properties and methods, making it more informative and useful for
+     * debugging purposes. This method enhances a string by associating it
+     * with a key-value pair and providing custom inspection functionality
+     * for Node.js environments.
+     *
+     * @param {string} string The base string to be wrapped and enhanced.
+     * @param {string} key The key associated with the string, accessible via the
+     * `key` property of the returned object.
+     * @param {any} value The value associated with the key, accessible via the
+     * `value` property of the returned object.
+     * @returns {object} An object that wraps the original string and includes
+     * additional properties (`key`, `value`, `entry`, `entries`) and methods
+     * (`valueOf`, custom inspection method for Node.js) for enhanced usability
+     * and debugging.
+     */
+    static stringRef(string, key, value) {
+        const stringObj = Object.assign(Object(string), {
+            get key() { return key; },
+            get value() { return value; },
+            get entry() { return [key, value]; },
+            get entries() { return [this.entry]; },
+            valueOf() { return String(this); },
+            [Symbol.toStringTag]: 'String',
+            [Symbol.for('nodejs.util.inspect.custom')](_, __, inspect) {
+                return inspect(String(this), { colors: true });
+            }
+        });
+        return stringObj;
     }
 }
 exports.Patch = Patch;

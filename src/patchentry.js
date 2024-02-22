@@ -178,9 +178,10 @@ export class PatchEntry {
    * @returns {string} A formatted string representing the PatchEntry instance.
    */
   [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
+    const name = `\x1b[33m${this.key}\x1b[39m`
     const type = this.isData ? ' Data' : ' Accessor'
-    const writable = this.isReadOnly ? ' [ReadOnly]' : ''
+    const writable = this.isReadOnly ? ' [\x1b[2;3mReadOnly\x1b[22;23m]' : ''
 
-    return `PatchEntry<${this.key}${type}${writable}>`
+    return `PatchEntry<${name}${type}${writable}>`
   }
 }
