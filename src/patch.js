@@ -1470,7 +1470,7 @@ Patch.patches[Symbol.for('nodejs.util.inspect.custom')] = function(
   inspect
 ) {
   let parts = [
-    'Patches [ ',
+    'Patches [',
     ([...this.entries()]
       .map(([key, value]) =>
         `\x1b[22;1m${Patch.extractName(key)}\x1b[22m =>` +
@@ -1479,20 +1479,27 @@ Patch.patches[Symbol.for('nodejs.util.inspect.custom')] = function(
             .trim()
             .replaceAll(/^\s*\[/g, '')
             .replaceAll(/\s*\]$/g, '')
-        }`
+        }\n`
       )
       .toSorted()
       .join('\n')
     ),
-    ' ]'
+    ']'
   ];
 
   if (parts[1].includes('\n')) {
     // Indent each line of the body by two spaces
-    parts[1] = parts[1].split('\n').map(line => `  ${line}`).join('\n');
+    parts[1] = parts[1].split('\n').map(line => {
+      let newLine = `  ${line}`;
+      return (/(?:=>[^\n]\w)/.exec(newLine)
+        ? newLine.replace(/(=>)/, '=>\n    ')
+        : newLine
+      )
+    }).join('\n');
 
     // Join the output with new lines surrounding the body
-    return parts.join('\n');
+    let output = parts.join('\n');
+    return output.replace(/\n\s*\n]$/m, '\n]');
   }
 
   if (!parts[1]) {
