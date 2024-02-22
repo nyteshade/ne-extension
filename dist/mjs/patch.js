@@ -1288,23 +1288,24 @@ Patch.patches[Symbol.for('nodejs.util.inspect.custom')] = function (depth, optio
     let parts = [
         'Patches [',
         ([...this.entries()]
-            .map(([key, value]) => `\x1b[22;1m${Patch.extractName(key)}\x1b[22m =>` +
-            `${inspect(value, options)
-                .trim()
-                .replaceAll(/^\s*\[/g, '')
-                .replaceAll(/\s*\]$/g, '')}\n`)
+            .map(([key, value]) => {
+            const patches = (value
+                .map(patch => `${' '.repeat(2)}${inspect(patch, options)}`)
+                .toSorted()
+                .join('\n'));
+            return (`\x1b[22;1m${Patch.extractName(key)}\x1b[22m =>\n` +
+                `${patches}\n`);
+        })
             .toSorted()
             .join('\n')),
         ']'
     ];
     if (parts[1].includes('\n')) {
         // Indent each line of the body by two spaces
-        parts[1] = parts[1].split('\n').map(line => {
-            let newLine = `  ${line}`;
-            return (/(?:=>[^\n]\w)/.exec(newLine)
-                ? newLine.replace(/(=>)/, '=>\n    ')
-                : newLine);
-        }).join('\n');
+        parts[1] = (parts[1]
+            .split('\n')
+            .map(line => `${' '.repeat(2)}${line}`)
+            .join('\n'));
         // Join the output with new lines surrounding the body
         let output = parts.join('\n');
         return output.replace(/\n\s*\n]$/m, '\n]');
