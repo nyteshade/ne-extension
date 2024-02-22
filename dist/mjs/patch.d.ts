@@ -5,10 +5,6 @@
  */
 export class Patch {
     /**
-     * A global mapping of all patches in play
-     */
-    static patches: Map<any, any>;
-    /**
      * Applies all patches associated with a given owner object. This method
      * is used to enable all patches for a specific owner if they have been
      * previously registered.
@@ -761,5 +757,8 @@ export class Patch {
      */
     [Symbol.iterator](): Iterator<any, any, undefined>;
     #private;
+}
+export namespace Patch {
+    let patches: Map<any, any>;
 }
 import { PatchToggle } from './patchtoggle.js';

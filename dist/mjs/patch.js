@@ -1269,4 +1269,43 @@ export class Patch {
             `Unknown.${Math.random().toString(36).slice(2)}`);
     }
 }
+/**
+ * Custom inspection function for Node.js `util.inspect` that formats the
+ * entries of the Patch.patches Map for improved readability in console output.
+ * This function is specifically designed to be used as a custom inspection
+ * function within Node.js environments, enhancing the debugging experience
+ * by providing a clear, formatted view of the Patch.patches Map's entries.
+ *
+ * @param {number} depth The depth to which the object should be formatted.
+ * @param {object} options Formatting options provided by `util.inspect`.
+ * @param {function} inspect The inspection function provided by Node.js
+ * `util.inspect`, allowing for custom formatting of nested properties.
+ * @returns {string} A formatted string representation of the Patch.patches
+ * Map's entries, with each key-value pair on a new line and keys highlighted
+ * for easy identification.
+ */
+Patch.patches[Symbol.for('nodejs.util.inspect.custom')] = function (depth, options, inspect) {
+    let parts = [
+        'Patches [ ',
+        ([...this.entries()]
+            .map(([key, value]) => `\x1b[22;1m${Patch.extractName(key)}\x1b[22m =>` +
+            `${inspect(value, options)
+                .trim()
+                .replaceAll(/^\s*\[/g, '')
+                .replaceAll(/\s*\]$/g, '')}`)
+            .toSorted()
+            .join('\n')),
+        ' ]'
+    ];
+    if (parts[1].includes('\n')) {
+        // Indent each line of the body by two spaces
+        parts[1] = parts[1].split('\n').map(line => `  ${line}`).join('\n');
+        // Join the output with new lines surrounding the body
+        return parts.join('\n');
+    }
+    if (!parts[1]) {
+        parts[1] = '\x1b[2;3mNo patches or extensions yet\x1b[22;23m';
+    }
+    return parts.join('');
+};
 //# sourceMappingURL=patch.js.map
