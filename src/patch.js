@@ -103,13 +103,8 @@ export class Patch {
       options,
     })
 
-    this.ownerDisplayName = options?.displayName
-
-    if (!options?.displayName) {
-      this.ownerDisplayName = owner?.name ?? owner?.[Symbol.toStringTag]
-    }
-
-    this.patchesOwner = Patch.constructWithStore(patches, this);
+    this.ownerDisplayName = options?.displayName ?? Patch.extractName(owner)
+    this.patchesOwner = Patch.constructWithStore(patches, this)
     this.generatePatchEntries(this.patchesOwner)
 
     if (!Patch.patches.has(owner)) {
@@ -312,10 +307,8 @@ export class Patch {
    * properties and methods for improved usability and debugging.
    */
   get prettyEntries() {
-    const asString = o => o?.[Symbol.toStringTag] ?? o?.name ?? String(o)
-
     const prettyEntries = this.entries.map(([key, value]) => Patch.stringRef(
-      asString(key),
+      Patch.extractName(key),
       key,
       value
     ))
@@ -1345,5 +1338,116 @@ export class Patch {
     });
 
     return stringObj
+  }
+
+  /**
+   * Checks if all own property names of an instance are also present as own
+   * property names in a given prototype or the instance's constructor
+   * prototype. This method is useful for determining if an instance shares
+   * all its own property names with a prototype, which can be helpful in
+   * various forms of type or structure validation.
+   *
+   * @param {object} instance The object instance whose own property names are
+   * to be checked.
+   * @param {object} [prototype] The prototype object to compare against. If not
+   * provided, the method uses the instance's constructor prototype.
+   * @returns {boolean} Returns true if all own property names of the instance
+   * are also own property names in the given prototype or the instance's
+   * constructor prototype. Otherwise, returns false.
+   */
+  static shareOwnPropertyNames(instance, prototype) {
+    const ownPropNames = o => Object.getOwnPropertyNames(Object(o))
+
+    return ownPropNames(instance).every(key =>
+      ownPropNames(prototype ?? instance?.constructor?.prototype).
+      some(innerKey => innerKey == key)
+    )
+  }
+
+
+  /**
+   * Extracts a descriptive name for a given object or function. This method
+   * attempts to identify the most appropriate name based on the object's
+   * characteristics or its constructor's name. If no specific name can be
+   * determined, it falls back to a provided default name or generates a
+   * unique identifier.
+   *
+   * The method first checks if the object is a non-function or an exception
+   * like `Function.prototype`, and if it shares all the same own property
+   * names as its constructor's prototype, it returns the constructor's name
+   * with `.prototype` appended. If this check fails, it looks for a
+   * `Symbol.toStringTag` property, then for a function's `name` property,
+   * and then evaluates `defaultName` if it's a function or uses its string
+   * value. If all these checks fail, it looks for known exceptions like
+   * `Reflect` or generates a random string prefixed with `Unknown.`.
+   *
+   * @param {object|function} object The object or function to extract the name
+   * from.
+   * @param {string|function} defaultName A default name or a function that
+   * returns a default name to use if no specific name can be determined.
+   * @returns {string} The extracted name or the default/fallback name.
+   */
+  static extractName(object, defaultName) {
+    // Short-hand helper for Array.some(k => k === value)
+    const oneOf = (a,type) => a.some(value => value === type)
+
+    // Initially set valueOf to undefined
+    let valueOf = undefined
+
+    // Skipping known exceptions, check to see if the valueOf() exists
+    if (!oneOf([Symbol.prototype, Date.prototype, BigInt.prototype], object)) {
+      valueOf = object?.valueOf?.()
+    }
+
+    // Check to see if the result from valueOf() is a String
+    let valueOfAsString = (
+      (valueOf && (valueOf instanceof String || typeof valueOf === 'string'))
+        ? String(valueOf)
+        : undefined
+    )
+
+    return (
+      // If its a symbol, use its String() value
+      (typeof object === 'symbol' ? String(object) : undefined) ??
+      (typeof object === 'string' ? object : undefined) ??
+      (object instanceof String ? String(object) : undefined)
+    ) || (
+      // If we have a non-function (Function.prototype is the exception)
+      // and we do have a constructor property, we share all the same
+      // ownPropertyNames as the constructor's prototype (string instances
+      // do not have the same props for example) then we can probably
+      // assume we have a class/function prototype so return its name plus
+      // .prototype
+      (
+        (object === Function.prototype || typeof object !== 'function') &&
+        typeof object !== 'symbol'
+      ) &&
+      Patch.shareOwnPropertyNames(object) &&
+      object?.constructor?.name &&
+      `${object.constructor.name}.prototype`
+    ) || (
+      // Look for a Symbol.toStringTag first as this denotes a specified name
+      object?.[Symbol.toStringTag] ??
+
+      // Look for a function instance .name property next
+      object?.name ??
+
+      // Look for object.valueOf() and see if its a string
+      valueOfAsString ??
+
+      // If defaultName is a function, use its return value
+      (typeof defaultName === 'function' ? defaultName(object) : undefined) ??
+
+      // If defaultName is a string, use its value
+      (typeof defaultName === 'string' ? defaultName : undefined) ??
+
+      // Check for rare exceptions like Reflect (add more here as found)
+      Object.entries({
+        Reflect
+      }).find(([k,v]) => v === object)?.[0] ??
+
+      // Finally generate an Unknown.{randomString} value if nothing else works
+      `Unknown.${Math.random().toString(36).slice(2)}`
+    )
   }
 }

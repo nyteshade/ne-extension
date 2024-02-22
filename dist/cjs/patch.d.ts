@@ -387,6 +387,45 @@ export class Patch {
      */
     static stringRef(string: string, key: string, value: any): object;
     /**
+     * Checks if all own property names of an instance are also present as own
+     * property names in a given prototype or the instance's constructor
+     * prototype. This method is useful for determining if an instance shares
+     * all its own property names with a prototype, which can be helpful in
+     * various forms of type or structure validation.
+     *
+     * @param {object} instance The object instance whose own property names are
+     * to be checked.
+     * @param {object} [prototype] The prototype object to compare against. If not
+     * provided, the method uses the instance's constructor prototype.
+     * @returns {boolean} Returns true if all own property names of the instance
+     * are also own property names in the given prototype or the instance's
+     * constructor prototype. Otherwise, returns false.
+     */
+    static shareOwnPropertyNames(instance: object, prototype?: object | undefined): boolean;
+    /**
+     * Extracts a descriptive name for a given object or function. This method
+     * attempts to identify the most appropriate name based on the object's
+     * characteristics or its constructor's name. If no specific name can be
+     * determined, it falls back to a provided default name or generates a
+     * unique identifier.
+     *
+     * The method first checks if the object is a non-function or an exception
+     * like `Function.prototype`, and if it shares all the same own property
+     * names as its constructor's prototype, it returns the constructor's name
+     * with `.prototype` appended. If this check fails, it looks for a
+     * `Symbol.toStringTag` property, then for a function's `name` property,
+     * and then evaluates `defaultName` if it's a function or uses its string
+     * value. If all these checks fail, it looks for known exceptions like
+     * `Reflect` or generates a random string prefixed with `Unknown.`.
+     *
+     * @param {object|function} object The object or function to extract the name
+     * from.
+     * @param {string|function} defaultName A default name or a function that
+     * returns a default name to use if no specific name can be determined.
+     * @returns {string} The extracted name or the default/fallback name.
+     */
+    static extractName(object: object | Function, defaultName: string | Function): string;
+    /**
      * Constructs a new Patch instance. Supported options for Patch instances
      * include either a global condition for the Patch to be applied or
      * specific property conditions subjecting only a subset of the patches
