@@ -50,6 +50,16 @@ class PatchToggle {
         }
         return this;
     }
+    performWork(task = (toggle, patch) => { }) {
+        if (!this.state.needsApplication) {
+            this.start();
+        }
+        const result = task(this, this.patch);
+        if (!this.state.needsReversion) {
+            this.stop();
+        }
+        return result;
+    }
     /**
      * Checks to see if the toggle has been started. If so, the patch is reverted
      * if it needed to be applied previously. After stopping, the state of the instance

@@ -33,6 +33,7 @@ export class PatchToggle {
      * @returns {PatchToggle} returns `this` to allow for chaining
      */
     start(): PatchToggle;
+    performWork(task?: (toggle: any, patch: any) => void): void;
     /**
      * Checks to see if the toggle has been started. If so, the patch is reverted
      * if it needed to be applied previously. After stopping, the state of the instance
