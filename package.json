@@ -1,6 +1,6 @@
 {
   "author": "Brielle Harrison <nyteshade at gmail.com>",
-  "browser": "dist/@nejs/extension.bundle.2.15.0.js",
+  "browser": "dist/@nejs/extension.bundle.2.20.0.js",
   "description": "A small library for extending existing JavaScript",
   "devDependencies": {
     "@jest/expect": "^29.7.0",
@@ -43,7 +43,8 @@
   "module": "dist/mjs/index.js",
   "name": "@nejs/extension",
   "scripts": {
-    "build": "bin/clean && bin/esbuild && bin/build && npm run docs",
+    "build": "bin/clean && bin/esbuild && bin/build",
+    "distribute": "bin/clean && bin/esbuild && bin/build && npm run docs && npm publish",
     "browser": "bin/esbuild",
     "clean": "bin/clean",
     "docs": "jsdoc -c jsdoc-config.json",
@@ -52,5 +53,5 @@
     "test": "jest"
   },
   "type": "module",
-  "version": "2.15.0"
+  "version": "2.20.0"
 }
