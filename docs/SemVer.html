@@ -1,0 +1,3271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>SemVer - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CannotBeExtendedError.html">CannotBeExtendedError</a></li><li><a href="Extension.html">Extension</a><ul class='methods'><li data-type='method'><a href="Extension.html#.createSet">createSet</a></li><li data-type='method'><a href="Extension.html#.determineInput">determineInput</a></li><li data-type='method'><a href="Extension.html#.scopedTo">scopedTo</a></li></ul></li><li><a href="ExtensionSet.html">ExtensionSet</a><ul class='methods'><li data-type='method'><a href="ExtensionSet.html#apply">apply</a></li><li data-type='method'><a href="ExtensionSet.html#revert">revert</a></li></ul></li><li><a href="MissingOwnerValue.html">MissingOwnerValue</a></li><li><a href="Patch.html">Patch</a><ul class='methods'><li data-type='method'><a href="Patch.html#apply">apply</a></li><li data-type='method'><a href="Patch.html#createToggle">createToggle</a></li><li data-type='method'><a href="Patch.html#generatePatchEntries">generatePatchEntries</a></li><li data-type='method'><a href="Patch.html#release">release</a></li><li data-type='method'><a href="Patch.html#revert">revert</a></li><li data-type='method'><a href="Patch.html#.constructWithStore">constructWithStore</a></li><li data-type='method'><a href="Patch.html#.customDescriptorPatch">customDescriptorPatch</a></li><li data-type='method'><a href="Patch.html#.disableAll">disableAll</a></li><li data-type='method'><a href="Patch.html#.disableFor">disableFor</a></li><li data-type='method'><a href="Patch.html#.disableProbableInstances">disableProbableInstances</a></li><li data-type='method'><a href="Patch.html#.disableProbableStatics">disableProbableStatics</a></li><li data-type='method'><a href="Patch.html#.enableAll">enableAll</a></li><li data-type='method'><a href="Patch.html#.enableFor">enableFor</a></li><li data-type='method'><a href="Patch.html#.enableProbableInstances">enableProbableInstances</a></li><li data-type='method'><a href="Patch.html#.enableProbableStatics">enableProbableStatics</a></li><li data-type='method'><a href="Patch.html#.extractName">extractName</a></li><li data-type='method'><a href="Patch.html#.getDescriptorOverridesFromSymbol">getDescriptorOverridesFromSymbol</a></li><li data-type='method'><a href="Patch.html#.immutablyHidden">immutablyHidden</a></li><li data-type='method'><a href="Patch.html#.immutablyVisible">immutablyVisible</a></li><li data-type='method'><a href="Patch.html#.isKnownPatchSymbol">isKnownPatchSymbol</a></li><li data-type='method'><a href="Patch.html#.mutablyHidden">mutablyHidden</a></li><li data-type='method'><a href="Patch.html#.mutablyVisible">mutablyVisible</a></li><li data-type='method'><a href="Patch.html#.patches%255Bundefined%255D">patches[undefined]</a></li><li data-type='method'><a href="Patch.html#.scopedTo">scopedTo</a></li><li data-type='method'><a href="Patch.html#.shareOwnPropertyNames">shareOwnPropertyNames</a></li><li data-type='method'><a href="Patch.html#.stringRef">stringRef</a></li><li data-type='method'><a href="Patch.html#.stripExtras">stripExtras</a></li></ul></li><li><a href="PatchEntry.html">PatchEntry</a><ul class='methods'><li data-type='method'><a href="PatchEntry.html#applyTo">applyTo</a></li></ul></li><li><a href="PatchToggle.html">PatchToggle</a><ul class='methods'><li data-type='method'><a href="PatchToggle.html#perform">perform</a></li><li data-type='method'><a href="PatchToggle.html#start">start</a></li><li data-type='method'><a href="PatchToggle.html#stop">stop</a></li></ul></li><li><a href="SemVer.html">SemVer</a><ul class='methods'><li data-type='method'><a href="SemVer.html#decrement">decrement</a></li><li data-type='method'><a href="SemVer.html#get">get</a></li><li data-type='method'><a href="SemVer.html#increment">increment</a></li><li data-type='method'><a href="SemVer.html#isEqual">isEqual</a></li><li data-type='method'><a href="SemVer.html#isLooselyEqual">isLooselyEqual</a></li><li data-type='method'><a href="SemVer.html#isSemverEqual">isSemverEqual</a></li><li data-type='method'><a href="SemVer.html#set">set</a></li><li data-type='method'><a href="SemVer.html#toString">toString</a></li><li data-type='method'><a href="SemVer.html#.compare">compare</a></li><li data-type='method'><a href="SemVer.html#.from">from</a></li><li data-type='method'><a href="SemVer.html#.match">match</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applied">applied</a></li><li><a href="global.html#known">known</a></li><li><a href="global.html#lazy">lazy</a></li><li><a href="global.html#primitives">primitives</a></li><li><a href="global.html#typeOf">typeOf</a></li><li><a href="global.html#use">use</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">SemVer</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+            SemVer
+        
+        </h2>
+        
+            <div class="class-description usertext"><p>Represents a semantic version (semver) and provides utility methods for<br>
+managing and comparing versions according to the semver specification.</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="SemVer"><span class="type-signature"></span>new SemVer<span class="signature">(semverString<span class="signature-attributes">opt</span>, part<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Constructs a SemVer instance. Initializes the version based on the<br>
+provided semver string or defaults to &quot;0.0.0&quot; if not specified.</p>
+<p>Alternatively, if a specific portion of the version is indicated, only<br>
+that portion of the version instance will be modified. The <code>part</code> parameter<br>
+needs to match a portion of the SemVer object instance that needs updating;<br>
+<code>major</code>, <code>minor</code>, and <code>patch</code> are all converted to integers, while <code>prerelease</code><br>
+and <code>metadata</code> are set as strings, unchanged.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>semverString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"0.0.0"</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The initial semantic version string.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>part</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"*"</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>by default this is set to <code>*</code> which indicates that<br>
+the entire <code>semverString</code> is to be parsed. If the <code>part</code> is the name of a property<br>
+matching one of [<code>major</code>, <code>minor</code>, <code>patch</code>, <code>prerelease</code> or <code>metadata</code>] then<br>
+only that portion of the version is set. For major, minor and patch, the value<br>
+will be parsed into an integer. If an unknown key is specified, the entire<br>
+string will be processed.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-throws">Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>If semverString is not a valid semver format.</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="SemVer.html">SemVer</a></dt>
+            <dd></dd>
+        </dl>
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="major"><span class="type-signature"></span>major<span class="type-signature"> :number</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The primary version number for this SemVer instance. This version of the<br>
+instance, when bumped, indicates likely breaking changes or at least a<br>
+semmantic separation from previous major revisions</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line269">line 269</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The primary version number for this SemVer instance. This version of the<br>
+instance, when bumped, indicates likely breaking changes or at least a<br>
+semmantic separation from previous major revisions</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="metadata"><span class="type-signature"></span>metadata<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The metadata string portion of a SemVer version is a note to the consumer but<br>
+may not have any real bearing on changes. This is a human readable version. A<br>
+metadata portion may show up in a SemVer string as &quot;1.0.0-beta+001&quot;. In this<br>
+case maybe providing an iteration value. It can be any string. It is only usually<br>
+compared in version comparisons, in the strictest compares.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line305">line 305</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The metadata string portion of a SemVer version is a note to the consumer but<br>
+may not have any real bearing on changes. This is a human readable version. A<br>
+metadata portion may show up in a SemVer string as &quot;1.0.0-beta+001&quot;. In this<br>
+case maybe providing an iteration value. It can be any string. It is only usually<br>
+compared in version comparisons, in the strictest compares.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="minor"><span class="type-signature"></span>minor<span class="type-signature"> :number</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The minor version number for this SemVer instance. This version of the instance,<br>
+when bumped, usually indicates that new features are present. It is expected,<br>
+however, that minor bump versions are backwards compatible.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line278">line 278</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The minor version number for this SemVer instance. This version of the instance,<br>
+when bumped, usually indicates that new features are present. It is expected,<br>
+however, that minor bump versions are backwards compatible.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="patch"><span class="type-signature"></span>patch<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The patch version number for this SemVer instance. This version of the instance,<br>
+when bumped, usually indicates that some fix has been applied but that there are<br>
+no new features or breaking changes. These should usually be taken greedily.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line285">line 285</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The patch version number for this SemVer instance. This version of the instance,<br>
+when bumped, usually indicates that some fix has been applied but that there are<br>
+no new features or breaking changes. These should usually be taken greedily.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="prerelease"><span class="type-signature"></span>prerelease<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>This is prerelease string indicator. Usually this has a value like &quot;alpha&quot; or<br>
+&quot;beta&quot;. A SemVer value with a prerelease indicator might look like &quot;1.0.0-beta&quot;<br>
+indicating, in this example, that it is a beta release for 1.0.0.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line294">line 294</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>This is prerelease string indicator. Usually this has a value like &quot;alpha&quot; or<br>
+&quot;beta&quot;. A SemVer value with a prerelease indicator might look like &quot;1.0.0-beta&quot;<br>
+indicating, in this example, that it is a beta release for 1.0.0.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".FULL"><span class="type-signature type-signature-static">(static) </span>FULL<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The <code>FULL</code> constant can be passed as a second parameter, inspite of it being<br>
+the default value, to the <code>.set()</code> method on <code>SemVer</code> instances. It indicates<br>
+that the full SemVer string should be parsed and set.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line417">line 417</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The <code>FULL</code> constant can be passed as a second parameter, inspite of it being<br>
+the default value, to the <code>.set()</code> method on <code>SemVer</code> instances. It indicates<br>
+that the full SemVer string should be parsed and set.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".MAJOR"><span class="type-signature type-signature-static">(static) </span>MAJOR<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The <code>MAJOR</code> constant can be used as a parameter to <code>set()</code>, <code>increment()</code>,<br>
+and <code>decrement()</code> methods. It points to the major semver version number.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line427">line 427</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The <code>MAJOR</code> constant can be used as a parameter to <code>set()</code>, <code>increment()</code>,<br>
+and <code>decrement()</code> methods. It points to the major semver version number.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>semver.increment(SemVer.MAJOR).get()</code></pre>
+
+
+
+        
+            
+<h4 class="name" id=".METADATA"><span class="type-signature type-signature-static">(static) </span>METADATA<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The <code>METADATA</code> constant can be used as a parameter to <code>set()</code> method. It<br>
+points to the metadata semver version text.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line467">line 467</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The <code>METADATA</code> constant can be used as a parameter to <code>set()</code> method. It<br>
+points to the metadata semver version text.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>semver.set("bries_release", SemVer.METADATA).get()</code></pre>
+
+
+
+        
+            
+<h4 class="name" id=".MINOR"><span class="type-signature type-signature-static">(static) </span>MINOR<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The <code>MINOR</code> constant can be used as a parameter to <code>set()</code>, <code>increment()</code>,<br>
+and <code>decrement()</code> methods. It points to the minor semver version number.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line437">line 437</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The <code>MINOR</code> constant can be used as a parameter to <code>set()</code>, <code>increment()</code>,<br>
+and <code>decrement()</code> methods. It points to the minor semver version number.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>semver.increment(SemVer.MINOR).get()</code></pre>
+
+
+
+        
+            
+<h4 class="name" id=".PATCH"><span class="type-signature type-signature-static">(static) </span>PATCH<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The <code>PATCH</code> constant can be used as a parameter to <code>set()</code>, <code>increment()</code>,<br>
+and <code>decrement()</code> methods. It points to the patch semver version number.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line447">line 447</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The <code>PATCH</code> constant can be used as a parameter to <code>set()</code>, <code>increment()</code>,<br>
+and <code>decrement()</code> methods. It points to the patch semver version number.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>semver.increment(SemVer.PATCH).get()</code></pre>
+
+
+
+        
+            
+<h4 class="name" id=".PRERELEASE"><span class="type-signature type-signature-static">(static) </span>PRERELEASE<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The <code>PRERELEASE</code> constant can be used as a parameter to <code>set()</code> method. It<br>
+points to the pre-release semver version text.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line457">line 457</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The <code>PRERELEASE</code> constant can be used as a parameter to <code>set()</code> method. It<br>
+points to the pre-release semver version text.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>semver.set("beta", SemVer.PRERELEASE).get()</code></pre>
+
+
+
+        
+            
+<h4 class="name" id=".kSemVerPattern"><span class="type-signature type-signature-static">(static) </span>kSemVerPattern<span class="type-signature"> :RegExp</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The <code>kSemVerPattern</code> is a regular expression that matches semantic<br>
+version strings. It captures the major, minor, and patch version<br>
+numbers, as well as optional prerelease and build metadata.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line406">line 406</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The <code>kSemVerPattern</code> is a regular expression that matches semantic<br>
+version strings. It captures the major, minor, and patch version<br>
+numbers, as well as optional prerelease and build metadata.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">RegExp</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>const version = '1.2.3-beta.1+build.123'
+const match = version.match(SemVer.kSemVerPattern)
+console.log(match)
+// Output:
+// [
+//   '1.2.3-beta.1+build.123',
+//   '1',
+//   '2',
+//   '3',
+//   'beta.1',
+//   'build.123'
+// ]</code></pre>
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="decrement"><span class="type-signature"></span>decrement<span class="signature">(version, by)</span><span class="type-signature"> &rarr; {<a href="SemVer.html">SemVer</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Decrements part of the SemVer instance by the indicated amount.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line152">line 152</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>the portion of the version to decrement. Valid values<br>
+are <code>major</code>, <code>minor</code> or <code>patch</code>.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>by</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>1</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>the amount by which the version is decremented. This<br>
+defaults to 1.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the <code>this</code> instance for further chaining</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="SemVer.html">SemVer</a></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves the full version string in semver format. Constructs the version<br>
+string including the major, minor, patch versions, and optionally the<br>
+prerelease and metadata parts if they are present.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line110">line 110</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The full version string in semver format.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="increment"><span class="type-signature"></span>increment<span class="signature">(version, by)</span><span class="type-signature"> &rarr; {<a href="SemVer.html">SemVer</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Increments part of the SemVer instance by the indicated amount.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line130">line 130</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>the portion of the version to increment. Valid values<br>
+are <code>major</code>, <code>minor</code> or <code>patch</code>.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>by</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>1</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>the amount by which the version is incremented. This<br>
+defaults to 1.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the <code>this</code> instance for further chaining</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="SemVer.html">SemVer</a></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="isEqual"><span class="type-signature"></span>isEqual<span class="signature">(otherVersion)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Determines if this version is exactly equal to another version. This<br>
+comparison includes the major, minor, patch, prerelease, and metadata<br>
+parts of the version. It's a strict comparison where all parts must match.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line210">line 210</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>otherVersion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="SemVer.html">SemVer</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The other SemVer instance to compare with.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if all version components are exactly equal.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="isLooselyEqual"><span class="type-signature"></span>isLooselyEqual<span class="signature">(otherVersion)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Checks if this version is equal to another version based only on the major,<br>
+minor, and patch numbers. This method ignores the prerelease and metadata<br>
+parts of the version, making it a &quot;loose&quot; or &quot;lenient&quot; comparison. It is<br>
+useful for determining compatibility or disregarding build and pre-release<br>
+details.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line228">line 228</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>otherVersion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="SemVer.html">SemVer</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The other SemVer instance to compare with.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if major, minor, and patch numbers are equal.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="isSemverEqual"><span class="type-signature"></span>isSemverEqual<span class="signature">(otherVersion)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Compares this version to another version according to semver equality<br>
+rules. In semver, two versions are considered equal if they have the same<br>
+major, minor, and patch numbers. This method also considers prerelease<br>
+tags but ignores build metadata. For example, &quot;1.0.0-alpha&quot; and<br>
+&quot;1.0.0-alpha+build&quot; are considered equal.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line244">line 244</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>otherVersion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="SemVer.html">SemVer</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The other SemVer instance to compare with.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if versions are considered equal in semver terms.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="set"><span class="type-signature"></span>set<span class="signature">(semverString, part, cascadeValues)</span><span class="type-signature"> &rarr; {<a href="SemVer.html">SemVer</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sets the version based on a semver string. This method parses the string<br>
+and updates the major, minor, patch, prerelease, and metadata parts of the<br>
+version accordingly.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line47">line 47</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>semverString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The semver string to parse and set.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>part</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>*</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The part of the semver string to modify; this is one<br>
+of 'major', 'minor', 'patch', 'prerelease' and 'metadata'. If <code>SemVer.FULL</code>,<br>
+the default, is set, the entire string is parsed for values and all positions<br>
+will be updated.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cascadeValues</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>if true, setting a new value for major or<br>
+minor that are higher than they were before will set minor and/or patch to<br>
+0. So increasing a the MAJOR portion of 1.1.4, will cause the new version to<br>
+be 2.0.0. Likewise incrementing MINOR would cause that new value to be 1.2.0.<br>
+If this value is false, this additional value setting does not occur.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-throws">Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>If semverString is not a string or not in valid semver format.</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>returns <code>this</code> for chaining</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="SemVer.html">SemVer</a></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Returns a string representation of the SemVer instance.</p>
+<p>This method is an alias for the <code>get()</code> method, which returns the<br>
+full semver string including the major, minor, patch, prerelease,<br>
+and metadata components.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line178">line 178</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>const version = new SemVer('1.2.3-beta.1+build.123')
+console.log(version.toString())
+// Output: '1.2.3-beta.1+build.123'</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The string representation of the SemVer instance.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".compare"><span class="type-signature type-signature-static">(static) </span>compare<span class="signature">(leftVersion, rightVersion)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Compares two semver strings for semver equality. This static method allows<br>
+for a direct comparison without needing to create SemVer instances<br>
+externally. It is useful for quick comparisons where instantiation of<br>
+objects is not necessary.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line480">line 480</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>leftVersion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The first version string to compare.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rightVersion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The second version string to compare.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if the versions are semver equal according to<br>
+the isSemverEqual method.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".from"><span class="type-signature type-signature-static">(static) </span>from<span class="signature">(fromSubstring)</span><span class="type-signature"> &rarr; {object|undefined}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a SemVer instance from a substring containing a semantic<br>
+version string.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line323">line 323</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>const result = SemVer.from('This is version 1.2.3-beta.1+build.123')
+if (result) {
+  console.log(result.semVer.get()) // '1.2.3-beta.1+build.123'
+  console.log(result.range) // [16, 37]
+}</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fromSubstring</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The string to extract a semantic<br>
+version from.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An object containing the matched<br>
+<code>SemVer</code> instance and the range of the match, or <code>undefined</code> if<br>
+no match is found.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".match"><span class="type-signature type-signature-static">(static) </span>match<span class="signature">(asSubstringOf)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Matches a semantic version string within a larger string.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="semver.js.html">semver.js</a>, <a href="semver.js.html#line349">line 349</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>const result = SemVer.match('This is version 1.2.3-beta.1+build.123')
+console.log(result.semVerString) // '1.2.3-beta.1+build.123'
+console.log(result.semVer.get()) // '1.2.3-beta.1+build.123'
+console.log(result.range) // [16, 37]
+console.log([...result])  // ['1', '.', '2', '.', '3', ...]</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>asSubstringOf</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The string to search for a<br>
+semantic version within.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An object containing the matched semantic<br>
+version string, a <code>SemVer</code> instance, the range of the match,<br>
+the parsed regex result, and <code>toString</code> and <code>Symbol.iterator</code><br>
+methods.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Apr 27 2024 09:55:19 GMT-0600 (Mountain Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

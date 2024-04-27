@@ -2,6 +2,7 @@ export { Extension } from './extension.js';
 export { Patch } from './patch.js';
 export { PatchEntry } from './patchentry.js';
 export { PatchToggle } from './patchtoggle.js';
+export { SemVer } from './semver.js';
 import { CannotBeExtendedError } from './errors/CannotBeExtendedError.js';
 import { MissingOwnerValue } from './errors/MissingOwnerValue.js';
 export const Errors = {

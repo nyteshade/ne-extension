@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Errors = exports.PatchToggle = exports.PatchEntry = exports.Patch = exports.Extension = void 0;
+exports.Errors = exports.SemVer = exports.PatchToggle = exports.PatchEntry = exports.Patch = exports.Extension = void 0;
 var extension_js_1 = require("./extension.js");
 Object.defineProperty(exports, "Extension", { enumerable: true, get: function () { return extension_js_1.Extension; } });
 var patch_js_1 = require("./patch.js");
@@ -9,6 +9,8 @@ var patchentry_js_1 = require("./patchentry.js");
 Object.defineProperty(exports, "PatchEntry", { enumerable: true, get: function () { return patchentry_js_1.PatchEntry; } });
 var patchtoggle_js_1 = require("./patchtoggle.js");
 Object.defineProperty(exports, "PatchToggle", { enumerable: true, get: function () { return patchtoggle_js_1.PatchToggle; } });
+var semver_js_1 = require("./semver.js");
+Object.defineProperty(exports, "SemVer", { enumerable: true, get: function () { return semver_js_1.SemVer; } });
 const CannotBeExtendedError_js_1 = require("./errors/CannotBeExtendedError.js");
 const MissingOwnerValue_js_1 = require("./errors/MissingOwnerValue.js");
 exports.Errors = {

@@ -50,7 +50,24 @@ class PatchToggle {
         }
         return this;
     }
-    performWork(task = (toggle, patch) => { }) {
+    /**
+     * Performs a task with the wrapped patch. If the patch hasn't been
+     * started, it will be started. If the patch doesn't need to be
+     * reverted, it will be stopped after the task is complete.
+     *
+     * @param {Function} task a function that takes the `PatchToggle`
+     * instance and the wrapped `Patch` instance as parameters. By
+     * default, this is an empty function.
+     * @returns {*} the result of the `task` function
+     *
+     * @example
+     * const result = toggle.perform((toggle, patch) => {
+     *   // do something with `toggle` and `patch`
+     *   return "done"
+     * })
+     * console.log(result) // outputs: "done"
+     */
+    perform(task = (toggle, patch) => { }) {
         if (!this.state.needsApplication) {
             this.start();
         }
