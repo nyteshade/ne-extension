@@ -1,7 +1,5 @@
-const { afterEach } = require('node:test');
-const {
-  Patch,
-} = require('../dist/cjs/index.js');
+const { Patch } = await import('../dist/cjs/index.js');
+const { afterEach, beforeEach, describe, it, expect } = await import('vitest')
 
 class Deferred {
   constructor() {
@@ -89,7 +87,7 @@ describe('Patch Class Tests', () => {
     })
 
     it('should allow custom descriptors in definition', () => {
-      p = new Patch(Object.prototype, {
+      const p = new Patch(Object.prototype, {
         visible: true,
         [Patch.kMutablyHidden]: {
           presentButNotEnumerated: true

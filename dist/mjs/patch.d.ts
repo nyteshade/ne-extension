@@ -197,7 +197,7 @@ export class Patch {
      * typically a modified version of the `store` object containing the patched
      * properties' descriptors.
      */
-    static mutablyHidden(instance: object, store?: object | undefined): object;
+    static mutablyHidden(instance: object, store?: object): object;
     /**
      * Accessor for a Symbol uniquely representing properties that are both
      * enumerable and configurable. This symbol can be used to tag properties
@@ -226,7 +226,7 @@ export class Patch {
      * typically a modified version of the `store` object containing the patched
      * properties' descriptors.
      */
-    static mutablyVisible(instance: object, store?: object | undefined): object;
+    static mutablyVisible(instance: object, store?: object): object;
     /**
      * Accessor for a Symbol uniquely identifying properties that are neither
      * enumerable nor configurable. This symbol is used to tag properties to
@@ -256,7 +256,7 @@ export class Patch {
      * a modified version of the `store` object containing the patched properties'
      * descriptors.
      */
-    static immutablyHidden(instance: object, store?: object | undefined): object;
+    static immutablyHidden(instance: object, store?: object): object;
     /**
      * Accessor for a Symbol uniquely identifying properties that are visible
      * (enumerable) but not configurable. This symbol is used to tag properties
@@ -289,7 +289,7 @@ export class Patch {
      * a modified version of the `store` object containing the patched properties'
      * descriptors.
      */
-    static immutablyVisible(instance: object, store?: object | undefined): object;
+    static immutablyVisible(instance: object, store?: object): object;
     /**
      * Applies a custom descriptor patch to an object instance using a provided
      * symbol to tag the patched properties. This method also ensures the instance
@@ -306,7 +306,7 @@ export class Patch {
      * @returns {object} The store object associated with the instance in the
      * WeakMap, containing the patched properties' descriptors.
      */
-    static customDescriptorPatch(instance: object, symbol: symbol, store?: object | undefined): object;
+    static customDescriptorPatch(instance: object, symbol: symbol, store?: object): object;
     /**
      * Determines if a given symbol is recognized as a patch symbol within the
      * system. Patch symbols are predefined symbols used to tag properties with
@@ -339,7 +339,7 @@ export class Patch {
      * patched store if `patchesOwner` is a function, or `patchesOwner` itself
      * if it is not a function.
      */
-    static constructWithStore(patchesOwner: Function | Object, instance: Object, symbol: Symbol, store?: Object | undefined): Function | Object;
+    static constructWithStore(patchesOwner: Function | Object, instance: Object, symbol: Symbol, store?: Object): Function | Object;
     /**
      * Retrieves descriptor overrides from a symbol if it is recognized as a
      * known patch symbol. This method is crucial for dynamically adjusting
@@ -397,7 +397,7 @@ export class Patch {
      * are also own property names in the given prototype or the instance's
      * constructor prototype. Otherwise, returns false.
      */
-    static shareOwnPropertyNames(instance: object, prototype?: object | undefined): boolean;
+    static shareOwnPropertyNames(instance: object, prototype?: object): boolean;
     /**
      * Extracts a descriptive name for a given object or function. This method
      * attempts to identify the most appropriate name based on the object's
@@ -454,7 +454,7 @@ export class Patch {
      * @param {object} [options=Object.create(null)] Additional options for
      * patching behavior.
      */
-    constructor(owner: object, patches: object, options?: object | undefined);
+    constructor(owner: object, patches: object, options?: object);
     /**
      * A record of conflicts between existing and patched properties or methods.
      * This object maps property names to their respective PatchEntry instances,
@@ -518,7 +518,7 @@ export class Patch {
      * overrides for the properties to be patched. If not provided, overrides
      * will be determined based on patch symbols.
      */
-    generatePatchEntries(patchesOwner: object, overrides?: object | undefined): void;
+    generatePatchEntries(patchesOwner: object, overrides?: object): void;
     /**
      * Retrieves the patch entries as an array of [key, patchEntry] pairs.
      *
@@ -755,7 +755,7 @@ export class Patch {
      *
      * @returns {Iterator} An iterator that yields `[key, patchEntry]` pairs.
      */
-    [Symbol.iterator](): Iterator<any, any, undefined>;
+    [Symbol.iterator](): Iterator<any, any, any>;
     #private;
 }
 export namespace Patch {

@@ -4,7 +4,9 @@ const {
     CannotBeExtendedError,
     MissingOwnerValue
   }
-} = require('../dist/cjs/index.js')
+} = await import('../dist/cjs/index.js')
+
+const { describe, beforeEach, test, expect } = await import('vitest')
 
 describe('Extension class tests', () => {
   let originalObject;

@@ -27,7 +27,7 @@ export class PatchEntry {
      * @throws {TypeError} If `property` is not a string or symbol, or if
      * `owningObject` is not an object.
      */
-    constructor(property: string | symbol, owningObject?: object | undefined, condition?: Function | undefined, descriptorOverrides?: object | undefined);
+    constructor(property: string | symbol, owningObject?: object, condition?: Function, descriptorOverrides?: object);
     /**
      * Computes and returns the current value of the patch, based on its type
      * (data or accessor).
@@ -74,7 +74,7 @@ export class PatchEntry {
      * @param {boolean} [bindAccessors=false] - Whether to bind accessor methods
      * to the patch's owner.
      */
-    applyTo(anotherObject: object, bindAccessors?: boolean | undefined): void;
+    applyTo(anotherObject: object, bindAccessors?: boolean): void;
     /**
      * Custom getter for the toStringTag symbol. Provides the class name of
      * the PatchEntry instance.

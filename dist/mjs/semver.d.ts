@@ -143,7 +143,7 @@ export class SemVer {
      * string will be processed.
      * @throws {Error} If semverString is not a valid semver format.
      */
-    constructor(semverString?: string | undefined);
+    constructor(semverString?: string);
     /**
      * Sets the version based on a semver string. This method parses the string
      * and updates the major, minor, patch, prerelease, and metadata parts of the

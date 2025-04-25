@@ -73,7 +73,7 @@ export class Extension extends Patch {
      * is an error determining the key and extension values, MissingOwnerValue is
      * thrown.
      */
-    constructor(keyClassOrFn: Function | string, value: any, owner?: object | undefined, options?: object | undefined);
+    constructor(keyClassOrFn: Function | string, value: any, owner?: object, options?: object);
     key: string | null;
     class: any;
     function: any;
