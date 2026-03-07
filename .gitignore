@@ -127,6 +127,6 @@ out
 
 # Build output
 dist/cjs/
+dist/esm/
 dist/mjs/
-dist/types/
 dist/@nejs/

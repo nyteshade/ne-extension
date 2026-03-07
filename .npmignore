@@ -1,0 +1,23 @@
+# Source control & editor
+.git/
+.github/
+.vscode/
+.claude/
+
+# Development
+node_modules/
+*.tsbuildinfo
+.eslintcache
+coverage/
+.nyc_output/
+
+# Docs are large; users can generate or view online
+docs/
+
+# Build scripts (consumers don't need these)
+bin/
+
+# Config files
+jsdoc-config.json
+pnpm-workspace.yaml
+vitest.config.*

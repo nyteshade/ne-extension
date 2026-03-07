@@ -1,21 +1,17 @@
 {
   "author": "Brielle Harrison <nyteshade at gmail.com>",
-  "browser": "dist/@nejs/extension.bundle.2.23.0.js",
+  "browser": "dist/@nejs/extension.bundle.2.24.0.js",
   "description": "A small library for extending existing JavaScript",
   "devDependencies": {
-    "docdash": "^2.0.2",
     "esbuild": "^0.25.3",
-    "jsdoc": "^4.0.2",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.2.2",
     "vitest": "^3.1.2"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=22"
   },
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "browser": "./dist/esm/extension.mjs",
       "import": "./src/index.js",
       "require": "./dist/cjs/index.cjs"
     }
@@ -30,17 +26,14 @@
   "main": "dist/cjs/index.cjs",
   "module": "src/index.js",
   "name": "@nejs/extension",
-  "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "bin/clean && bin/version patch bump && bin/build && bin/esbuild",
-    "distribute": "bin/clean && bin/version minor bump && bin/build && bin/esbuild && npm run docs && npm publish",
+    "build": "bin/clean && bin/version patch bump && bin/esbuild",
+    "distribute": "bin/clean && bin/version minor bump && bin/esbuild && npm publish",
     "browser": "bin/esbuild",
     "clean": "bin/clean",
-    "docs": "jsdoc -c jsdoc-config.json",
-    "module": "bin/build",
-    "postpack": "bin/clean && bin/build && bin/esbuild",
+    "prepack": "bin/clean && bin/esbuild",
     "test": "vitest"
   },
   "type": "module",
-  "version": "2.23.0"
+  "version": "2.24.0"
 }

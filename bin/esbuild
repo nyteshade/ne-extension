@@ -58,6 +58,23 @@ const external = [
   ...Object.keys(packageJSON.peerDependencies || {}),
 ]
 
+// ESM bundle for CDN / await import()
+await esbuild
+  .build({
+    entryPoints: [`src/index${ext}`],
+    bundle: true,
+    format: 'esm',
+    platform: 'browser',
+    target: ['esnext'],
+    minify: true,
+    sourcemap: true,
+    outfile: 'dist/esm/extension.mjs',
+  })
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+
 // CJS builds for each entry point
 const cjsEntryPoints = [
   { entry: `src/index${ext}`, outfile: 'dist/cjs/index.cjs' },
@@ -69,7 +86,7 @@ await Promise.all(cjsEntryPoints.map(({ entry, outfile }) =>
     bundle: true,
     format: 'cjs',
     platform: 'node',
-    target: ['node20'],
+    target: ['node22'],
     sourcemap: true,
     outfile,
     external,
