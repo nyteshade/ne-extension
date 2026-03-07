@@ -1,18 +1,12 @@
-const {
-  Extension,
-  Errors: {
-    CannotBeExtendedError,
-    MissingOwnerValue
-  }
-} = await import('../dist/cjs/index.js')
+import { describe, beforeEach, test, expect } from 'vitest'
+import { Extension, Errors } from '../src/index.js'
 
-const { describe, beforeEach, test, expect } = await import('vitest')
+const { CannotBeExtended: CannotBeExtendedError } = Errors
 
 describe('Extension class tests', () => {
   let originalObject;
   let extension;
 
-  // Function to reset the object before each test
   const resetObject = () => {
     originalObject = { originalKey: 'originalValue' };
   };
@@ -48,6 +42,4 @@ describe('Extension class tests', () => {
     expect(originalObject.newKey).toBeUndefined();
     expect(originalObject).toEqual({ originalKey: 'originalValue' });
   });
-
-  // Additional tests for other scenarios...
 });

@@ -2,25 +2,23 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist/types",
     "esModuleInterop": true,
-    "inlineSourceMap": false,
     "lib": ["esnext"],
-    "listEmittedFiles": false,
-    "listFiles": false,
+    "module": "ESNext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": false,
     "pretty": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
+    "rootDir": "./src",
     "skipLibCheck": true,
-    "sourceMap": true,
     "strict": true,
-    "traceResolution": false,
-    "types": []
+    "target": "ESNext",
+    "types": ["vitest"]
   },
-  "compileOnSave": false,
   "exclude": ["node_modules", "dist"],
-  "include": ["src"]
+  "include": ["src/**/*.js"]
 }
