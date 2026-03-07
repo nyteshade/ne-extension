@@ -1,6 +1,6 @@
 {
   "author": "Brielle Harrison <nyteshade at gmail.com>",
-  "browser": "dist/@nejs/extension.bundle.2.22.0.js",
+  "browser": "dist/@nejs/extension.bundle.2.23.0.js",
   "description": "A small library for extending existing JavaScript",
   "devDependencies": {
     "docdash": "^2.0.2",
@@ -42,5 +42,5 @@
     "test": "vitest"
   },
   "type": "module",
-  "version": "2.22.0"
+  "version": "2.23.0"
 }
