@@ -1,5 +1,5 @@
-const { Patch } = await import('../dist/cjs/index.js');
-const { afterEach, beforeEach, describe, it, expect } = await import('vitest')
+import { afterEach, beforeEach, describe, it, expect } from 'vitest'
+import { Patch } from '../src/index.js'
 
 class Deferred {
   constructor() {

@@ -124,3 +124,9 @@ out
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Build output
+dist/cjs/
+dist/mjs/
+dist/types/
+dist/@nejs/
