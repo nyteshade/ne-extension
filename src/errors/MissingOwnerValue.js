@@ -11,7 +11,7 @@ export class MissingOwnerValue extends Error {
   /**
    * Constructs a new MissingOwnerValue instance.
    *
-   * @param {string} owner The object or entity that is supposed to contain the
+   * @param {object} owner The object or entity that is supposed to contain the
    * property.
    * @param {string} key The name of the property that is missing from the owner.
    */

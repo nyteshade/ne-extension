@@ -78,7 +78,7 @@ export class Patch {
    *   {
    *     property: 'value',
    *     [custom](depth, options, inspect) {
-   *       // ... custom return string for nodejs
+   *       // ... custom return string for NodeJS
    *     }
    *   },
    *   {
@@ -170,7 +170,8 @@ export class Patch {
   /**
    * Retrieves the patch entries as an array of [key, patchEntry] pairs.
    *
-   * @returns {Array} An array of [key, patchEntry] pairs.
+   * @returns {[string|symbol|number, any][]} An array of [key, patchEntry]
+   * pairs.
    */
   get entries() {
     return Reflect.ownKeys(this.patchEntries).map(key => {
@@ -307,6 +308,7 @@ export class Patch {
    * properties and methods for improved usability and debugging.
    */
   get prettyEntries() {
+    /** @type {Array<object>} */
     const prettyEntries = this.entries.map(([key, value]) => Patch.stringRef(
       Patch.extractName(key),
       key,
@@ -324,7 +326,7 @@ export class Patch {
 
   /**
    * Retrieves the conflict entries (existing properties on the owner that
-   * will be overridden by patches) as an array of [key, patchEntry] pairs.
+   * patches will override) as an array of [key, patchEntry] pairs.
    *
    * @returns {Array} An array of [key, patchEntry] pairs.
    */
@@ -356,7 +358,8 @@ export class Patch {
    * Returns true only when the number of tracked patches matches the number
    * of applied patches.
    *
-   * @returns {boolean} true if applied patches is equal to the count of patches
+   * @returns {boolean} true if applied patches are equal to the count of
+   * patches
    */
   get isFullyPatched() {
     return this.patchCount == this.patchesApplied
@@ -398,7 +401,7 @@ export class Patch {
    * `revert` action if supplied. This callback will not be invoked, nor will
    * any of the other logic be captured, if {@link applied} returns false
    */
-  apply(metrics) {
+  apply(metrics = undefined) {
     const entries = this.entries
     const counts = {
       patches: entries.length,
@@ -552,6 +555,7 @@ export class Patch {
    */
   release() {
     const patches = Patch.patches.get(this.owner)
+
     patches.splice(patches.find(e => e === this), 1)
   }
 
@@ -617,17 +621,17 @@ export class Patch {
    * is used to convert the instance to a string. This allows for customizing
    * the output of `util.inspect` for objects of this class.
    *
-   * @param {number} depth The current depth of the inspection. If the depth
+   * @param {number} _ The current depth of the inspection. If the depth
    * is less than the recurse times set, it will return the object itself,
    * otherwise it will return the inspected result.
-   * @param {object} options An object containing options for the inspection.
-   * @param {function} inspect The inspection function provided by Node.js
+   * @param {object} __ An object containing options for the inspection.
+   * @param {function} ___ The inspection function provided by Node.js
    * that can be called to inspect other properties with the same options as
    * the original call.
    * @returns {string} A string representation of the instance tailored for
    * Node.js' `util.inspect`.
    */
-  [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
+  [Symbol.for('nodejs.util.inspect.custom')](_, __, ___) {
     const type = this.ownerDisplayName ?? ''
     const name = (type.length
       ? `[\x1b[32m${type}\x1b[39m]`
@@ -645,6 +649,8 @@ export class Patch {
 
   /**
    * A global mapping of all patches in play
+   *
+   * @type {Map<object, Patch[]>}
    */
   static patches = new Map()
 
@@ -658,7 +664,7 @@ export class Patch {
   static enableFor(owner) {
     if (Patch.patches.has(owner)) {
       for (const patch of Patch.patches.get(owner)) {
-        patch.apply()
+        patch?.apply()
       }
     }
   }
@@ -723,7 +729,7 @@ export class Patch {
   static disableFor(owner) {
     if (Patch.patches.has(owner)) {
       for (const patch of Patch.patches.get(owner)) {
-        patch.revert()
+        patch?.revert()
       }
     }
   }
@@ -926,12 +932,14 @@ export class Patch {
    * be included. If `wrapInToggle` is true, each patch will be represented
    * as a function that temporarily applies the patch when called.
    *
-   * @param {object} owner - The owner object whose patches are to be
+   * @param {object} owner the owner object whose patches are to be
    * aggregated.
-   * @param {boolean} onlyApplied - If true, only include patches that
+   * @param {boolean} onlyApplied if true, only include patches that
    * are applied.
-   * @param {boolean} [wrapInToggle=false] - If true, wrap patches in a
+   * @param {boolean} [wrapInToggle=false] if true, wrap patches in a
    * toggle function for temporary application.
+   * @param {boolean} [applyOnRequest=false] if true, installs a getter
+   * that automatically applies the patch when accessed.
    * @returns {object} An object representing the aggregated patches, with
    * each patch keyed by its property name.
    * @private
@@ -1028,7 +1036,7 @@ export class Patch {
   static stripExtras(fromString) {
     return fromString
       .replaceAll(
-        /^(\x1B\[\d+m)?[\[\{]\s?|\s?[\]\}](\x1B\[\d+m)?$/gm,
+        /^(\x1B\[\d+m)?[\[{]\s?|\s?[\]}](\x1B\[\d+m)?$/gm,
         '$1$2'
       )
       .replaceAll(
@@ -1184,9 +1192,9 @@ export class Patch {
    * future reference or rollback. It's designed to work with property
    * descriptors that are either hidden or visible but immutable.
    *
+   * @param {object} instance The object instance to which the patch is applied.
    * @param {symbol} symbol The symbol used to tag the patched properties,
    * indicating the nature of the patch (e.g., hidden or visible but immutable).
-   * @param {object} instance The object instance to which the patch is applied.
    * @param {object} [store=Object.create(null)] An optional object to store
    * the original property descriptors before the patch is applied. If not
    * provided, an empty object will be used.
@@ -1253,7 +1261,7 @@ export class Patch {
   static constructWithStore(
     patchesOwner,
     instance,
-    symbol,
+    symbol = undefined,
     store = Object.create(null)
   ) {
     if (typeof patchesOwner !== 'function') {
@@ -1322,7 +1330,7 @@ export class Patch {
    * and debugging.
    */
   static stringRef(string, key, value) {
-    const stringObj = Object.assign(Object(string), {
+    return Object.assign(Object(string), {
       get key() { return key },
       get value() { return value },
       get entry() { return [key, value] },
@@ -1333,8 +1341,6 @@ export class Patch {
         return inspect(String(this), { colors: true })
       }
     });
-
-    return stringObj
   }
 
   /**
@@ -1378,13 +1384,14 @@ export class Patch {
    * value. If all these checks fail, it looks for known exceptions like
    * `Reflect` or generates a random string prefixed with `Unknown.`.
    *
-   * @param {object|function} object The object or function to extract the name
-   * from.
-   * @param {string|function} defaultName A default name or a function that
-   * returns a default name to use if no specific name can be determined.
-   * @returns {string} The extracted name or the default/fallback name.
+   * @param {object|function} object The object or function to extract the
+   * name from.
+   * @param {string|function|undefined} defaultName A default name or a
+   * function that returns a default name to use if no specific name can be
+   * determined. @returns {string} The extracted name or the default/fallback
+   * name.
    */
-  static extractName(object, defaultName) {
+  static extractName(object, defaultName = undefined) {
     // Short-hand helper for Array.some(k => k === value)
     const oneOf = (a,type) => a.some(value => value === type)
 
@@ -1441,7 +1448,7 @@ export class Patch {
       // Check for rare exceptions like Reflect (add more here as found)
       Object.entries({
         Reflect
-      }).find(([k,v]) => v === object)?.[0] ??
+      }).find(([_,v]) => v === object)?.[0] ??
 
       // Finally generate an Unknown.{randomString} value if nothing else works
       `Unknown.${Math.random().toString(36).slice(2)}`
@@ -1451,16 +1458,17 @@ export class Patch {
 
 /**
  * Custom inspection function for Node.js `util.inspect` that formats the
- * entries of the Patch.patches Map for improved readability in console output.
- * This function is specifically designed to be used as a custom inspection
- * function within Node.js environments, enhancing the debugging experience
- * by providing a clear, formatted view of the Patch.patches Map's entries.
+ * entries of the `Patch.patches` Map for improved readability in console
+ * output. This function is specifically designed to be used as a custom
+ * inspection function within Node.js environments, enhancing the debugging
+ * experience by providing a clear, formatted view of the `Patch.patches`
+ * Map's entries.
  *
  * @param {number} depth The depth to which the object should be formatted.
  * @param {object} options Formatting options provided by `util.inspect`.
  * @param {function} inspect The inspection function provided by Node.js
  * `util.inspect`, allowing for custom formatting of nested properties.
- * @returns {string} A formatted string representation of the Patch.patches
+ * @returns {string} A formatted string representation of the `Patch.patches`
  * Map's entries, with each key-value pair on a new line and keys highlighted
  * for easy identification.
  */

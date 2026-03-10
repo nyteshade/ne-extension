@@ -13,8 +13,26 @@ const primitives = ['number', 'boolean', 'bigint', 'string', 'symbol']
  * are not met, the class throws a CannotBeExtendedError. This class is useful
  * in scenarios like testing, dynamic behavior adjustments, or managing complex
  * object configurations.
+ *
+ * @template E
  */
 export class Extension extends Patch {
+  /**
+   * An extension wraps a class or function, if it has been determined that the
+   * wrapped object is a class, it will be stored in this property.
+   *
+   * @type {E}
+   */
+  class;
+
+  /**
+   * An extension wraps a class or function, if it has been determined that the
+   * wrapped object is a function, it will be stored in this property.
+   *
+   * @type {function}
+   */
+  function;
+
   /**
    * Constructs a new Extension instance. This constructor initializes the extension
    * by determining the target key and value for the extension and ensuring that
@@ -35,9 +53,15 @@ export class Extension extends Patch {
    * is an error determining the key and extension values, MissingOwnerValue is
    * thrown.
    */
-  constructor(keyClassOrFn, value, owner = globalThis, options = {}) {
+  constructor(
+    keyClassOrFn,
+    value = undefined,
+    owner = globalThis,
+    options = {}
+  ) {
     const metadata = Extension.determineInput(keyClassOrFn)
     let { key, extension, valid } = metadata
+
     extension = value || extension
 
     if (!valid) {
@@ -84,7 +108,7 @@ export class Extension extends Patch {
    * primitive value or `false` if it does not.
    */
   get isPrimitive() {
-    return ~primitives.indexOf(typeof this.value)
+    return !!(~primitives.indexOf(typeof this.value))
   }
 
   /**
@@ -92,7 +116,7 @@ export class Extension extends Patch {
    * coerced into an `Object` wrapper when wrapped with `Object(value)`
    *
    * @returns {boolean} `true` if this `Extension` introduces a value
-   * that is alrady an `object`, `false` otherwise.
+   * that is already an `object`, `false` otherwise.
    */
   get isObject() {
     return Object(this.value) === this.value
@@ -188,17 +212,29 @@ export class Extension extends Patch {
    * as input. If a function or class is provided, its name is used as the key.
    * containing the determined key, the extension value/method, and a validity flag
    * indicating whether the input is usable.
-   * @returns {{key: string|null, extension: *|null, valid: boolean}} An object
+   * @returns {{
+   *   key: string|null,
+   *   extension: *|null,
+   *   valid: boolean,
+   *   class: Function|undefined,
+   *   function: function|undefined,
+   * }} an object
    */
   static determineInput(keyClassOrFn) {
-    let input = { key: null, extension: null, valid: false }
+    const input = {
+      key: null,
+      extension: null,
+      valid: false,
+      class: undefined,
+      function: undefined,
+    }
 
     if (keyClassOrFn instanceof Function) {
-      input = {
+      Object.assign(input, {
         key: keyClassOrFn.name,
         extension: keyClassOrFn,
         valid: true
-      }
+      })
 
       if (/^class .*/.exec(keyClassOrFn.toString())) {
         input.class = keyClassOrFn
@@ -209,7 +245,10 @@ export class Extension extends Patch {
       }
     }
     else if (typeof keyClassOrFn === 'string' || keyClassOrFn instanceof String) {
-      input = { key: keyClassOrFn, extension: null, valid: true }
+      Object.assign(input, {
+        key: keyClassOrFn,
+        valid: true
+      })
     }
 
     return input
@@ -225,12 +264,14 @@ export class Extension extends Patch {
    * @returns {string} A formatted string representing the Extension instance.
    */
   [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
-    const exprs = {
-      get braces() { return /^(\x1B\[\d+m)?[\[\{]|[\]\}](\x1B\[\d+m)?$/g },
+    const expression = {
+      get braces() { return /^(\x1B\[\d+m)?[\[{]|[\]}](\x1B\[\d+m)?$/g },
     }
 
-    const val =
-      inspect(this.patches[this.key], options).replaceAll(exprs.braces, '$1$2')
+    const val = inspect(this.patches[this.key], options).replaceAll(
+      expression.braces,
+      '$1$2'
+    )
 
     return `Extension[${val}]`
   }

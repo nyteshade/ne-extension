@@ -13,7 +13,7 @@ export class CannotBeExtendedError extends Error {
   /**
    * Constructs a new CannotBeExtendedError instance.
    *
-   * @param {string} owner The name or identifier of the restricted part
+   * @param {object} owner The name or identifier of the restricted part
    * that is disallowing extension or tampering.
    * @param {string} key The key or property that was attempted to be
    * modified or extended.

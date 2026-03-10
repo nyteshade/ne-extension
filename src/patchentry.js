@@ -172,12 +172,12 @@ export class PatchEntry {
    * Custom inspect function for Node.js that provides a formatted representation
    * of the PatchEntry instance, primarily for debugging purposes.
    *
-   * @param {number} depth The depth to which the object should be formatted.
-   * @param {object} options Formatting options.
-   * @param {function} inspect The inspection function to format the object.
+   * @param {number} _ The depth to which the object should be formatted.
+   * @param {object} __ Formatting options.
+   * @param {function} ___ The inspection function to format the object.
    * @returns {string} A formatted string representing the PatchEntry instance.
    */
-  [Symbol.for('nodejs.util.inspect.custom')](depth, options, inspect) {
+  [Symbol.for('nodejs.util.inspect.custom')](_, __, ___) {
     const name = `\x1b[33m${this.key}\x1b[39m`
     const type = this.isData ? ' Data' : ' Accessor'
     const writable = this.isReadOnly ? ' [\x1b[2;3mReadOnly\x1b[22;23m]' : ''

@@ -1,8 +1,9 @@
 {
   "author": "Brielle Harrison <nyteshade at gmail.com>",
-  "browser": "dist/@nejs/extension.bundle.2.24.0.js",
+  "browser": "dist/@nejs/extension.bundle.2.24.1.js",
   "description": "A small library for extending existing JavaScript",
   "devDependencies": {
+    "@nejs/jsdoc-react-theme": "^2.1.2",
     "esbuild": "^0.25.3",
     "vitest": "^3.1.2"
   },
@@ -35,5 +36,5 @@
     "test": "vitest"
   },
   "type": "module",
-  "version": "2.24.0"
+  "version": "2.24.1"
 }
