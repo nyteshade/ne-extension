@@ -30,6 +30,7 @@
   "scripts": {
     "build": "bin/clean && bin/version patch bump && bin/esbuild",
     "distribute": "bin/clean && bin/version minor bump && bin/esbuild && npm publish",
+    "docs": "npx jsdoc-react src -o docs",
     "browser": "bin/esbuild",
     "clean": "bin/clean",
     "prepack": "bin/clean && bin/esbuild",
